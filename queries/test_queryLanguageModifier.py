@@ -12,7 +12,7 @@ class TestQueryLanguageModifier(TestCase):
     def test_get_field_texts(self):
         res = self.queryLanguageModifier.get_field_texts("hello world how are you")
         expected_res = {'u': '#combine(hello world how are you)',
-                        'w': '#combine( #uw17(hello world) #od4(world how) #od4(how are) #od4(are you) )',
+                        'w': '#combine( #uw17(hello world) #uw17(world how) #uw17(how are) #uw17(are you) )',
                         'o': '#combine( #od4(hello world) #od4(world how) #od4(how are) #od4(are you) )'}
 
         self.assertEqual(res, expected_res)

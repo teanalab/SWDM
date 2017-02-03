@@ -53,7 +53,7 @@ class QueryLanguageModifier(object):
         bigrams_l = self.get_bigrams_list(text)
         field_texts['u'] = "#combine(" + text + ")"
         field_texts['o'] = "#combine( #od4(" + ") #od4(".join(bigrams_l) + ") )"
-        field_texts['w'] = "#combine( #uw17(" + ") #od4(".join(bigrams_l) + ") )"
+        field_texts['w'] = "#combine( #uw17(" + ") #uw17(".join(bigrams_l) + ") )"
         return field_texts
 
     def update_queries(self, queries, field_weights):
