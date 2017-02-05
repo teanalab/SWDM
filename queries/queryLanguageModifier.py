@@ -28,16 +28,13 @@ class QueryLanguageModifier(object):
         return queries
 
     @staticmethod
-    def gen_combine_1_field(field_weight, field_text):
-        return " " * 6 + str(field_weight) + field_text + "\n"
-
-    def gen_combine_fields_text(self, field_weights, field_texts):
-        new_q_text = "\n" + " " * 3 + "#weight(\n"
+    def gen_combine_fields_text(field_weights, field_texts):
+        new_q_text = "#weight(\n"
         for field_name, field_weight in field_weights.iteritems():
             q_text = field_texts.get(field_name)
-            combine_text = self.gen_combine_1_field(field_weight, q_text)
+            combine_text = str(field_weight) + " " + q_text
             new_q_text += combine_text
-        new_q_text += " " * 3 + ")\n"
+        new_q_text += ")\n"
         return new_q_text
 
     @staticmethod

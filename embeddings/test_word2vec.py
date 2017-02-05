@@ -7,9 +7,9 @@ class TestWord2vec(TestCase):
     def setUp(self):
         self.word2vec = Word2vec()
 
-    def test_run(self):
+    def test_gen_similar_words(self):
 
-        res = self.word2vec.run('human', 20)
+        res = self.word2vec.gen_similar_words('human', 20)
 
         expected_res = [(u'human_beings', 0.613968014717102), (u'humans', 0.5917960405349731),
                         (u'impertinent_flamboyant_endearingly', 0.5868302583694458),

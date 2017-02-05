@@ -47,14 +47,35 @@ class TestQueryLanguageModifier(TestCase):
             "o": 0.1,
             "w": 0.1
         }
-        field_texts = {'u': '#combine(hello world how are you)',
-                       'w': '#combine( #uw17(hello world) #uw17(world how) #uw17(how are) #uw17(are you) )',
-                       'o': '#combine( #od4(hello world) #od4(world how) #od4(how are) #od4(are you) )'}
+        field_texts = {'u': '#weight(\n0.1 #combine(hello)\n0.2 #combine(world)\n0.3 #combine(how)\n'
+                            '0.4 #combine(are)\n0.5 #combine(you)\n)\n',
+                       'w': '#weight(\n0.1 #uw17(hello world)\n0.2 #uw17(world how)\n0.3 #uw17(how are)\n'
+                            '0.4 #uw17(are you)\n)\n',
+                       'o': '#weight(\n0.1 #od4(hello world)\n0.2 #od4(world how)\n0.3 #od4(how are)\n'
+                            '0.4 #od4(are you)\n)\n'}
 
         res = self.queryLanguageModifier.gen_combine_fields_text(field_weights, field_texts)
-        expected_res = '\n   #weight(\n      0.8#combine(hello world how are you)\n      ' + \
-                       '0.1#combine( #uw17(hello world) #uw17(world how) #uw17(how are) #uw17(are you) )\n      ' + \
-                       '0.1#combine( #od4(hello world) #od4(world how) #od4(how are) #od4(are you) )\n   )\n'
+        expected_res = '#weight(\n' \
+                       '0.8 #weight(\n' \
+                       '0.1 #combine(hello)\n' \
+                       '0.2 #combine(world)\n' \
+                       '0.3 #combine(how)\n' \
+                       '0.4 #combine(are)\n' \
+                       '0.5 #combine(you)\n' \
+                       ')\n' \
+                       '0.1 #weight(\n' \
+                       '0.1 #uw17(hello world)\n' \
+                       '0.2 #uw17(world how)\n' \
+                       '0.3 #uw17(how are)\n' \
+                       '0.4 #uw17(are you)\n' \
+                       ')\n' \
+                       '0.1 #weight(\n' \
+                       '0.1 #od4(hello world)\n' \
+                       '0.2 #od4(world how)\n' \
+                       '0.3 #od4(how are)\n' \
+                       '0.4 #od4(are you)\n' \
+                       ')\n' \
+                       ')\n'
 
         self.assertEqual(res, expected_res)
 
