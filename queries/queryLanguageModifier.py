@@ -48,18 +48,29 @@ class QueryLanguageModifier(object):
             bigrams_l += [text_l[i] + " " + text_l[i+1]]
         return bigrams_l
 
-    def get_field_texts(self, text):
-        field_texts = dict()
+    def compute_weight(self, gram):
+        pass
+
+    def gen_sdm_field_1_text(self, grams, operator):
+        sdm_field_text = "#weight(\n"
+        for gram in grams:
+            sdm_field_text += str(self.compute_weight(gram)) + \
+                          " " + operator + "(" + gram + ")\n"
+        sdm_field_text += ")\n"
+        return sdm_field_text
+
+    def gen_sdm_fields_texts(self, text):
+        sdm_fields_texts = dict()
         bigrams_l = self.get_bigrams_list(text)
-        field_texts['u'] = "#combine(" + text + ")"
-        field_texts['o'] = "#combine( #od4(" + ") #od4(".join(bigrams_l) + ") )"
-        field_texts['w'] = "#combine( #uw17(" + ") #uw17(".join(bigrams_l) + ") )"
-        return field_texts
+        sdm_fields_texts['u'] = self.gen_sdm_field_1_text(text.split(" "), "#combine")
+        sdm_fields_texts['o'] = self.gen_sdm_field_1_text(bigrams_l, "#od4")
+        sdm_fields_texts['w'] = self.gen_sdm_field_1_text(bigrams_l, "#uw17")
+        return sdm_fields_texts
 
     def update_queries(self, queries, field_weights):
         for q in queries:
             q_text = q.find("text")
-            field_texts = self.get_field_texts(q_text.text)
+            field_texts = self.gen_sdm_fields_texts(q_text.text)
             q_text.string = self.gen_combine_fields_text(field_weights, field_texts)
 
     @staticmethod
