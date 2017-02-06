@@ -1,4 +1,9 @@
+from __future__ import print_function
+
+import os
 from unittest import TestCase
+
+import sys
 
 from embeddings.word2vec import Word2vec
 
@@ -8,6 +13,7 @@ class TestWord2vec(TestCase):
         self.word2vec = Word2vec()
 
     def test_gen_similar_words(self):
+        self.word2vec.setup_google_news_300_model()
 
         res = self.word2vec.gen_similar_words('human', 20)
 
@@ -24,3 +30,13 @@ class TestWord2vec(TestCase):
                         (u'Stephen_Mimnaugh', 0.4915102422237396), (u'sentient_beings', 0.4901559352874756)]
 
         self.assertEqual(res, expected_res)
+
+    def test_gen_similar_words_1(self):
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        print(dir_path, file=sys.stderr)
+        sentences = Word2vec.Sentences('test_files/questions-phrases.txt')
+        self.word2vec.train_model_from_sentences(sentences)
+
+        res = self.word2vec.gen_similar_words('Baltimore', 2)
+
+        self.assertEqual(res[0][0], 'Spain')

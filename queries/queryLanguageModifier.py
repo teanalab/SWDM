@@ -5,6 +5,7 @@ import sys
 
 from bs4 import BeautifulSoup
 
+from embeddings.word2vec import Word2vec
 from queries import Queries
 
 sys.path.insert(0, os.path.abspath('..'))
@@ -39,11 +40,24 @@ class QueryLanguageModifier(object):
 
     @staticmethod
     def get_bigrams_list(text):
-        text_l = text.split(' ')
+        unigrams_l = text.split(' ')
         bigrams_l = []
-        for i in range(0, len(text_l)-1):
-            bigrams_l += [text_l[i] + " " + text_l[i+1]]
+        for i in range(0, len(unigrams_l)-1):
+            bigrams_l += [unigrams_l[i] + " " + unigrams_l[i+1]]
         return bigrams_l
+
+    @staticmethod
+    def find_unigrams_in_embedding_space(text):
+        unigrams_l = text.split(' ')
+        word2vec = Word2vec
+        unigrams_in_embedding_space = []
+        for unigram in unigrams_l:
+            unigrams_in_embedding_space += [word2vec.gen_similar_words(unigram=unigram, topn=100)]
+        return unigrams_in_embedding_space
+
+    def get_unigrams_list(self, text):
+        unigrams_exp_d = self.find_unigrams_in_embedding_space(text)
+        return unigrams_l
 
     def compute_weight(self, gram):
         pass
@@ -59,7 +73,8 @@ class QueryLanguageModifier(object):
     def gen_sdm_fields_texts(self, text):
         sdm_fields_texts = dict()
         bigrams_l = self.get_bigrams_list(text)
-        sdm_fields_texts['u'] = self.gen_sdm_field_1_text(text.split(" "), "#combine")
+        unigrams_l = self.get_unigrams_list(text)
+        sdm_fields_texts['u'] = self.gen_sdm_field_1_text(unigrams_l, "#combine")
         sdm_fields_texts['o'] = self.gen_sdm_field_1_text(bigrams_l, "#od4")
         sdm_fields_texts['w'] = self.gen_sdm_field_1_text(bigrams_l, "#uw17")
         return sdm_fields_texts
