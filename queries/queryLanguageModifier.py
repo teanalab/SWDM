@@ -1,16 +1,15 @@
-from __future__ import print_function
-
 import os
 import sys
 
 from bs4 import BeautifulSoup
 
 from embeddings.word2vec import Word2vec
-from queries import Queries
+
 
 sys.path.insert(0, os.path.abspath('..'))
 try:
     from runs.runs import Runs
+    from queries.queries import Queries
 except:
     raise
 
@@ -50,6 +49,7 @@ class QueryLanguageModifier(object):
 
     @staticmethod
     def compute_weight_sdm_bigrams(similar_unigram_1, unigram_1, similar_unigram_2, unigram_2):
+
         weight = 0
         return weight
 
@@ -72,7 +72,7 @@ class QueryLanguageModifier(object):
         for unigram in unigrams_in_embedding_space:
             for similar_unigram in unigram:
                 sdm_unigrams_field_text += str(self.compute_weight_sdm_unigrams(similar_unigram, unigram)) + \
-                                          " " + operator + "(" + similar_unigram[0] + ")\n"
+                                           " " + operator + "(" + similar_unigram[0] + ")\n"
         sdm_unigrams_field_text += ")\n"
         return sdm_unigrams_field_text
 
@@ -87,7 +87,7 @@ class QueryLanguageModifier(object):
     @staticmethod
     def gen_combine_fields_text(field_weights, field_texts):
         new_q_text = "#weight(\n"
-        for field_name, field_weight in field_weights.iteritems():
+        for field_name, field_weight in field_weights.items():
             q_text = field_texts.get(field_name)
             combine_text = str(field_weight) + " " + q_text
             new_q_text += combine_text

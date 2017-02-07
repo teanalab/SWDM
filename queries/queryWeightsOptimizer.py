@@ -54,7 +54,7 @@ class QueryWeightsOptimizer(object):
 
     def maximize_evals_for_weights_offline_list(self, params_gen, params_eval, weights_offline_list):
         eval_res_dict = self.obtain_evals_for_weights_offline_list(params_gen, params_eval, weights_offline_list)
-        best_weights = max(eval_res_dict.iteritems(), key=operator.itemgetter(1))[0]
+        best_weights = max(eval_res_dict.items(), key=operator.itemgetter(1))[0]
         return eval_res_dict[best_weights], best_weights
 
     def run(self, params_gen, params_eval):

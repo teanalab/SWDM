@@ -1,10 +1,8 @@
-from __future__ import print_function
-
 from unittest import TestCase
 
 import sys
 
-from queryLanguageModifier import QueryLanguageModifier
+from queries.queryLanguageModifier import QueryLanguageModifier
 
 from mock import MagicMock
 
@@ -34,7 +32,7 @@ def mock_compute_weight_sdm_bigrams(similar_unigram_1, unigram_1, similar_unigra
 
 class TestQueryLanguageModifier(TestCase):
     def setUp(self):
-        self.queryLanguageModifier = QueryLanguageModifier()
+        pass
 
     def test_gen_combine_fields_text(self):
         field_weights = {
@@ -49,29 +47,30 @@ class TestQueryLanguageModifier(TestCase):
                        'o': '#weight(\n0.1 #od4(hello world)\n0.2 #od4(world how)\n0.3 #od4(how are)\n'
                             '0.4 #od4(are you)\n)\n'}
 
-        res = self.queryLanguageModifier.gen_combine_fields_text(field_weights, field_texts)
-        expected_res = '#weight(\n' \
-                       '0.8 #weight(\n' \
-                       '0.1 #combine(hello)\n' \
-                       '0.2 #combine(world)\n' \
-                       '0.3 #combine(how)\n' \
-                       '0.4 #combine(are)\n' \
-                       '0.5 #combine(you)\n' \
-                       ')\n' \
-                       '0.1 #weight(\n' \
-                       '0.1 #uw17(hello world)\n' \
-                       '0.2 #uw17(world how)\n' \
-                       '0.3 #uw17(how are)\n' \
-                       '0.4 #uw17(are you)\n' \
-                       ')\n' \
-                       '0.1 #weight(\n' \
-                       '0.1 #od4(hello world)\n' \
-                       '0.2 #od4(world how)\n' \
-                       '0.3 #od4(how are)\n' \
-                       '0.4 #od4(are you)\n' \
-                       ')\n' \
-                       ')\n'
-
+        query_language_modifier = QueryLanguageModifier()
+        res = query_language_modifier.gen_combine_fields_text(field_weights, field_texts)
+        print(res, file=sys.stderr)
+        expected_res = "#weight(\n" \
+                       "0.8 #weight(\n" \
+                       "0.1 #combine(hello)\n" \
+                       "0.2 #combine(world)\n" \
+                       "0.3 #combine(how)\n" \
+                       "0.4 #combine(are)\n" \
+                       "0.5 #combine(you)\n" \
+                       ")\n" \
+                       "0.1 #weight(\n" \
+                       "0.1 #od4(hello world)\n" \
+                       "0.2 #od4(world how)\n" \
+                       "0.3 #od4(how are)\n" \
+                       "0.4 #od4(are you)\n" \
+                       ")\n" \
+                       "0.1 #weight(\n" \
+                       "0.1 #uw17(hello world)\n" \
+                       "0.2 #uw17(world how)\n" \
+                       "0.3 #uw17(how are)\n" \
+                       "0.4 #uw17(are you)\n" \
+                       ")\n" \
+                       ")\n"
         self.assertEqual(res, expected_res)
 
     def test_gen_sdm_field_1_text(self):
@@ -144,21 +143,5 @@ class TestQueryLanguageModifier(TestCase):
                        "0.6 #combine(how)\n" \
                        "0.3 #combine(are)\n" \
                        "0.1 #combine(you)\n" \
-                       ")\n"
-        self.assertEqual(res, expected_res)
-
-    def test_gen_sdm_bigrams_field_1_text(self):
-        unigrams_in_embedding_space = [[('hello', 1), ('world', 0.65)],
-                                       [('how', 1), ('are', 0.8), ('you', 0.74)]]
-        query_language_modifier = QueryLanguageModifier()
-        query_language_modifier.compute_weight_sdm_bigrams = MagicMock(side_effect=mock_compute_weight_sdm_bigrams)
-        res = query_language_modifier.gen_sdm_bigrams_field_1_text(unigrams_in_embedding_space, "#combine")
-        expected_res = "#weight(\n" \
-                       "0.6 #combine(hello how)\n" \
-                       "0.3 #combine(hello are)\n" \
-                       "0.1 #combine(hello you)\n" \
-                       "0.2 #combine(world how)\n" \
-                       "0.4 #combine(world are)\n" \
-                       "0.5 #combine(world you)\n" \
                        ")\n"
         self.assertEqual(res, expected_res)
