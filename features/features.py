@@ -8,23 +8,16 @@ class Features:
             "uw_expression_count": self.uw_expression_count,
             "od_expression_count": self.od_expression_count
         }
-        self.parameters = {
-            "uw_expression_count": {
-                "window_size": 17
-            },
-            "od_expression_count": {
-                "window_size": 4
-            },
-        }
 
-    def uw_expression_count(self, term):
-        return self.index.uw_expression_count(term, self.parameters["uw_expression_count"]["window_size"])
+    def uw_expression_count(self, term, feature_parameters):
+        return self.index.uw_expression_count(term, feature_parameters["window_size"])
 
-    def od_expression_count(self, term):
-        return self.index.od_expression_count(term, self.parameters["od_expression_count"]["window_size"])
+    def od_expression_count(self, term, feature_parameters):
+        return self.index.od_expression_count(term, feature_parameters["window_size"])
 
-    def linear_combination(self, term, feature_names, features_weights):
+    def linear_combination(self, term, feature_names, features_weights, feature_parameters):
         score = 0
         for feature_name in feature_names:
-            score += features_weights[feature_name] * self.feature_functions[feature_name](term)
+            feature_parameters_ = feature_parameters[feature_name]
+            score += features_weights[feature_name] * self.feature_functions[feature_name](term, feature_parameters_)
         return score
