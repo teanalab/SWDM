@@ -13,7 +13,7 @@ class TestWord2vec(TestCase):
         self.word2vec = Word2vec()
 
     def test_gen_similar_words(self):
-        self.word2vec.setup_google_news_300_model()
+        self.word2vec.pre_trained_google_news_300_model()
 
         res = self.word2vec.gen_similar_words('human', 20)
 

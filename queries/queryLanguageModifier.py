@@ -3,7 +3,7 @@ import sys
 
 from bs4 import BeautifulSoup
 
-from embeddings.word2vec import Word2vec
+from embeddings.embedding_space import EmbeddingSpace
 
 
 sys.path.insert(0, os.path.abspath('..'))
@@ -21,26 +21,12 @@ __date__ = 11 / 21 / 16
 class QueryLanguageModifier(object):
     def __init__(self):
         self.word2vec_threshold = 0.6
+        self.embedding_space = EmbeddingSpace
 
     @staticmethod
     def find_all_queries(soup):
         queries = soup.findAll("query")
         return queries
-
-    def find_unigrams_in_embedding_space_1(self, word2vec, unigram):
-        unigrams_in_embedding_space = word2vec.gen_similar_words(unigram=unigram, topn=100)
-        unigrams_in_embedding_space = [(i.encode('ascii', 'ignore'), j) for (i, j) in unigrams_in_embedding_space if
-                                       j > self.word2vec_threshold]
-        return unigrams_in_embedding_space
-
-    def find_unigrams_in_embedding_space(self, text):
-        unigrams_l = text.split(' ')
-        word2vec = Word2vec()
-        word2vec.setup_google_news_300_model()
-        unigrams_in_embedding_space = []
-        for unigram in unigrams_l:
-            unigrams_in_embedding_space += [[(unigram, 1)] + self.find_unigrams_in_embedding_space_1(word2vec, unigram)]
-        return unigrams_in_embedding_space
 
     @staticmethod
     def compute_weight_sdm_unigrams(similar_unigram, unigram):
@@ -78,7 +64,7 @@ class QueryLanguageModifier(object):
 
     def gen_sdm_fields_texts(self, text):
         sdm_fields_texts = dict()
-        unigrams_in_embedding_space = self.find_unigrams_in_embedding_space(text)
+        unigrams_in_embedding_space = self.embedding_space.find_unigrams_in_embedding_space(text)
         sdm_fields_texts['u'] = self.gen_sdm_unigrams_field_1_text(unigrams_in_embedding_space, "#combine")
         sdm_fields_texts['o'] = self.gen_sdm_bigrams_field_1_text(unigrams_in_embedding_space, "#od4")
         sdm_fields_texts['w'] = self.gen_sdm_bigrams_field_1_text(unigrams_in_embedding_space, "#uw17")
