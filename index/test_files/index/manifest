@@ -1,0 +1,12 @@
+<parameters>
+	<indexCount>1</indexCount>
+	<indexes>
+		<index>0</index>
+	</indexes>
+	<injectURL>true</injectURL>
+	<normalize>true</normalize>
+	<stemmer>
+		<name>porter</name>
+	</stemmer>
+</parameters>
+
