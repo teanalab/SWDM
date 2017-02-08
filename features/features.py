@@ -9,15 +9,19 @@ class Features:
             "od_expression_count": self.od_expression_count
         }
         self.parameters = {
-            "uw_expression_count_window_size": 17,
-            "od_expression_count_window_size": 4,
+            "uw_expression_count": {
+                "window_size": 17
+            },
+            "od_expression_count": {
+                "window_size": 4
+            },
         }
 
     def uw_expression_count(self, term):
-        return self.index.uw_expression_count(term, self.parameters["uw_expression_count_window_size"])
+        return self.index.uw_expression_count(term, self.parameters["uw_expression_count"]["window_size"])
 
     def od_expression_count(self, term):
-        return self.index.od_expression_count(term, self.parameters["od_expression_count_window_size"])
+        return self.index.od_expression_count(term, self.parameters["od_expression_count"]["window_size"])
 
     def linear_combination(self, term, feature_names, features_weights):
         score = 0
