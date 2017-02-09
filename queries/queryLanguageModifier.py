@@ -4,7 +4,7 @@ import sys
 from bs4 import BeautifulSoup
 
 from embeddings.embedding_space import EmbeddingSpace
-
+from sdm.expanded_sdm import ExpandedSdm
 
 sys.path.insert(0, os.path.abspath('..'))
 try:
@@ -21,53 +21,21 @@ __date__ = 11 / 21 / 16
 class QueryLanguageModifier(object):
     def __init__(self):
         self.word2vec_threshold = 0.6
-        self.embedding_space = EmbeddingSpace
+        self.embedding_space = EmbeddingSpace()
+        self.expanded_sdm = ExpandedSdm()
 
     @staticmethod
     def find_all_queries(soup):
         queries = soup.findAll("query")
         return queries
 
-    @staticmethod
-    def compute_weight_sdm_unigrams(similar_unigram, unigram):
-        weight = 0
-        return weight
-
-    @staticmethod
-    def compute_weight_sdm_bigrams(similar_unigram_1, unigram_1, similar_unigram_2, unigram_2):
-
-        weight = 0
-        return weight
-
-    def gen_sdm_bigrams_field_1_text(self, unigrams_in_embedding_space, operator):
-        sdm_bigrams_field_text = "#weight(\n"
-        for i in range(0, len(unigrams_in_embedding_space) - 1):
-            for similar_unigram_1 in unigrams_in_embedding_space[i]:
-                for similar_unigram_2 in unigrams_in_embedding_space[i + 1]:
-                    weight = self.compute_weight_sdm_bigrams(similar_unigram_1, unigrams_in_embedding_space[i],
-                                                             similar_unigram_2, unigrams_in_embedding_space[i + 1])
-                    bigram = similar_unigram_1[0] + " " + similar_unigram_2[0]
-                    sdm_bigrams_field_text += str(weight) + \
-                                              " " + operator + "(" + bigram + ")\n"
-
-        sdm_bigrams_field_text += ")\n"
-        return sdm_bigrams_field_text
-
-    def gen_sdm_unigrams_field_1_text(self, unigrams_in_embedding_space, operator):
-        sdm_unigrams_field_text = "#weight(\n"
-        for unigram in unigrams_in_embedding_space:
-            for similar_unigram in unigram:
-                sdm_unigrams_field_text += str(self.compute_weight_sdm_unigrams(similar_unigram, unigram)) + \
-                                           " " + operator + "(" + similar_unigram[0] + ")\n"
-        sdm_unigrams_field_text += ")\n"
-        return sdm_unigrams_field_text
-
     def gen_sdm_fields_texts(self, text):
         sdm_fields_texts = dict()
-        unigrams_in_embedding_space = self.embedding_space.find_unigrams_in_embedding_space(text)
-        sdm_fields_texts['u'] = self.gen_sdm_unigrams_field_1_text(unigrams_in_embedding_space, "#combine")
-        sdm_fields_texts['o'] = self.gen_sdm_bigrams_field_1_text(unigrams_in_embedding_space, "#od4")
-        sdm_fields_texts['w'] = self.gen_sdm_bigrams_field_1_text(unigrams_in_embedding_space, "#uw17")
+        unigrams_in_embedding_space = self.embedding_space.find_unigrams_in_embedding_space(text,
+                                                                                            self.word2vec_threshold)
+        sdm_fields_texts['u'] = self.expanded_sdm.gen_sdm_unigrams_field_1_text(unigrams_in_embedding_space, "#combine")
+        sdm_fields_texts['o'] = self.expanded_sdm.gen_sdm_bigrams_field_1_text(unigrams_in_embedding_space, "#od4")
+        sdm_fields_texts['w'] = self.expanded_sdm.gen_sdm_bigrams_field_1_text(unigrams_in_embedding_space, "#uw17")
         return sdm_fields_texts
 
     @staticmethod
