@@ -16,11 +16,18 @@ class Features(Embeddings, Collection):
         self.feature_functions = {
             "uw_expression_count": Collection.uw_expression_count,
             "od_expression_count": Collection.od_expression_count,
-            "uw_document_expression_count": Collection.uw_document_expression_count,
-            "od_document_expression_count": Collection.od_document_expression_count,
+            "uw_expression_document_count": Collection.uw_expression_document_count,
+            "od_expression_document_count": Collection.od_expression_document_count,
             "term_count": Collection.term_count,
             "document_count": Collection.document_count,
-            "euclidean_distance_from_orig": Embeddings.cosine_similarity_with_orig,
+            "uw_expression_norm_count": Collection.uw_expression_norm_count,
+            "od_expression_norm_count": Collection.od_expression_norm_count,
+            "uw_expression_norm_document_count": Collection.uw_expression_norm_document_count,
+            "od_expression_norm_document_count": Collection.od_expression_norm_document_count,
+            "norm_term_count": Collection.norm_term_count,
+            "norm_document_count": Collection.norm_document_count,
+            "unigrams_cosine_similarity_with_orig": Embeddings.unigrams_cosine_similarity_with_orig,
+            "bigrams_cosine_similarity_with_orig": Embeddings.bigrams_cosine_similarity_with_orig,
         }
 
     def linear_combination(self, term, feature_names, features_weights, feature_parameters):

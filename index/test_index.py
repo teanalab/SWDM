@@ -14,10 +14,10 @@ class TestIndex(TestCase):
         self.assertEqual(self.index_.od_expression_count("SAMPSON True", 12), 1)
 
     def test_uw_document_expression_count(self):
-        self.assertEqual(self.index_.uw_document_expression_count("SAMPSON True", 12), 1)
+        self.assertEqual(self.index_.uw_expression_document_count("SAMPSON True", 12), 1)
 
     def test_od_document_expression_count(self):
-        self.assertEqual(self.index_.od_document_expression_count("SAMPSON True", 12), 1)
+        self.assertEqual(self.index_.od_expression_document_count("SAMPSON True", 12), 1)
 
     def test_term_count(self):
         self.assertEqual(self.index_.term_count("dog"), 2)

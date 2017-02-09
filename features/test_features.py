@@ -13,10 +13,10 @@ class TestIndex(TestCase):
             "od_expression_count": {
                 "window_size": 4
             },
-            "uw_document_expression_count": {
+            "uw_expression_document_count": {
                 "window_size": 4
             },
-            "od_document_expression_count": {
+            "od_expression_document_count": {
                 "window_size": 4
             },
         }

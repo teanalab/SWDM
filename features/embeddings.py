@@ -6,6 +6,15 @@ class Embeddings:
         pass
 
     @staticmethod
-    def cosine_similarity_with_orig(term, feature_parameters):
+    def unigrams_cosine_similarity_with_orig(term, feature_parameters):
         unigram_nearest_neighbor = feature_parameters['unigram_nearest_neighbor']
         return [item for item in unigram_nearest_neighbor if item[0] == term][0][1]
+
+    @staticmethod
+    def bigrams_cosine_similarity_with_orig(term, feature_parameters):
+        terms = term.split(' ')
+        unigram_nearest_neighbor_1 = feature_parameters['unigram_nearest_neighbor_1']
+        unigram_nearest_neighbor_2 = feature_parameters['unigram_nearest_neighbor_2']
+        cosine_similarity_1 = [item for item in unigram_nearest_neighbor_1 if item[0] == terms[0]][0][1]
+        cosine_similarity_2 = [item for item in unigram_nearest_neighbor_2 if item[0] == terms[1]][0][1]
+        return (cosine_similarity_1 + cosine_similarity_2)/2
