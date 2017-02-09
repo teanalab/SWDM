@@ -25,9 +25,9 @@ class ExpandedSdm:
 
     def gen_sdm_unigrams_field_1_text(self, unigrams_in_embedding_space, operator):
         sdm_unigrams_field_text = "#weight(\n"
-        for unigram in unigrams_in_embedding_space:
-            for similar_unigram in unigram:
-                sdm_unigrams_field_text += str(self.compute_weight_sdm_unigrams(similar_unigram, unigram)) + \
+        for unigram_nearest_neighbor in unigrams_in_embedding_space:
+            for similar_unigram in unigram_nearest_neighbor:
+                sdm_unigrams_field_text += str(self.compute_weight_sdm_unigrams(similar_unigram, unigram_nearest_neighbor)) + \
                                            " " + operator + "(" + similar_unigram[0] + ")\n"
         sdm_unigrams_field_text += ")\n"
         return sdm_unigrams_field_text

@@ -20,6 +20,7 @@ class Features(Embeddings, Collection):
             "od_document_expression_count": Collection.od_document_expression_count,
             "term_count": Collection.term_count,
             "document_count": Collection.document_count,
+            "euclidean_distance_from_orig": Embeddings.cosine_similarity_with_orig,
         }
 
     def linear_combination(self, term, feature_names, features_weights, feature_parameters):

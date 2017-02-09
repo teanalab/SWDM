@@ -72,14 +72,15 @@ class TestQueryLanguageModifier(TestCase):
 
     def test_gen_sdm_fields_texts(self):
         query_language_modifier = QueryLanguageModifier()
-        query_language_modifier.expanded_sdm.compute_weight_sdm_unigrams = MagicMock(side_effect=mock_compute_weight_sdm_unigrams)
+        query_language_modifier.expanded_sdm.compute_weight_sdm_unigrams = MagicMock(
+            side_effect=mock_compute_weight_sdm_unigrams)
         query_language_modifier.expanded_sdm.compute_weight_sdm_bigrams = MagicMock(
             side_effect=mock_compute_weight_sdm_bigrams)
         query_language_modifier.embedding_space.find_unigrams_in_embedding_space = MagicMock(return_value=
-                                                                                          [[('hello', 1),
-                                                                                            ('world', 0.65)],
-                                                                                           [('how', 1), ('are', 0.8),
-                                                                                            ('you', 0.74)]])
+                                                                                             [[('hello', 1),
+                                                                                               ('world', 0.65)],
+                                                                                              [('how', 1), ('are', 0.8),
+                                                                                               ('you', 0.74)]])
         res = query_language_modifier.gen_sdm_fields_texts("hello world how are you")
         expected_res = {'u': '#weight(\n0.9 #combine(hello)\n0.1 #combine(world)\n0.6 #combine(how)\n'
                              '0.3 #combine(are)\n0.1 #combine(you)\n)\n',

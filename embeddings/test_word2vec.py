@@ -31,6 +31,9 @@ class TestWord2vec(TestCase):
 
         self.assertEqual(res, expected_res)
 
+        res = self.word2vec.gen_similar_words('are', 20)
+        print(res, file=sys.stderr)
+
     def test_gen_similar_words_1(self):
         dir_path = os.path.dirname(os.path.realpath(__file__))
         print(dir_path, file=sys.stderr)
