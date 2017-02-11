@@ -33,9 +33,9 @@ class QueryLanguageModifier(object):
         sdm_fields_texts = dict()
         unigrams_in_embedding_space = self.embedding_space.find_unigrams_in_embedding_space(text,
                                                                                             self.word2vec_threshold)
-        sdm_fields_texts['u'] = self.expanded_sdm.gen_sdm_unigrams_field_1_text(unigrams_in_embedding_space, "#combine")
-        sdm_fields_texts['o'] = self.expanded_sdm.gen_sdm_bigrams_field_1_text(unigrams_in_embedding_space, "#od4")
-        sdm_fields_texts['w'] = self.expanded_sdm.gen_sdm_bigrams_field_1_text(unigrams_in_embedding_space, "#uw17")
+        sdm_fields_texts['u'] = self.expanded_sdm.gen_sdm_field_1_text(unigrams_in_embedding_space, "#combine")
+        sdm_fields_texts['o'] = self.expanded_sdm.gen_sdm_field_1_text(unigrams_in_embedding_space, "#od4")
+        sdm_fields_texts['w'] = self.expanded_sdm.gen_sdm_field_1_text(unigrams_in_embedding_space, "#uw17")
         return sdm_fields_texts
 
     @staticmethod
