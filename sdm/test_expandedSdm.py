@@ -1,6 +1,5 @@
 from unittest import TestCase
 
-import sys
 from mock import MagicMock
 
 from sdm.expanded_sdm import ExpandedSdm
@@ -38,7 +37,6 @@ class TestExpandedSdm(TestCase):
             side_effect=mock_compute_weight_sdm_bigrams)
         res = expanded_sdm.gen_sdm_bigrams_field_1_text(unigrams_in_embedding_space,
                                                         "#uw")
-        print(res, file=sys.stderr)
         expected_res = """#weight(
 0.6 #uw(hello how)
 0.3 #uw(hello are)

@@ -31,13 +31,8 @@ class TestWord2vec(TestCase):
 
         self.assertEqual(res, expected_res)
 
-        res = self.word2vec.gen_similar_words('are', 20)
-        print(res, file=sys.stderr)
-
     def test_gen_similar_words_1(self):
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        print(dir_path, file=sys.stderr)
-        sentences = Word2vec.Sentences('test_files/questions-phrases.txt')
+        sentences = Word2vec.sentences('test_files/questions-phrases.txt')
         self.word2vec.train_model_from_sentences(sentences)
 
         res = self.word2vec.gen_similar_words('Baltimore', 2)

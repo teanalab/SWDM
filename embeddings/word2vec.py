@@ -13,13 +13,10 @@ class Word2vec:
     def train_model_from_sentences(self, sentences):
         self.model = gensim.models.Word2Vec(sentences, min_count=1)
 
-    class Sentences(object):
-        def __init__(self, fname):
-            self.fname = fname
-
-        def __iter__(self):
-            for line in open(self.fname):
-                yield line.split()
+    @staticmethod
+    def sentences(fname):
+        for line in open(fname):
+            yield line.split()
 
     def gen_similar_words(self, unigram, topn):
         res = self.model.most_similar([unigram], [], topn)

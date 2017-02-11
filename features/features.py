@@ -34,6 +34,7 @@ class Features(Embeddings, Collection):
         score = 0
         for feature_name in feature_names:
             feature_parameters_ = feature_parameters[feature_name]
-            score += features_weights[feature_name] * self.feature_functions[feature_name](self, term,
-                                                                                           feature_parameters_)
+            score_ = self.feature_functions[feature_name](self, term, feature_parameters_)
+            weight_ = features_weights[feature_name]
+            score += weight_ * score_
         return score
