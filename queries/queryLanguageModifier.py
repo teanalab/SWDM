@@ -4,6 +4,7 @@ import sys
 from bs4 import BeautifulSoup
 
 from embeddings.embedding_space import EmbeddingSpace
+from parameters.parameters import Parameters
 from sdm.expanded_sdm import ExpandedSdm
 
 sys.path.insert(0, os.path.abspath('..'))
@@ -19,10 +20,10 @@ __date__ = 11 / 21 / 16
 
 
 class QueryLanguageModifier(object):
-    def __init__(self):
+    def __init__(self, parameters):
         self.word2vec_threshold = 0.6
         self.embedding_space = EmbeddingSpace()
-        self.expanded_sdm = ExpandedSdm()
+        self.expanded_sdm = ExpandedSdm(parameters)
 
     @staticmethod
     def find_all_queries(soup):
@@ -34,8 +35,8 @@ class QueryLanguageModifier(object):
         unigrams_in_embedding_space = self.embedding_space.find_unigrams_in_embedding_space(text,
                                                                                             self.word2vec_threshold)
         sdm_fields_texts['u'] = self.expanded_sdm.gen_sdm_field_1_text(unigrams_in_embedding_space, "#combine")
-        sdm_fields_texts['o'] = self.expanded_sdm.gen_sdm_field_1_text(unigrams_in_embedding_space, "#od4")
-        sdm_fields_texts['w'] = self.expanded_sdm.gen_sdm_field_1_text(unigrams_in_embedding_space, "#uw17")
+        sdm_fields_texts['o'] = self.expanded_sdm.gen_sdm_field_1_text(unigrams_in_embedding_space, "#od")
+        sdm_fields_texts['w'] = self.expanded_sdm.gen_sdm_field_1_text(unigrams_in_embedding_space, "#uw")
         return sdm_fields_texts
 
     @staticmethod
@@ -43,7 +44,7 @@ class QueryLanguageModifier(object):
         new_q_text = "#weight(\n"
         for field_name, field_weight in field_weights.items():
             q_text = field_texts.get(field_name)
-            combine_text = str(field_weight) + " " + q_text
+            combine_text = str(field_weight) + q_text
             new_q_text += combine_text
         new_q_text += ")\n"
         return new_q_text
@@ -119,5 +120,6 @@ if __name__ == "__main__":
     new_indri_query_file_ = "../configs/queries/robust04_expanded.cfg"
     fb_docs_ = 10
     fb_terms_ = 10
-    QueryLanguageModifier().run(old_indri_query_file_, new_indri_query_file_, index_dir_, field_weights_,
-                                fb_terms_, fb_docs_)
+    parameters_ = Parameters()
+    QueryLanguageModifier(parameters_).run(old_indri_query_file_, new_indri_query_file_, index_dir_, field_weights_,
+                                           fb_terms_, fb_docs_)

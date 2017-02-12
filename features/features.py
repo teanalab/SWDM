@@ -10,8 +10,8 @@ except:
 
 
 class Features(Embeddings, Collection):
-    def __init__(self, repo_dir):
-        Collection.__init__(self, repo_dir)
+    def __init__(self, parameters):
+        Collection.__init__(self, parameters)
         Embeddings.__init__(self)
         self.feature_functions = {
             "uw_expression_count": Collection.uw_expression_count,

@@ -1,11 +1,14 @@
 from unittest import TestCase
 
 import features.collection
+from parameters.parameters import Parameters
 
 
 class TestCollection(TestCase):
     def setUp(self):
-        self.features = features.collection.Collection('../index/test_files/index')
+        self.parameters = Parameters()
+        self.parameters.params["repo_dir"] = '../index/test_files/index'
+        self.features = features.collection.Collection(self.parameters)
         self.feature_parameters = {
             "uw_expression_count": {
                 "window_size": 17

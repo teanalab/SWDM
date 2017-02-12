@@ -1,0 +1,50 @@
+{
+  "repo_dir": "/scratch/index/indri_5_7/robust",
+  "window_size": {
+    "#uw": 17,
+    "#od": 4
+  },
+  "feature_parameters": {
+    "UnigramWeights": {
+      "norm_term_count": {
+      },
+      "norm_document_count": {
+      },
+      "unigrams_cosine_similarity_with_orig": {
+      }
+    },
+    "UnorderedBigramWeights": {
+      "uw_expression_norm_count": {
+        "window_size": 17
+      },
+      "uw_expression_norm_document_count": {
+        "window_size": 17
+      }
+    },
+    "OrderedBigramWeights": {
+      "od_expression_norm_count": {
+        "window_size": 4
+      },
+      "od_expression_norm_document_count": {
+        "window_size": 4
+      }
+    }
+  },
+  "features_weights": {
+    "UnigramWeights": {
+      "norm_term_count": 0.33,
+      "norm_document_count": 0.33,
+      "unigrams_cosine_similarity_with_orig": 0.33
+    },
+    "UnorderedBigramWeights": {
+      "uw_expression_norm_count": 0.33,
+      "uw_expression_norm_document_count": 0.33,
+      "bigrams_cosine_similarity_with_orig": 0.33
+    },
+    "OrderedBigramWeights": {
+      "od_expression_norm_count": 0.33,
+      "od_expression_norm_document_count": 0.33,
+      "bigrams_cosine_similarity_with_orig": 0.33
+    }
+  }
+}

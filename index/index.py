@@ -2,9 +2,9 @@ import pyndri
 
 
 class Index:
-    def __init__(self, repo_dir='/scratch/index/indri_5_7/robust'):
-        self.index = pyndri.Index(repo_dir)
-        pass
+    def __init__(self, parameters):
+        self.repo_dir = parameters.params['repo_dir']
+        self.index = pyndri.Index(self.repo_dir)
 
     def expression_count(self, term, operator, window_size):
         query = operator + str(window_size) + "(" + term + ")"

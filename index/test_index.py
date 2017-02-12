@@ -1,11 +1,15 @@
 from unittest import TestCase
 
 import index.index
+from parameters.parameters import Parameters
 
 
 class TestIndex(TestCase):
     def setUp(self):
-        self.index_ = index.index.Index('test_files/index')
+        self.parameters = Parameters()
+        self.parameters.params["repo_dir"] = '../index/test_files/index'
+
+        self.index_ = index.index.Index(self.parameters)
 
     def test_uw_expression_count(self):
         self.assertEqual(self.index_.uw_expression_count("SAMPSON Dog", 12), 2)

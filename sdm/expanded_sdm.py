@@ -4,11 +4,11 @@ from sdm.weights.unordered_bigram_weights import UnorderedBigramWeights
 
 
 class ExpandedSdm:
-    def __init__(self, repo_dir):
-        self.repo_dir = repo_dir
+    def __init__(self, parameters):
+        self.parameters = parameters
 
     def compute_weight_sdm_unigrams(self, similar_unigram, unigram_nearest_neighbor):
-        unigram_weights = UnigramWeights(self.repo_dir)
+        unigram_weights = UnigramWeights(self.parameters)
         term_dependent_feature_parameters = {
             "unigram_nearest_neighbor": unigram_nearest_neighbor,
         }
@@ -22,14 +22,14 @@ class ExpandedSdm:
             "unigram_nearest_neighbor_2": unigram_nearest_neighbor_2
         }
         if operator == "#uw":
-            unordered_bigram_weights = UnorderedBigramWeights(self.repo_dir)
+            unordered_bigram_weights = UnorderedBigramWeights(self.parameters)
             return unordered_bigram_weights.compute_weight(term, term_dependent_feature_parameters)
         elif operator == "#od":
-            ordered_bigram_weights = OrderedBigramWeights(self.repo_dir)
+            ordered_bigram_weights = OrderedBigramWeights(self.parameters)
             return ordered_bigram_weights.compute_weight(term, term_dependent_feature_parameters)
 
     def gen_sdm_field_1_text(self, unigrams_in_embedding_space, operator):
-        if operator is "#combine":
+        if operator == "#combine":
             return self.gen_sdm_unigrams_field_1_text(unigrams_in_embedding_space)
         elif operator in {"#uw", "#od"}:
             return self.gen_sdm_bigrams_field_1_text(unigrams_in_embedding_space, operator)
@@ -43,7 +43,8 @@ class ExpandedSdm:
                                                              similar_unigram_2, unigrams_in_embedding_space[i + 1],
                                                              operator)
                     bigram = similar_unigram_1[0] + " " + similar_unigram_2[0]
-                    sdm_bigrams_field_text += str(weight) + operator + "(" + bigram + ")\n"
+                    operator_s = operator + str(self.parameters.params["window_size"][operator])
+                    sdm_bigrams_field_text += str(weight) + operator_s + "(" + bigram + ")\n"
 
         sdm_bigrams_field_text += ")\n"
         return sdm_bigrams_field_text

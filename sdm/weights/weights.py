@@ -4,8 +4,8 @@ import features.features
 
 
 class Weights:
-    def __init__(self, repo_dir):
-        self.features = features.features.Features(repo_dir)
+    def __init__(self, parameters):
+        self.features = features.features.Features(parameters)
 
         self.feature_names = set()
 
