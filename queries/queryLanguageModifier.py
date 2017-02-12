@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 
 from bs4 import BeautifulSoup
@@ -21,9 +22,10 @@ __date__ = 11 / 21 / 16
 
 class QueryLanguageModifier(object):
     def __init__(self, parameters):
+        self.parameters = parameters
         self.word2vec_threshold = 0.6
         self.embedding_space = EmbeddingSpace()
-        self.expanded_sdm = ExpandedSdm(parameters)
+        self.expanded_sdm = ExpandedSdm(self.parameters)
 
     @staticmethod
     def find_all_queries(soup):
@@ -52,7 +54,9 @@ class QueryLanguageModifier(object):
     def update_queries(self, queries, field_weights):
         for q in queries:
             q_text = q.find("text")
-            field_texts = self.gen_sdm_fields_texts(q_text.text)
+            q_text_ = q_text.text.strip()
+            q_text_ = re.sub('[^0-9a-zA-Z]+', ' ', q_text_)
+            field_texts = self.gen_sdm_fields_texts(q_text_)
             q_text.string = self.gen_combine_fields_text(field_weights, field_texts)
 
     @staticmethod
@@ -94,32 +98,24 @@ class QueryLanguageModifier(object):
             fb_docs_tag.string = str(fb_docs)
             soup_parameters.append(fb_docs_tag)
 
-    def run(self, old_indri_query_file, new_indri_query_file, index_dir, field_weights, fb_terms,
-            fb_docs):
+    def run(self):
 
-        soup = Queries().indri_query_file_2_soup(old_indri_query_file)
+        self.embedding_space.initialize()
 
-        self.update_index_dir(soup, index_dir)
+        soup = Queries().indri_query_file_2_soup(self.parameters.params["query_files"]["old_indri_query_file"])
+
+        self.update_index_dir(soup, self.parameters.params["repo_dir"])
 
         queries = self.find_all_queries(soup)
-        self.update_queries(queries, field_weights)
+        self.update_queries(queries, self.parameters.params["sdm_field_weights"])
 
-        self.update_relevance_feedback(soup, fb_terms, fb_docs)
+        self.update_relevance_feedback(soup, self.parameters.params["prf"]["fb_terms"],
+                                       self.parameters.params["prf"]["fb_docs"])
 
-        self.update_indri_query_file(soup, new_indri_query_file)
+        self.update_indri_query_file(soup, self.parameters.params["query_files"]["new_indri_query_file"])
 
 
 if __name__ == "__main__":
-    field_weights_ = {
-        "u": 0.8,
-        "o": 0.1,
-        "w": 0.1
-    }
-    index_dir_ = "/scratch/index/indri_5_7/robust/"
-    old_indri_query_file_ = "../configs/queries/robust04.cfg"
-    new_indri_query_file_ = "../configs/queries/robust04_expanded.cfg"
-    fb_docs_ = 10
-    fb_terms_ = 10
     parameters_ = Parameters()
-    QueryLanguageModifier(parameters_).run(old_indri_query_file_, new_indri_query_file_, index_dir_, field_weights_,
-                                           fb_terms_, fb_docs_)
+    parameters_.read_from_params_file()
+    QueryLanguageModifier(parameters_).run()

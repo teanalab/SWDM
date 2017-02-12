@@ -1,8 +1,21 @@
 {
   "repo_dir": "/scratch/index/indri_5_7/robust",
+  "query_files": {
+    "old_indri_query_file": "../configs/queries/robust04.cfg",
+    "new_indri_query_file": "../configs/queries/robust04_expanded.cfg"
+  },
+  "prf": {
+    "fb_docs": 10,
+    "fb_terms": 10
+  },
   "window_size": {
     "#uw": 17,
     "#od": 4
+  },
+  "sdm_field_weights": {
+    "u": 0.8,
+    "o": 0.1,
+    "w": 0.1
   },
   "feature_parameters": {
     "UnigramWeights": {

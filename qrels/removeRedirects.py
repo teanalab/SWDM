@@ -46,15 +46,12 @@ class RemoveRedirects:
                 if redirect != "":
                     line = line.replace(line_splits[2], redirect)
                 text_list += [line.strip()]
-        print(len(text_list))
         text_list = self.unique(text_list)
-        print(len(text_list))
         with open(file_name, "w") as f:
             f.write('\n'.join(text_list))
 
     def replace_redirects(self, redirects_en, file_names):
         for file_name in file_names:
-            print("file_name: " + file_name)
             self.replace_in_a_file(redirects_en, file_name)
 
     def run(self):

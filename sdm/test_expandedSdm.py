@@ -1,6 +1,5 @@
 from unittest import TestCase
 
-import sys
 from mock import MagicMock
 
 from parameters.parameters import Parameters
@@ -15,11 +14,12 @@ def mock_compute_weight_sdm_unigrams(similar_unigram, unigram):
         ('are', 'how'): 0.3,
         ('you', 'how'): 0.1,
     }
-    return weight_gram[(similar_unigram[0], unigram[0][0])]
+    return weight_gram[(similar_unigram, unigram[0][0])]
 
 
-def mock_compute_weight_sdm_bigrams(similar_unigram_1, unigram_1, similar_unigram_2, unigram_2, operator):
+def mock_compute_weight_sdm_bigrams(term, unigram_1, unigram_2, operator):
     del operator
+    [similar_unigram_1, similar_unigram_2] = term.split(' ')
     weight_gram = {
         ('hello', 'hello', 'how', 'how'): 0.6,
         ('world', 'hello', 'how', 'how'): 0.2,
@@ -28,7 +28,7 @@ def mock_compute_weight_sdm_bigrams(similar_unigram_1, unigram_1, similar_unigra
         ('hello', 'hello', 'you', 'how'): 0.1,
         ('world', 'hello', 'you', 'how'): 0.5,
     }
-    return weight_gram[(similar_unigram_1[0], unigram_1[0][0], similar_unigram_2[0], unigram_2[0][0])]
+    return weight_gram[(similar_unigram_1, unigram_1[0][0], similar_unigram_2, unigram_2[0][0])]
 
 
 class TestExpandedSdm(TestCase):
@@ -45,10 +45,23 @@ class TestExpandedSdm(TestCase):
                 "window_size": 17
             }
         }
+        self.parameters.params['feature_parameters']['OrderedBigramWeights'] = {
+            "od_expression_norm_count": {
+                "window_size": 17
+            },
+            "od_expression_norm_document_count": {
+                "window_size": 17
+            }
+        }
         self.parameters.params['features_weights'] = {}
         self.parameters.params['features_weights']['UnorderedBigramWeights'] = {
             "uw_expression_norm_count": 0.33,
             "uw_expression_norm_document_count": 0.33,
+            "bigrams_cosine_similarity_with_orig": 0.33
+        }
+        self.parameters.params['features_weights']['OrderedBigramWeights'] = {
+            "od_expression_norm_count": 0.33,
+            "od_expression_norm_document_count": 0.33,
             "bigrams_cosine_similarity_with_orig": 0.33
         }
         self.parameters.params['feature_parameters']['UnigramWeights'] = {
@@ -85,7 +98,6 @@ class TestExpandedSdm(TestCase):
 0.5#uw17(world you)
 )
 """
-        print(res, file=sys.stderr)
         self.assertEqual(res, expected_res)
 
     def test_gen_sdm_unigrams_field_1_text(self):
@@ -138,7 +150,7 @@ class TestExpandedSdm(TestCase):
 
         expanded_sdm = ExpandedSdm(self.parameters)
 
-        res = expanded_sdm.compute_weight_sdm_bigrams("world", unigram_nearest_neighbor_1, "are",
+        res = expanded_sdm.compute_weight_sdm_bigrams("world are", unigram_nearest_neighbor_1,
                                                       unigram_nearest_neighbor_2, "#uw")
         expected_res = 0.23925000000000005
         self.assertEqual(res, expected_res)

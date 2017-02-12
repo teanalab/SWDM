@@ -31,10 +31,5 @@ class TestWord2vec(TestCase):
 
         self.assertEqual(res, expected_res)
 
-    def test_gen_similar_words_1(self):
-        sentences = Word2vec.sentences('test_files/questions-phrases.txt')
-        self.word2vec.train_model_from_sentences(sentences)
-
-        res = self.word2vec.gen_similar_words('Baltimore', 2)
-
-        self.assertEqual(res[0][0], 'Spain')
+        res = self.word2vec.gen_similar_words('and', 20)
+        self.assertEqual(res, [])

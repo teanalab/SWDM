@@ -14,11 +14,12 @@ def mock_compute_weight_sdm_unigrams(similar_unigram, unigram):
         ('are', 'how'): 0.3,
         ('you', 'how'): 0.1,
     }
-    return weight_gram[(similar_unigram[0], unigram[0][0])]
+    return weight_gram[(similar_unigram, unigram[0][0])]
 
 
-def mock_compute_weight_sdm_bigrams(similar_unigram_1, unigram_1, similar_unigram_2, unigram_2, operator):
+def mock_compute_weight_sdm_bigrams(term, unigram_1, unigram_2, operator):
     del operator
+    [similar_unigram_1, similar_unigram_2] = term.split(' ')
     weight_gram = {
         ('hello', 'hello', 'how', 'how'): 0.6,
         ('world', 'hello', 'how', 'how'): 0.2,
@@ -27,7 +28,7 @@ def mock_compute_weight_sdm_bigrams(similar_unigram_1, unigram_1, similar_unigra
         ('hello', 'hello', 'you', 'how'): 0.1,
         ('world', 'hello', 'you', 'how'): 0.5,
     }
-    return weight_gram[(similar_unigram_1[0], unigram_1[0][0], similar_unigram_2[0], unigram_2[0][0])]
+    return weight_gram[(similar_unigram_1, unigram_1[0][0], similar_unigram_2, unigram_2[0][0])]
 
 
 class TestQueryLanguageModifier(TestCase):
@@ -37,6 +38,47 @@ class TestQueryLanguageModifier(TestCase):
         self.parameters.params["window_size"] = {}
         self.parameters.params["window_size"]["#od"] = 4
         self.parameters.params["window_size"]["#uw"] = 17
+        self.parameters.params['feature_parameters'] = {}
+        self.parameters.params['feature_parameters']['UnigramWeights'] = {
+            "norm_term_count": {
+            },
+            "norm_document_count": {
+            },
+            "unigrams_cosine_similarity_with_orig": {
+            }
+        }
+        self.parameters.params['feature_parameters']['UnorderedBigramWeights'] = {
+            "uw_expression_norm_count": {
+                "window_size": 17
+            },
+            "uw_expression_norm_document_count": {
+                "window_size": 17
+            }
+        }
+        self.parameters.params['feature_parameters']['OrderedBigramWeights'] = {
+            "od_expression_norm_count": {
+                "window_size": 17
+            },
+            "od_expression_norm_document_count": {
+                "window_size": 17
+            }
+        }
+        self.parameters.params['features_weights'] = {}
+        self.parameters.params['features_weights']['UnigramWeights'] = {
+            "norm_term_count": 0.33,
+            "norm_document_count": 0.33,
+            "unigrams_cosine_similarity_with_orig": 0.33
+        }
+        self.parameters.params['features_weights']['UnorderedBigramWeights'] = {
+            "uw_expression_norm_count": 0.33,
+            "uw_expression_norm_document_count": 0.33,
+            "bigrams_cosine_similarity_with_orig": 0.33
+        }
+        self.parameters.params['features_weights']['OrderedBigramWeights'] = {
+            "od_expression_norm_count": 0.33,
+            "od_expression_norm_document_count": 0.33,
+            "bigrams_cosine_similarity_with_orig": 0.33
+        }
 
     def test_gen_combine_fields_text(self):
         field_weights = {
@@ -52,6 +94,7 @@ class TestQueryLanguageModifier(TestCase):
                             '0.4#od4(are you)\n)\n'}
 
         query_language_modifier = QueryLanguageModifier(self.parameters)
+        query_language_modifier.embedding_space.initialize = MagicMock(return_value=None)
         res = query_language_modifier.gen_combine_fields_text(field_weights, field_texts)
         expected_res = "#weight(\n" \
                        "0.8#weight(\n" \
@@ -87,6 +130,7 @@ class TestQueryLanguageModifier(TestCase):
                                      ('world', 0.65)],
                                     [('how', 1), ('are', 0.8),
                                      ('you', 0.74)]])
+        query_language_modifier.embedding_space.initialize = MagicMock(return_value=None)
         res = query_language_modifier.gen_sdm_fields_texts("hello world how are you")
         expected_res = {'u': '#weight(\n0.9#combine(hello)\n0.1#combine(world)\n0.6#combine(how)\n0.3#combine(are)\n'
                              '0.1#combine(you)\n)\n',

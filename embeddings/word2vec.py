@@ -1,4 +1,5 @@
 import gensim
+import sys
 
 
 class Word2vec:
@@ -9,17 +10,20 @@ class Word2vec:
     def pre_trained_google_news_300_model(self):
         self.model = gensim.models.Word2Vec.load_word2vec_format('/scratch/data/GoogleNews-vectors-negative300.bin',
                                                                  binary=True)
-
-    def train_model_from_sentences(self, sentences):
-        self.model = gensim.models.Word2Vec(sentences, min_count=1)
-
     @staticmethod
     def sentences(fname):
+        sentences = []
         for line in open(fname):
-            yield line.split()
+            print(line, file=sys.stderr)
+            sentences += [line.strip().split()]
+        return sentences
 
     def gen_similar_words(self, unigram, topn):
-        res = self.model.most_similar([unigram], [], topn)
+        try:
+            res = self.model.most_similar([unigram], [], topn)
+        except KeyError:
+            res = []
+            print("\"" + unigram + "\" does not exists in word2vec model.", file=sys.stderr)
         return res
 
 
