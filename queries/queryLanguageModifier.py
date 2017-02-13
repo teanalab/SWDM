@@ -23,7 +23,7 @@ __date__ = 11 / 21 / 16
 class QueryLanguageModifier(object):
     def __init__(self, parameters):
         self.parameters = parameters
-        self.word2vec_threshold = 0.6
+        self.word2vec_threshold = self.parameters.params["word2vec"]["threshold"]
         self.embedding_space = EmbeddingSpace()
         self.expanded_sdm = ExpandedSdm(self.parameters)
 

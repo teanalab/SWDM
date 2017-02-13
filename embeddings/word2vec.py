@@ -23,7 +23,6 @@ class Word2vec:
             res = self.model.most_similar([unigram], [], topn)
         except KeyError:
             res = []
-            print("\"" + unigram + "\" does not exists in word2vec model.", file=sys.stderr)
         return res
 
 

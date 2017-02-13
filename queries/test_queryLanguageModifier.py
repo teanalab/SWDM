@@ -35,6 +35,8 @@ class TestQueryLanguageModifier(TestCase):
     def setUp(self):
         self.parameters = Parameters()
         self.parameters.params["repo_dir"] = '../index/test_files/index'
+        self.parameters.params["word2vec"] = {}
+        self.parameters.params["word2vec"]["threshold"] = 0.6
         self.parameters.params["window_size"] = {}
         self.parameters.params["window_size"]["#od"] = 4
         self.parameters.params["window_size"]["#uw"] = 17

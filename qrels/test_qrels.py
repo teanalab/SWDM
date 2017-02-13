@@ -2,7 +2,7 @@ from __future__ import print_function
 
 from unittest import TestCase
 
-from qrels import Qrels
+from qrels.qrels import Qrels
 
 
 class TestQrels(TestCase):
