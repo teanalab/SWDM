@@ -53,7 +53,7 @@ class QueryWeightsOptimizer(object):
             param_name = param_item["param_name"]
             for test_value in self.gen_test_values_offline_list(param_item):
                 params_tmp = copy.deepcopy(self.parameters.params)
-                print("param_name, weights, eval_res, best_eval_res:", param_name, test_value)
+                print("param_name, eval_res, best_eval_res:", param_name, test_value, best_eval_res)
                 self.parameters.params = self.update_nested_dict(self.parameters.params, test_value, param_name)
                 self.gen_queries()
                 eval_res = self.evaluate_queries()

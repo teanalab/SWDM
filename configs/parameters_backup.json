@@ -1,0 +1,100 @@
+{
+  "optimized_parameters_file_name": "../configs/optimized_parameters.json",
+  "repo_dir": "/scratch/index/indri_5_7/ap8889",
+  "query_files": {
+    "old_indri_query_file": "../configs/queries/ap8889.cfg",
+    "new_indri_query_file": "../configs/queries/ap8889_expanded.cfg"
+  },
+  "prf": {
+    "fb_docs": 1,
+    "fb_terms": 0
+  },
+  "indrirunquery_bin": "/home/fj9124/thirdPartyProgs/indri-5.11/build/bin/IndriRunQuery",
+  "evaluation": {
+    "measure": "map",
+    "qrels_file_name": "../configs/qrels/ap8889.txt",
+    "trec_eval_bin": "/home/fj9124/projects/ir/evaluators/trec_eval/trec_eval.9.0/trec_eval"
+  },
+  "optimization": [
+      {"param_name": ["word2vec", "threshold"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
+      {"param_name": ["word2vec", "n_max"], "initial_point": 0, "final_point": 30, "step_size": 1},
+      {"param_name": ["word2vec", "threshold"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
+      {"param_name": ["word2vec", "n_max"], "initial_point": 0, "final_point": 30, "step_size": 1},
+      {"param_name": ["window_size", "#uw"], "initial_point": 1, "final_point": 30, "step_size": 1},
+      {"param_name": ["window_size", "#od"], "initial_point": 1, "final_point": 30, "step_size": 1},
+      {"param_name": ["sdm_field_weights", "u"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
+      {"param_name": ["sdm_field_weights", "o"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
+      {"param_name": ["sdm_field_weights", "w"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
+      {"param_name": ["feature_parameters", "UnorderedBigramWeights", "uw_expression_norm_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1},
+      {"param_name": ["feature_parameters", "UnorderedBigramWeights", "uw_expression_norm_document_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1},
+      {"param_name": ["feature_parameters", "OrderedBigramWeights", "uw_expression_norm_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1},
+      {"param_name": ["feature_parameters", "OrderedBigramWeights", "uw_expression_norm_document_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1},
+      {"param_name": ["features_weights", "UnigramWeights", "norm_term_count"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
+      {"param_name": ["features_weights", "UnigramWeights", "norm_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
+      {"param_name": ["features_weights", "UnigramWeights", "uw_expression_norm_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
+      {"param_name": ["features_weights", "UnorderedBigramWeights", "uw_expression_norm_count"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
+      {"param_name": ["features_weights", "UnorderedBigramWeights", "uw_expression_norm_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
+      {"param_name": ["features_weights", "UnorderedBigramWeights", "bigrams_cosine_similarity_with_orig"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
+      {"param_name": ["features_weights", "OrderedBigramWeights", "uw_expression_norm_count"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
+      {"param_name": ["features_weights", "OrderedBigramWeights", "uw_expression_norm_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
+      {"param_name": ["features_weights", "OrderedBigramWeights", "bigrams_cosine_similarity_with_orig"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
+      {"param_name": ["expansion_coefficient"], "initial_point": 0, "final_point": 1, "step_size": 0.1}
+    ],
+  "word2vec": {
+    "threshold": 0.6,
+    "n_max": 5
+  },
+  "expansion_coefficient": 0.05,
+  "window_size": {
+    "#uw": 17,
+    "#od": 4
+  },
+  "sdm_field_weights": {
+    "u": 0.8,
+    "o": 0.1,
+    "w": 0.1
+  },
+  "feature_parameters": {
+    "UnigramWeights": {
+      "norm_term_count": {
+      },
+      "norm_document_count": {
+      },
+      "unigrams_cosine_similarity_with_orig": {
+      }
+    },
+    "UnorderedBigramWeights": {
+      "uw_expression_norm_count": {
+        "window_size": 17
+      },
+      "uw_expression_norm_document_count": {
+        "window_size": 17
+      }
+    },
+    "OrderedBigramWeights": {
+      "od_expression_norm_count": {
+        "window_size": 4
+      },
+      "od_expression_norm_document_count": {
+        "window_size": 4
+      }
+    }
+  },
+  "features_weights": {
+    "UnigramWeights": {
+      "norm_term_count": 0.33,
+      "norm_document_count": 0.33,
+      "unigrams_cosine_similarity_with_orig": 0.33
+    },
+    "UnorderedBigramWeights": {
+      "uw_expression_norm_count": 0.33,
+      "uw_expression_norm_document_count": 0.33,
+      "bigrams_cosine_similarity_with_orig": 0.33
+    },
+    "OrderedBigramWeights": {
+      "od_expression_norm_count": 0.33,
+      "od_expression_norm_document_count": 0.33,
+      "bigrams_cosine_similarity_with_orig": 0.33
+    }
+  }
+}
