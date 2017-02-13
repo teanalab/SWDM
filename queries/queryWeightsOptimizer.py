@@ -1,9 +1,8 @@
 from __future__ import print_function
 
-import operator
+import copy
 import os
 import sys
-from collections import defaultdict
 
 import numpy as np
 
@@ -11,6 +10,7 @@ sys.path.insert(0, os.path.abspath('..'))
 try:
     from queries.queriesEvaluator import QueriesEvaluator
     from queries.queryLanguageModifier import QueryLanguageModifier
+    from parameters.parameters import Parameters
 except:
     raise
 
@@ -20,61 +20,59 @@ __date__ = 11 / 22 / 16
 
 
 class QueryWeightsOptimizer(object):
-    def __init__(self, step_size):
-        self.step_size = step_size
+    def __init__(self, parameters):
+        self.parameters = parameters
+        self.query_language_modifier = QueryLanguageModifier(self.parameters)
+        self.queries_evaluator = QueriesEvaluator(self.parameters)
+
+    def update_nested_dict(self, d, u, *keys):
+        d = copy.deepcopy(d)
+        keys = keys[0]
+        if len(keys) > 1:
+            d[keys[0]] = self.update_nested_dict(d[keys[0]], u, keys[1:])
+        else:
+            d[keys[0]] = u
+        return d
+
+    def gen_queries(self):
+        self.query_language_modifier.run()
+
+    def evaluate_queries(self):
+        return self.queries_evaluator.run()
 
     @staticmethod
-    def evaluate_queries(params):
-        return QueriesEvaluator().run(**params)
+    def gen_test_values_offline_list(param_item):
+        initial_point = param_item["initial_point"]
+        final_point = param_item["final_point"]
+        step_size = param_item["step_size"]
+        return np.arange(initial_point, final_point + step_size, step_size)
 
-    @staticmethod
-    def gen_queries(params_gen, field_weights):
-        params_gen['field_weights'] = field_weights
-        QueryLanguageModifier().run(**params_gen)
+    def obtain_best_parameter_set(self):
+        self.gen_queries()
+        best_eval_res = self.evaluate_queries()
+        print("best_eval_res:", best_eval_res)
+        for param_item in self.parameters.params["optimization"]:
+            param_name = param_item["param_name"]
+            for test_value in self.gen_test_values_offline_list(param_item):
+                params_tmp = copy.deepcopy(self.parameters.params)
+                self.parameters.params = self.update_nested_dict(self.parameters.params, test_value, param_name)
+                self.gen_queries()
+                eval_res = self.evaluate_queries()
+                print("param_name, weights, eval_res, best_eval_res:", param_name, test_value, eval_res, best_eval_res)
+                if best_eval_res >= eval_res:
+                    self.parameters.params = copy.deepcopy(params_tmp)
+                else:
+                    best_eval_res = eval_res
+                    self.parameters.write_to_parameters_file(self.parameters.params["optimized_parameters_file_name"])
+        return best_eval_res
 
-    def gen_weights_offline_list(self):
-        weights_offline_list = []
-        w2 = np.arange(0, 1, self.step_size)
-        for w in w2:
-            field_weights = {
-                "SHORTABSTRACT".lower(): 1 - w,
-                "IM2TXT".lower(): w
-            }
-            weights_offline_list += [field_weights]
-        return weights_offline_list
-
-    def obtain_evals_for_weights_offline_list(self, params_gen, params_eval, weights_offline_list):
-        eval_res_dict = defaultdict()
-        for weights in weights_offline_list:
-            self.gen_queries(params_gen, field_weights=weights)
-            eval_res = self.evaluate_queries(params_eval)
-            print("weights, eval_res:", weights, eval_res)
-            eval_res_dict[frozenset(weights.items())] = eval_res
-        return eval_res_dict
-
-    def maximize_evals_for_weights_offline_list(self, params_gen, params_eval, weights_offline_list):
-        eval_res_dict = self.obtain_evals_for_weights_offline_list(params_gen, params_eval, weights_offline_list)
-        best_weights = max(eval_res_dict.items(), key=operator.itemgetter(1))[0]
-        return eval_res_dict[best_weights], best_weights
-
-    def run(self, params_gen, params_eval):
-        weights_offline_list = self.gen_weights_offline_list()
-        max_eval, best_weights = self.maximize_evals_for_weights_offline_list(params_gen, params_eval,
-                                                                              weights_offline_list)
-        return max_eval, best_weights
+    def run(self):
+        best_eval_res = self.obtain_best_parameter_set()
+        return best_eval_res
 
 
 if __name__ == "__main__":
-    params_gen_ = {"index_dir": "/scratch/index/indri_5_7/robust/",
-                   "old_indri_query_file": "../configs/queries/robust04.cfg",
-                   "new_indri_query_file":
-                       "configs/queries/robust04_expanded.cfg",
-                   "previous_runs_file": None}  # "../configs/runs/LOD_short_abstracts_for_image_extraction.dsv"}
-    params_eval_ = {'indrirunquery_bin': '/home/fj9124/thirdPartyProgs/indri-5.11/build/bin/IndriRunQuery',
-                    'trec_eval_bin': '/home/fj9124/projects/ir/evaluators/trec_eval/trec_eval.9.0/trec_eval',
-                    'query_cfg_file': params_gen_.get("new_indri_query_file"),
-                    'measure': 'map',
-                    'query_set_opt': 'SemSearch_ES'}
-    step_size_ = 0.01
-    eval_res_, weights_ = QueryWeightsOptimizer(step_size_).run(params_gen_, params_eval_)
-    print(eval_res_)
+    parameters_ = Parameters()
+    parameters_.read_from_params_file()
+    best_eval_res_ = QueryWeightsOptimizer(parameters_).run()
+    print(best_eval_res_)

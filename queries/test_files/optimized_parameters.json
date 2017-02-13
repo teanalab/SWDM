@@ -1,0 +1,26 @@
+{
+    "optimization": [
+        {
+            "param_name": [
+                "expansion_coefficient"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.1
+        },
+        {
+            "param_name": [
+                "word2vec",
+                "threshold"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.1
+        }
+    ],
+    "optimized_parameters_file_name": "test_files/optimized_parameters.json",
+    "word2vec": {
+        "threshold": 1.0
+    },
+    "expansion_coefficient": 1.0
+}

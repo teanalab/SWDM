@@ -19,6 +19,6 @@ class TestParameters(TestCase):
             },
         }
         self.parameters.params = params_
-        self.parameters.write_to_parameters_file()
+        self.parameters.write_to_parameters_file(self.parameters.params_file)
         self.parameters.read_from_params_file()
         self.assertEqual(params_, self.parameters.params)
