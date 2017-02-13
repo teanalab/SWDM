@@ -54,13 +54,12 @@ class QueriesEvaluator(object):
     def run(self):
 
         indrirunquery_bin = self.parameters.params["indrirunquery_bin"]
-        query_cfg_file = self.parameters.params["query_files"]["new_indri_query_file"]
+        query_cfg_file = self.parameters.params["query_files"]["old_indri_query_file"]
         trec_eval_bin = self.parameters.params["evaluation"]["trec_eval_bin"]
         measure = self.parameters.params["evaluation"]["measure"]
         qrels_file_name = self.parameters.params["evaluation"]["qrels_file_name"]
 
         runs = self.run_query(indrirunquery_bin, query_cfg_file)
-        print("runs =", runs)
         run_file_name = Runs().gen_runs_file_name(query_cfg_file)
         self.write_runs_to_file(runs, run_file_name)
 

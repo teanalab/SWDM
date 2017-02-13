@@ -8,6 +8,7 @@ class TestOrderedBigramWeights(TestCase):
     def setUp(self):
         self.parameters = Parameters()
         self.parameters.params["repo_dir"] = '../../index/test_files/index'
+        self.parameters.params['expansion_coefficient'] = 0.1
         self.parameters.params['feature_parameters'] = {}
         self.parameters.params['feature_parameters']['OrderedBigramWeights'] = {
             "od_expression_norm_count": {
@@ -35,5 +36,5 @@ class TestOrderedBigramWeights(TestCase):
             "unigram_nearest_neighbor_2": unigram_nearest_neighbor_2
         }
         res = ordered_bigram_weights.compute_weight("world are", term_dependent_feature_parameters)
-        expected_res = 0.23925000000000005
+        expected_res = 0.023925000000000005
         self.assertEqual(res, expected_res)

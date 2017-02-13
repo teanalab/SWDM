@@ -17,6 +17,7 @@
   "word2vec": {
     "threshold": 0.6
   },
+  "expansion_coefficient": 0.05,
   "window_size": {
     "#uw": 17,
     "#od": 4

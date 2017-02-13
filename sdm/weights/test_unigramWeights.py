@@ -8,6 +8,7 @@ class TestUnigramWeights(TestCase):
     def setUp(self):
         self.parameters = Parameters()
         self.parameters.params["repo_dir"] = '../../index/test_files/index'
+        self.parameters.params['expansion_coefficient'] = 0.1
         self.parameters.params['feature_parameters'] = {}
         self.parameters.params['feature_parameters']['UnigramWeights'] = {
             "norm_term_count": {
@@ -33,5 +34,5 @@ class TestUnigramWeights(TestCase):
             "unigram_nearest_neighbor": unigram_nearest_neighbor,
         }
         res = unigram_weights.compute_weight("world", term_dependent_feature_parameters)
-        expected_res = 0.21450000000000002
+        expected_res = 0.021450000000000004
         self.assertEqual(res, expected_res)
