@@ -12,11 +12,12 @@ class UnigramWeights(Weights):
             "norm_document_count",
             "unigrams_cosine_similarity_with_orig",
         }
-        self.feature_parameters = self.parameters.params['feature_parameters']['UnigramWeights']
-
-        self.features_weights = self.parameters.params['features_weights']['UnigramWeights']
 
     def compute_weight(self, term, term_dependent_feature_parameters):
+
+        self.feature_parameters = self.parameters.params['feature_parameters']['UnigramWeights']
+        self.features_weights = self.parameters.params['features_weights']['UnigramWeights']
+
         unigram_nearest_neighbor = term_dependent_feature_parameters["unigram_nearest_neighbor"]
         self.feature_parameters.update({
             "unigrams_cosine_similarity_with_orig": {

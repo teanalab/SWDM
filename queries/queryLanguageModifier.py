@@ -99,7 +99,9 @@ class QueryLanguageModifier(object):
     def run(self):
 
         self.embedding_space.initialize()
+        self.run_no_word2vec_initialization()
 
+    def run_no_word2vec_initialization(self):
         soup = Queries().indri_query_file_2_soup(self.parameters.params["query_files"]["old_indri_query_file"])
 
         self.update_index_dir(soup, self.parameters.params["repo_dir"])

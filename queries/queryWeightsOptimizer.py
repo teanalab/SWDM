@@ -22,6 +22,8 @@ __date__ = 11 / 22 / 16
 class QueryWeightsOptimizer(object):
     def __init__(self, parameters):
         self.parameters = parameters
+        self.query_language_modifier = QueryLanguageModifier(self.parameters)
+        self.queries_evaluator = QueriesEvaluator(self.parameters)
 
     def update_nested_dict(self, d, u, *keys):
         d = copy.deepcopy(d)
@@ -33,10 +35,10 @@ class QueryWeightsOptimizer(object):
         return d
 
     def gen_queries(self):
-        QueryLanguageModifier(self.parameters).run()
+        self.query_language_modifier.run_no_word2vec_initialization()
 
     def evaluate_queries(self):
-        return QueriesEvaluator(self.parameters).run()
+        return self.queries_evaluator.run()
 
     @staticmethod
     def gen_test_values_offline_list(param_item):
@@ -46,14 +48,14 @@ class QueryWeightsOptimizer(object):
         return np.arange(initial_point, final_point + step_size, step_size)
 
     def obtain_best_parameter_set(self):
-        self.gen_queries()
+        self.query_language_modifier.run()
         best_eval_res = self.evaluate_queries()
         print("best_eval_res:", best_eval_res)
         for param_item in self.parameters.params["optimization"]:
             param_name = param_item["param_name"]
             for test_value in self.gen_test_values_offline_list(param_item):
                 params_tmp = copy.deepcopy(self.parameters.params)
-                print("param_name, eval_res, best_eval_res:", param_name, test_value, best_eval_res)
+                print("param_name, eval_res, best_eval_res:", param_name, test_value)
                 self.parameters.params = self.update_nested_dict(self.parameters.params, test_value, param_name)
                 self.gen_queries()
                 eval_res = self.evaluate_queries()

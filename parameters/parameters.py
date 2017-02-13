@@ -1,8 +1,6 @@
 import json
 import os
 
-import sys
-
 
 class Parameters:
     params = {}

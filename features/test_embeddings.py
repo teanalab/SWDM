@@ -9,7 +9,7 @@ class TestEmbeddings(TestCase):
             'unigram_nearest_neighbor': [('hello', 1), ('world', 0.65)]
         }
 
-        res = features.embeddings.Embeddings.unigrams_cosine_similarity_with_orig('world', feature_parameters)
+        res = features.embeddings.Embeddings().unigrams_cosine_similarity_with_orig('world', feature_parameters)
         expected_res = 0.65
 
         self.assertEqual(res, expected_res)
@@ -20,7 +20,7 @@ class TestEmbeddings(TestCase):
             'unigram_nearest_neighbor_2': [('how', 1), ('are', 0.8), ('you', 0.74)]
         }
 
-        res = features.embeddings.Embeddings.bigrams_cosine_similarity_with_orig('world you', feature_parameters)
+        res = features.embeddings.Embeddings().bigrams_cosine_similarity_with_orig('world you', feature_parameters)
         expected_res = 0.6950000000000001
 
         self.assertEqual(res, expected_res)

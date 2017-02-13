@@ -13,7 +13,11 @@ class Features(Embeddings, Collection):
     def __init__(self, parameters):
         Collection.__init__(self, parameters)
         Embeddings.__init__(self)
-        self.feature_functions = {
+        self.feature_functions = {}
+
+    def linear_combination(self, term, feature_names, features_weights, feature_parameters):
+
+        self.feature_functions.update({
             "uw_expression_count": Collection.uw_expression_count,
             "od_expression_count": Collection.od_expression_count,
             "uw_expression_document_count": Collection.uw_expression_document_count,
@@ -28,9 +32,8 @@ class Features(Embeddings, Collection):
             "norm_document_count": Collection.norm_document_count,
             "unigrams_cosine_similarity_with_orig": Embeddings.unigrams_cosine_similarity_with_orig,
             "bigrams_cosine_similarity_with_orig": Embeddings.bigrams_cosine_similarity_with_orig,
-        }
+        })
 
-    def linear_combination(self, term, feature_names, features_weights, feature_parameters):
         score = 0
         for feature_name in feature_names:
             feature_parameters_ = feature_parameters[feature_name]

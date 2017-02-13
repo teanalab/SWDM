@@ -10,6 +10,7 @@ class Word2vec:
     def pre_trained_google_news_300_model(self):
         self.model = gensim.models.Word2Vec.load_word2vec_format('/scratch/data/GoogleNews-vectors-negative300.bin',
                                                                  binary=True)
+
     @staticmethod
     def sentences(fname):
         sentences = []
