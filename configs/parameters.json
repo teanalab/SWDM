@@ -16,9 +16,10 @@
     "trec_eval_bin": "/home/fj9124/projects/ir/evaluators/trec_eval/trec_eval.9.0/trec_eval"
   },
   "optimization": [
-      {"param_name": ["expansion_coefficient"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
-      {"param_name": ["word2vec", "threshold"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
-      {"param_name": ["expansion_coefficient"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
+      {"param_name": ["word2vec", "threshold"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
+      {"param_name": ["word2vec", "n_max"], "initial_point": 0, "final_point": 30, "step_size": 1},
+      {"param_name": ["word2vec", "threshold"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
+      {"param_name": ["word2vec", "n_max"], "initial_point": 0, "final_point": 30, "step_size": 1},
       {"param_name": ["window_size", "#uw"], "initial_point": 1, "final_point": 30, "step_size": 1},
       {"param_name": ["window_size", "#od"], "initial_point": 1, "final_point": 30, "step_size": 1},
       {"param_name": ["sdm_field_weights", "u"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
@@ -36,10 +37,12 @@
       {"param_name": ["features_weights", "UnorderedBigramWeights", "bigrams_cosine_similarity_with_orig"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
       {"param_name": ["features_weights", "OrderedBigramWeights", "uw_expression_norm_count"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
       {"param_name": ["features_weights", "OrderedBigramWeights", "uw_expression_norm_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
-      {"param_name": ["features_weights", "OrderedBigramWeights", "bigrams_cosine_similarity_with_orig"], "initial_point": 0, "final_point": 1, "step_size": 0.1}
+      {"param_name": ["features_weights", "OrderedBigramWeights", "bigrams_cosine_similarity_with_orig"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
+      {"param_name": ["expansion_coefficient"], "initial_point": 0, "final_point": 1, "step_size": 0.1}
     ],
   "word2vec": {
-    "threshold": 0.6
+    "threshold": 0.6,
+    "n_max": 5
   },
   "expansion_coefficient": 0.05,
   "window_size": {

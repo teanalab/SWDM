@@ -5,9 +5,10 @@ import sys
 
 
 class Parameters:
+    params = {}
+
     def __init__(self):
         self.params_file = "../configs/parameters.json"
-        self.params = {}
 
     def write_to_parameters_file(self, new_params_file):
         json.dump(self.params, open(new_params_file, 'w'), indent=4)

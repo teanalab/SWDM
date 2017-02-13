@@ -81,6 +81,7 @@ class TestQueryLanguageModifier(TestCase):
             "od_expression_norm_document_count": 0.33,
             "bigrams_cosine_similarity_with_orig": 0.33
         }
+        self.parameters.params["word2vec"] = {"threshold": 0.6, "n_max": 5}
 
     def test_gen_combine_fields_text(self):
         field_weights = {

@@ -23,8 +23,7 @@ __date__ = 11 / 21 / 16
 class QueryLanguageModifier(object):
     def __init__(self, parameters):
         self.parameters = parameters
-        self.word2vec_threshold = self.parameters.params["word2vec"]["threshold"]
-        self.embedding_space = EmbeddingSpace()
+        self.embedding_space = EmbeddingSpace(self.parameters)
         self.expanded_sdm = ExpandedSdm(self.parameters)
 
     @staticmethod
@@ -34,8 +33,7 @@ class QueryLanguageModifier(object):
 
     def gen_sdm_fields_texts(self, text):
         sdm_fields_texts = dict()
-        unigrams_in_embedding_space = self.embedding_space.find_unigrams_in_embedding_space(text,
-                                                                                            self.word2vec_threshold)
+        unigrams_in_embedding_space = self.embedding_space.find_unigrams_in_embedding_space(text)
         sdm_fields_texts['u'] = self.expanded_sdm.gen_sdm_field_1_text(unigrams_in_embedding_space, "#combine")
         sdm_fields_texts['o'] = self.expanded_sdm.gen_sdm_field_1_text(unigrams_in_embedding_space, "#od")
         sdm_fields_texts['w'] = self.expanded_sdm.gen_sdm_field_1_text(unigrams_in_embedding_space, "#uw")
