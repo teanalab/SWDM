@@ -1,5 +1,11 @@
 {
-    "norm_term_count": {},
-    "norm_document_count": {},
-    "unigrams_cosine_similarity_with_orig": {}
+    "norm_term_count": {
+        "abc": 0.0
+    },
+    "norm_document_count": {
+        "edc": 12
+    },
+    "unigrams_cosine_similarity_with_orig": {
+        "def": 1.2
+    }
 }

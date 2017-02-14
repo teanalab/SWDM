@@ -17,4 +17,4 @@ class UnorderedBigramWeights(BigramWeights):
 
         self.features_weights.update(self.parameters.params['features_weights']['UnorderedBigramWeights'])
 
-        BigramWeights.compute_weight(self, term, term_dependent_feature_parameters)
+        return BigramWeights.compute_weight(self, term, term_dependent_feature_parameters)

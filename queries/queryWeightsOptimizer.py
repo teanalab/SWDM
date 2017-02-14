@@ -26,6 +26,10 @@ class QueryWeightsOptimizer(object):
         self.queries_evaluator = QueriesEvaluator(self.parameters)
 
     def update_nested_dict(self, d, u, *keys):
+        if isinstance(u, np.int64):
+            u = int(u)
+        elif isinstance(u, np.float64):
+            u = float(u)
         d = copy.deepcopy(d)
         keys = keys[0]
         if len(keys) > 1:
@@ -55,7 +59,7 @@ class QueryWeightsOptimizer(object):
             param_name = param_item["param_name"]
             for test_value in self.gen_test_values_offline_list(param_item):
                 params_tmp = copy.deepcopy(self.parameters.params)
-                print("param_name, eval_res, best_eval_res:", param_name, test_value)
+                print("param_name, eval_res, best_eval_res:", param_name, test_value, best_eval_res)
                 self.parameters.params = self.update_nested_dict(self.parameters.params, test_value, param_name)
                 self.gen_queries()
                 eval_res = self.evaluate_queries()
