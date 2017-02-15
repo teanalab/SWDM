@@ -49,7 +49,7 @@ class QueryWeightsOptimizer(object):
         initial_point = param_item["initial_point"]
         final_point = param_item["final_point"]
         step_size = param_item["step_size"]
-        return np.arange(initial_point, final_point + step_size, step_size)
+        return np.arange(initial_point, final_point , step_size)
 
     def obtain_best_parameter_set(self):
         self.query_language_modifier.run()

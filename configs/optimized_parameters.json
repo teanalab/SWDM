@@ -18,56 +18,30 @@
     "optimization": [
         {
             "param_name": [
-                "window_size",
-                "#uw"
-            ],
-            "initial_point": 1,
-            "final_point": 30,
-            "step_size": 1
-        },
-        {
-            "param_name": [
-                "window_size",
-                "#od"
-            ],
-            "initial_point": 1,
-            "final_point": 30,
-            "step_size": 1
-        },
-        {
-            "param_name": [
                 "sdm_field_weights",
                 "u"
             ],
-            "initial_point": 0,
+            "initial_point": 0.901,
             "final_point": 1,
-            "step_size": 0.1
+            "step_size": 0.01
         },
         {
             "param_name": [
                 "sdm_field_weights",
                 "o"
             ],
-            "initial_point": 0,
-            "final_point": 1,
-            "step_size": 0.1
+            "initial_point": 0.001,
+            "final_point": 0.2,
+            "step_size": 0.01
         },
         {
             "param_name": [
                 "sdm_field_weights",
                 "w"
             ],
-            "initial_point": 0,
-            "final_point": 1,
-            "step_size": 0.1
-        },
-        {
-            "param_name": [
-                "expansion_coefficient"
-            ],
-            "initial_point": 0.7,
-            "final_point": 1,
-            "step_size": 0.02
+            "initial_point": 0.001,
+            "final_point": 0.2,
+            "step_size": 0.01
         },
         {
             "param_name": [
@@ -117,8 +91,8 @@
             "param_name": [
                 "expansion_coefficient"
             ],
-            "initial_point": 0.7,
-            "final_point": 1,
+            "initial_point": 0.001,
+            "final_point": 0.3,
             "step_size": 0.02
         },
         {
@@ -127,7 +101,7 @@
                 "UnigramWeights",
                 "norm_term_count"
             ],
-            "initial_point": 0,
+            "initial_point": 0.001,
             "final_point": 1,
             "step_size": 0.1
         },
@@ -137,7 +111,7 @@
                 "UnigramWeights",
                 "norm_document_count"
             ],
-            "initial_point": 0,
+            "initial_point": 0.001,
             "final_point": 1,
             "step_size": 0.1
         },
@@ -147,7 +121,7 @@
                 "UnigramWeights",
                 "uw_expression_norm_document_count"
             ],
-            "initial_point": 0,
+            "initial_point": 0.001,
             "final_point": 1,
             "step_size": 0.1
         },
@@ -157,7 +131,7 @@
                 "UnorderedBigramWeights",
                 "uw_expression_norm_count"
             ],
-            "initial_point": 0,
+            "initial_point": 0.001,
             "final_point": 1,
             "step_size": 0.1
         },
@@ -167,7 +141,7 @@
                 "UnorderedBigramWeights",
                 "uw_expression_norm_document_count"
             ],
-            "initial_point": 0,
+            "initial_point": 0.001,
             "final_point": 1,
             "step_size": 0.1
         },
@@ -177,7 +151,7 @@
                 "UnorderedBigramWeights",
                 "bigrams_cosine_similarity_with_orig"
             ],
-            "initial_point": 0,
+            "initial_point": 0.001,
             "final_point": 1,
             "step_size": 0.1
         },
@@ -187,7 +161,7 @@
                 "OrderedBigramWeights",
                 "od_expression_norm_count"
             ],
-            "initial_point": 0,
+            "initial_point": 0.001,
             "final_point": 1,
             "step_size": 0.1
         },
@@ -197,7 +171,7 @@
                 "OrderedBigramWeights",
                 "od_expression_norm_document_count"
             ],
-            "initial_point": 0,
+            "initial_point": 0.001,
             "final_point": 1,
             "step_size": 0.1
         },
@@ -207,7 +181,7 @@
                 "OrderedBigramWeights",
                 "bigrams_cosine_similarity_with_orig"
             ],
-            "initial_point": 0,
+            "initial_point": 0.001,
             "final_point": 1,
             "step_size": 0.1
         },
@@ -215,8 +189,8 @@
             "param_name": [
                 "expansion_coefficient"
             ],
-            "initial_point": 0.7,
-            "final_point": 1,
+            "initial_point": 0.001,
+            "final_point": 0.3,
             "step_size": 0.02
         },
         {
@@ -236,6 +210,24 @@
             "initial_point": 0.4,
             "final_point": 1,
             "step_size": 0.05
+        },
+        {
+            "param_name": [
+                "window_size",
+                "#uw"
+            ],
+            "initial_point": 1,
+            "final_point": 30,
+            "step_size": 1
+        },
+        {
+            "param_name": [
+                "window_size",
+                "#od"
+            ],
+            "initial_point": 1,
+            "final_point": 30,
+            "step_size": 1
         }
     ],
     "word2vec": {
@@ -248,9 +240,9 @@
         "#od": 7
     },
     "sdm_field_weights": {
-        "u": 0.8,
-        "o": 0.1,
-        "w": 0.1
+        "u": 0.9510000000000001,
+        "o": 0.07,
+        "w": 0.11
     },
     "feature_parameters": {
         "UnigramWeights": {
@@ -259,8 +251,20 @@
             "unigrams_cosine_similarity_with_orig": {
                 "unigram_nearest_neighbor": [
                     [
-                        "financ",
+                        "Technology",
                         1
+                    ],
+                    [
+                        "Technolgy",
+                        0.6658780574798584
+                    ],
+                    [
+                        "Techonology",
+                        0.6417951583862305
+                    ],
+                    [
+                        "Techology",
+                        0.6204392910003662
                     ]
                 ]
             }
