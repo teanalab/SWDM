@@ -18,33 +18,6 @@
     "optimization": [
         {
             "param_name": [
-                "word2vec",
-                "n_max"
-            ],
-            "initial_point": 0,
-            "final_point": 30,
-            "step_size": 1
-        },
-        {
-            "param_name": [
-                "word2vec",
-                "threshold"
-            ],
-            "initial_point": 0,
-            "final_point": 1,
-            "step_size": 0.05
-        },
-        {
-            "param_name": [
-                "word2vec",
-                "n_max"
-            ],
-            "initial_point": 0,
-            "final_point": 30,
-            "step_size": 1
-        },
-        {
-            "param_name": [
                 "window_size",
                 "#uw"
             ],
@@ -90,6 +63,14 @@
         },
         {
             "param_name": [
+                "expansion_coefficient"
+            ],
+            "initial_point": 0.7,
+            "final_point": 1,
+            "step_size": 0.02
+        },
+        {
+            "param_name": [
                 "feature_parameters",
                 "UnorderedBigramWeights",
                 "uw_expression_norm_count",
@@ -131,6 +112,14 @@
             "initial_point": 1,
             "final_point": 30,
             "step_size": 1
+        },
+        {
+            "param_name": [
+                "expansion_coefficient"
+            ],
+            "initial_point": 0.7,
+            "final_point": 1,
+            "step_size": 0.02
         },
         {
             "param_name": [
@@ -226,19 +215,37 @@
             "param_name": [
                 "expansion_coefficient"
             ],
-            "initial_point": 0,
+            "initial_point": 0.7,
             "final_point": 1,
-            "step_size": 0.1
+            "step_size": 0.02
+        },
+        {
+            "param_name": [
+                "word2vec",
+                "n_max"
+            ],
+            "initial_point": 20,
+            "final_point": 40,
+            "step_size": 2
+        },
+        {
+            "param_name": [
+                "word2vec",
+                "threshold"
+            ],
+            "initial_point": 0.4,
+            "final_point": 1,
+            "step_size": 0.05
         }
     ],
     "word2vec": {
         "threshold": 0.6,
-        "n_max": 24
+        "n_max": 25
     },
-    "expansion_coefficient": 0.05,
+    "expansion_coefficient": 0.1,
     "window_size": {
-        "#uw": 17,
-        "#od": 4
+        "#uw": 2,
+        "#od": 7
     },
     "sdm_field_weights": {
         "u": 0.8,
