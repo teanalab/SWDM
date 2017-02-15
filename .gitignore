@@ -89,3 +89,8 @@ ENV/
 .ropeproject
 
 .idea/
+configs/evals/
+configs/qrels/
+configs/queries/
+configs/runs/
+
