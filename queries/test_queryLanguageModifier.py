@@ -122,6 +122,30 @@ class TestQueryLanguageModifier(TestCase):
                        ")\n"
         self.assertEqual(res, expected_res)
 
+        field_weights = {
+            "u": 0.8,
+            "o": 0.1,
+            "w": 0.0
+        }
+
+        res = query_language_modifier.gen_combine_fields_text(field_weights, field_texts)
+        expected_res = "#weight(\n" \
+                       "0.8#weight(\n" \
+                       "0.1#combine(hello)\n" \
+                       "0.2#combine(world)\n" \
+                       "0.3#combine(how)\n" \
+                       "0.4#combine(are)\n" \
+                       "0.5#combine(you)\n" \
+                       ")\n" \
+                       "0.1#weight(\n" \
+                       "0.1#od4(hello world)\n" \
+                       "0.2#od4(world how)\n" \
+                       "0.3#od4(how are)\n" \
+                       "0.4#od4(are you)\n" \
+                       ")\n" \
+                       ")\n"
+        self.assertEqual(res, expected_res)
+
     def test_gen_sdm_fields_texts(self):
         query_language_modifier = QueryLanguageModifier(self.parameters)
         query_language_modifier.expanded_sdm.compute_weight_sdm_unigrams = MagicMock(

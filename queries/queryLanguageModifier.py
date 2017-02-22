@@ -43,9 +43,10 @@ class QueryLanguageModifier(object):
     def gen_combine_fields_text(field_weights, field_texts):
         new_q_text = "#weight(\n"
         for field_name, field_weight in field_weights.items():
-            q_text = field_texts.get(field_name)
-            combine_text = str(field_weight) + q_text
-            new_q_text += combine_text
+            if field_weight > 0:
+                q_text = field_texts.get(field_name)
+                combine_text = str(field_weight) + q_text
+                new_q_text += combine_text
         new_q_text += ")\n"
         return new_q_text
 

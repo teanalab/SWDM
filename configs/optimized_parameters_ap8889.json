@@ -1,0 +1,386 @@
+{
+    "optimized_parameters_file_name": "../configs/optimized_parameters.json",
+    "repo_dir": "/scratch/index/indri_5_7/ap8889",
+    "query_files": {
+        "old_indri_query_file": "../configs/queries/ap8889.cfg",
+        "new_indri_query_file": "../configs/queries/ap8889_expanded.cfg"
+    },
+    "prf": {
+        "fb_docs": 1,
+        "fb_terms": 0
+    },
+    "indrirunquery_bin": "/home/fj9124/thirdPartyProgs/indri-5.11/build/bin/IndriRunQuery",
+    "evaluation": {
+        "measure": "map",
+        "qrels_file_name": "../configs/qrels/ap8889.txt",
+        "trec_eval_bin": "/home/fj9124/projects/ir/evaluators/trec_eval/trec_eval.9.0/trec_eval"
+    },
+    "optimization": [
+        {
+            "param_name": [
+                "features_weights",
+                "UnigramWeights",
+                "unigrams_cosine_similarity_with_orig"
+            ],
+            "initial_point": -1.001,
+            "final_point": 1,
+            "step_size": 0.02
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "UnigramWeights",
+                "norm_term_count"
+            ],
+            "initial_point": -0.101,
+            "final_point": 0.1,
+            "step_size": 0.01
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "UnigramWeights",
+                "norm_document_count"
+            ],
+            "initial_point": -1.001,
+            "final_point": 1,
+            "step_size": 0.01
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "UnorderedBigramWeights",
+                "uw_expression_norm_count"
+            ],
+            "initial_point": -1.001,
+            "final_point": 1,
+            "step_size": 0.02
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "UnorderedBigramWeights",
+                "uw_expression_norm_document_count"
+            ],
+            "initial_point": -1.001,
+            "final_point": 1,
+            "step_size": 0.02
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "UnorderedBigramWeights",
+                "bigrams_cosine_similarity_with_orig"
+            ],
+            "initial_point": -1.001,
+            "final_point": 1,
+            "step_size": 0.02
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "OrderedBigramWeights",
+                "od_expression_norm_count"
+            ],
+            "initial_point": -1.001,
+            "final_point": 1,
+            "step_size": 0.02
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "OrderedBigramWeights",
+                "od_expression_norm_document_count"
+            ],
+            "initial_point": -1.001,
+            "final_point": 1,
+            "step_size": 0.02
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "OrderedBigramWeights",
+                "bigrams_cosine_similarity_with_orig"
+            ],
+            "initial_point": -1.001,
+            "final_point": 1,
+            "step_size": 0.02
+        },
+        {
+            "param_name": [
+                "feature_parameters",
+                "UnorderedBigramWeights",
+                "uw_expression_norm_count",
+                "window_size"
+            ],
+            "initial_point": 1,
+            "final_point": 30,
+            "step_size": 1
+        },
+        {
+            "param_name": [
+                "feature_parameters",
+                "UnorderedBigramWeights",
+                "uw_expression_norm_document_count",
+                "window_size"
+            ],
+            "initial_point": 1,
+            "final_point": 30,
+            "step_size": 1
+        },
+        {
+            "param_name": [
+                "feature_parameters",
+                "OrderedBigramWeights",
+                "od_expression_norm_count",
+                "window_size"
+            ],
+            "initial_point": 1,
+            "final_point": 30,
+            "step_size": 1
+        },
+        {
+            "param_name": [
+                "feature_parameters",
+                "OrderedBigramWeights",
+                "od_expression_norm_document_count",
+                "window_size"
+            ],
+            "initial_point": 1,
+            "final_point": 30,
+            "step_size": 1
+        },
+        {
+            "param_name": [
+                "expansion_coefficient"
+            ],
+            "initial_point": 0.001,
+            "final_point": 0.3,
+            "step_size": 0.02
+        },
+        {
+            "param_name": [
+                "word2vec",
+                "n_max"
+            ],
+            "initial_point": 20,
+            "final_point": 40,
+            "step_size": 2
+        },
+        {
+            "param_name": [
+                "word2vec",
+                "threshold"
+            ],
+            "initial_point": 0.4,
+            "final_point": 1,
+            "step_size": 0.05
+        },
+        {
+            "param_name": [
+                "window_size",
+                "#uw"
+            ],
+            "initial_point": 1,
+            "final_point": 30,
+            "step_size": 1
+        },
+        {
+            "param_name": [
+                "window_size",
+                "#od"
+            ],
+            "initial_point": 1,
+            "final_point": 30,
+            "step_size": 1
+        },
+        {
+            "param_name": [
+                "sdm_field_weights",
+                "u"
+            ],
+            "initial_point": 0.001,
+            "final_point": 1,
+            "step_size": 0.01
+        },
+        {
+            "param_name": [
+                "sdm_field_weights",
+                "o"
+            ],
+            "initial_point": 0.001,
+            "final_point": 1,
+            "step_size": 0.01
+        },
+        {
+            "param_name": [
+                "sdm_field_weights",
+                "w"
+            ],
+            "initial_point": 0.001,
+            "final_point": 1,
+            "step_size": 0.01
+        }
+    ],
+    "word2vec": {
+        "threshold": 0.4,
+        "n_max": 36
+    },
+    "expansion_coefficient": 0.061,
+    "window_size": {
+        "#uw": 18,
+        "#od": 3
+    },
+    "sdm_field_weights": {
+        "u": 0.9910000000000001,
+        "o": 0.001,
+        "w": 0.24099999999999996
+    },
+    "feature_parameters": {
+        "UnigramWeights": {
+            "norm_term_count": {},
+            "norm_document_count": {},
+            "unigrams_cosine_similarity_with_orig": {
+                "unigram_nearest_neighbor": [
+                    [
+                        "Technology",
+                        1
+                    ],
+                    [
+                        "Technolgy",
+                        0.6658780574798584
+                    ],
+                    [
+                        "Techonology",
+                        0.6417951583862305
+                    ],
+                    [
+                        "Techology",
+                        0.6204392910003662
+                    ],
+                    [
+                        "Innovation",
+                        0.5914708375930786
+                    ],
+                    [
+                        "technology",
+                        0.5899151563644409
+                    ],
+                    [
+                        "Technologies",
+                        0.5689086318016052
+                    ],
+                    [
+                        "Applied",
+                        0.56825852394104
+                    ],
+                    [
+                        "Engineering",
+                        0.5649501085281372
+                    ],
+                    [
+                        "Innovations",
+                        0.546168327331543
+                    ],
+                    [
+                        "Biotechnology",
+                        0.5409557819366455
+                    ],
+                    [
+                        "Microelectronics",
+                        0.5396552085876465
+                    ],
+                    [
+                        "Computing",
+                        0.5357636213302612
+                    ],
+                    [
+                        "NanoTechnology",
+                        0.5349684953689575
+                    ],
+                    [
+                        "Techologies",
+                        0.5295495986938477
+                    ],
+                    [
+                        "Nanomanufacturing",
+                        0.5196930170059204
+                    ],
+                    [
+                        "Technical",
+                        0.5176039934158325
+                    ],
+                    [
+                        "MicroSystems",
+                        0.5159964561462402
+                    ],
+                    [
+                        "Bioscience",
+                        0.5159092545509338
+                    ],
+                    [
+                        "Science",
+                        0.5153551697731018
+                    ],
+                    [
+                        "MicroElectronics",
+                        0.5150632262229919
+                    ],
+                    [
+                        "Microfabrication",
+                        0.5110900402069092
+                    ],
+                    [
+                        "Technological",
+                        0.5045571327209473
+                    ],
+                    [
+                        "Microtechnologies",
+                        0.5023666620254517
+                    ],
+                    [
+                        "Bionanotechnology",
+                        0.49825263023376465
+                    ],
+                    [
+                        "Sciencein",
+                        0.4977821409702301
+                    ]
+                ]
+            }
+        },
+        "UnorderedBigramWeights": {
+            "uw_expression_norm_count": {
+                "window_size": 18
+            },
+            "uw_expression_norm_document_count": {
+                "window_size": 17
+            }
+        },
+        "OrderedBigramWeights": {
+            "od_expression_norm_count": {
+                "window_size": 9
+            },
+            "od_expression_norm_document_count": {
+                "window_size": 4
+            }
+        }
+    },
+    "features_weights": {
+        "UnigramWeights": {
+            "norm_term_count": -0.09100000000000001,
+            "norm_document_count": 0.3490000000000013,
+            "unigrams_cosine_similarity_with_orig": 0.5190000000000015
+        },
+        "UnorderedBigramWeights": {
+            "uw_expression_norm_count": -0.12099999999999911,
+            "uw_expression_norm_document_count": 0.29900000000000126,
+            "bigrams_cosine_similarity_with_orig": 0.33
+        },
+        "OrderedBigramWeights": {
+            "od_expression_norm_count": -0.20099999999999918,
+            "od_expression_norm_document_count": 0.33,
+            "bigrams_cosine_similarity_with_orig": 0.3190000000000013
+        }
+    }
+}
