@@ -1,5 +1,4 @@
 import pyndri
-import sys
 
 
 class Index:

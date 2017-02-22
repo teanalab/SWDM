@@ -1,15 +1,26 @@
+import sys
+
 from embeddings.word2vec import Word2vec
+from index.index import Index
 
 
 class EmbeddingSpace:
     def __init__(self, parameters):
         self.parameters = parameters
         self.word2vec = Word2vec()
-        se
+        self.index_ = Index(self.parameters)
 
     def initialize(self):
         self.word2vec.pre_trained_google_news_300_model()
         print("word2vec model obtained.")
+
+    def check_if_already_stem_exists(self, unigrams_in_embedding_space_pruned, unigram, orig_unigram):
+        if self.index_.check_if_have_same_stem(unigram, orig_unigram):
+            return True
+        for (other_unigram, distance) in unigrams_in_embedding_space_pruned:
+            if self.index_.check_if_have_same_stem(other_unigram, unigram):
+                return True
+        return False
 
     def find_unigrams_in_embedding_space_1(self, word2vec, orig_unigram):
         word2vec_threshold = self.parameters.params["word2vec"]["threshold"]
@@ -19,10 +30,12 @@ class EmbeddingSpace:
         unigrams_in_embedding_space_pruned = []
         word2vec_n = 1
         for (unigram, distance) in unigrams_in_embedding_space:
+            unigram = str(unigram)
             if word2vec_n > word2vec_n_max:
                 break
-            if distance > word2vec_threshold and "_" not in unigram and unigram.isalpha() and :
-                unigrams_in_embedding_space_pruned += [(str(unigram), distance)]
+            if distance > word2vec_threshold and "_" not in unigram and unigram.isalpha() and\
+                    not self.index_.check_if_have_same_stem(unigram, orig_unigram):
+                unigrams_in_embedding_space_pruned += [(unigram, distance)]
                 word2vec_n += 1
         return unigrams_in_embedding_space_pruned
 
