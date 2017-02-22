@@ -28,3 +28,7 @@ class TestIndex(TestCase):
 
     def test_document_count(self):
         self.assertEqual(self.index_.document_count("dog"), 1)
+
+    def test_check_if_have_same_stem(self):
+        self.assertEqual(self.index_.check_if_have_same_stem("goes", "goe"), True)
+        self.assertEqual(self.index_.check_if_have_same_stem("goes", "g"), False)

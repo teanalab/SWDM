@@ -1,7 +1,5 @@
 from unittest import TestCase
 
-import sys
-
 from embeddings.embedding_space import EmbeddingSpace
 from parameters.parameters import Parameters
 

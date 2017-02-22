@@ -40,8 +40,8 @@
       {"param_name": ["feature_parameters", "OrderedBigramWeights", "od_expression_norm_document_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1}
   ],
     "word2vec": {
-        "threshold": 0.4,
-        "n_max": 36
+        "threshold": 0.6,
+        "n_max": 4
     },
     "expansion_coefficient": 0.061,
     "window_size": {

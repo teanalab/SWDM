@@ -1,10 +1,14 @@
 import pyndri
+import sys
 
 
 class Index:
     def __init__(self, parameters):
         self.repo_dir = parameters.params['repo_dir']
         self.index = pyndri.Index(self.repo_dir)
+
+    def check_if_have_same_stem(self, unigram1, unigram2):
+        return self.index.process_term(unigram1) == self.index.process_term(unigram2)
 
     def expression_count(self, term, operator, window_size):
         query = operator + str(window_size) + "(" + term + ")"
