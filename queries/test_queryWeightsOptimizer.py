@@ -9,6 +9,8 @@ from queries.queryWeightsOptimizer import QueryWeightsOptimizer
 class TestQueryWeightsOptimizer(TestCase):
     def setUp(self):
         self.parameters = Parameters()
+        self.parameters.params["query_files"] = {"old_indri_query_file": "test_files/indri_query.cfg"}
+        self.parameters.params["cross_validation"] = {"number_of_folds": 3, "testing_fold": 1}
         self.parameters.params["repo_dir"] = '../index/test_files/index'
         self.parameters.params["word2vec"] = {}
         self.parameters.params["word2vec"]["threshold"] = 0.6
@@ -58,19 +60,25 @@ class TestQueryWeightsOptimizer(TestCase):
         }
         self.parameters.params["word2vec"] = {"threshold": 0.6, "n_max": 5}
 
+        self.parameters.params["sdm_field_weights"] = {
+            "u": 0.9,
+            "o": 0.05,
+            "w": 0.05
+        }
+
         self.query_weights_optimizer = QueryWeightsOptimizer(self.parameters)
 
-    def test_update_nested_map(self):
+    def test_update_params_nested_dict(self):
         d = {'m': {'d': {'v': {'w': 1}}}}
-        res = self.query_weights_optimizer.update_nested_dict(d, 10, ['m', 'd', 'v', 'w'])
+        res = self.query_weights_optimizer.update_params_nested_dict(d, 10, ['m', 'd', 'v', 'w'])
         expected_res = {'m': {'d': {'v': {'w': 10}}}}
         self.assertEqual(res, expected_res)
 
-        res = self.query_weights_optimizer.update_nested_dict(d, 10, ['m', 'd', 'v', 'z'])
+        res = self.query_weights_optimizer.update_params_nested_dict(d, 10, ['m', 'd', 'v', 'z'])
         expected_res = {'m': {'d': {'v': {'w': 1, 'z': 10}}}}
         self.assertEqual(res, expected_res)
 
-        res = self.query_weights_optimizer.update_nested_dict(d, 10, ['m', 'd', 'l'])
+        res = self.query_weights_optimizer.update_params_nested_dict(d, 10, ['m', 'd', 'l'])
         expected_res = {'m': {'d': {'v': {'w': 1}, 'l': 10}}}
         self.assertEqual(res, expected_res)
 
@@ -86,6 +94,9 @@ class TestQueryWeightsOptimizer(TestCase):
 
         query_weights_optimizer.gen_queries = MagicMock(return_value=None)
         query_weights_optimizer.evaluate_queries = MagicMock(return_value=0.25)
+        query_weights_optimizer.query_language_modifier.embedding_space.initialize = MagicMock(return_value=None)
+        query_weights_optimizer.query_language_modifier.run = MagicMock(return_value=None)
+
         eval_res_dict = query_weights_optimizer.obtain_best_parameter_set()
 
         self.assertEqual(eval_res_dict, 0.25)

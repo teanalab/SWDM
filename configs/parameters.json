@@ -9,6 +9,10 @@
     "fb_docs": 1,
     "fb_terms": 0
   },
+  "cross_validation": {
+    "number_of_folds": 3,
+    "testing_fold": 1
+  },
   "indrirunquery_bin": "/home/fj9124/thirdPartyProgs/indri-5.11/build/bin/IndriRunQuery",
   "evaluation": {
     "measure": "map",
@@ -16,9 +20,11 @@
     "trec_eval_bin": "/home/fj9124/projects/ir/evaluators/trec_eval/trec_eval.9.0/trec_eval"
   },
   "optimization": [
-      {"param_name": ["word2vec", "n_max"], "initial_point": 1, "final_point": 20, "step_size": 2},
-      {"param_name": ["word2vec", "threshold"], "initial_point": 0.4, "final_point": 1, "step_size": 0.05},
-      {"param_name": ["expansion_coefficient"], "initial_point": 0.001, "final_point": 0.3, "step_size": 0.02},
+      {"param_name": ["word2vec", "n_max"], "initial_point": 1, "final_point": 40, "step_size": 1},
+      {"param_name": ["word2vec", "threshold"], "initial_point": 0.3, "final_point": 1, "step_size": 0.05},
+      {"param_name": ["word2vec", "n_max"], "initial_point": 1, "final_point": 40, "step_size": 1},
+      {"param_name": ["word2vec", "threshold"], "initial_point": 0.3, "final_point": 1, "step_size": 0.05},
+      {"param_name": ["expansion_coefficient"], "initial_point": 0.005, "final_point": 0.3, "step_size": 0.005},
       {"param_name": ["window_size", "#uw"], "initial_point": 1, "final_point": 30, "step_size": 1},
       {"param_name": ["window_size", "#od"], "initial_point": 1, "final_point": 30, "step_size": 1},
       {"param_name": ["sdm_field_weights", "u"], "initial_point": 0.001, "final_point": 1, "step_size": 0.01},
@@ -40,10 +46,10 @@
       {"param_name": ["features_weights", "OrderedBigramWeights", "bigrams_cosine_similarity_with_orig"], "initial_point": -1.001, "final_point": 1, "step_size": 0.02}
   ],
     "word2vec": {
-        "threshold": 0.6,
-        "n_max": 5
+        "threshold": 0.4,
+        "n_max": 36
     },
-    "expansion_coefficient": 0.061,
+    "expansion_coefficient": 0.005,
     "window_size": {
         "#uw": 18,
         "#od": 3
@@ -80,7 +86,7 @@
         "UnigramWeights": {
             "norm_term_count": 0.0789999999999999,
             "norm_document_count": -0.09099999999999908,
-            "unigrams_cosine_similarity_with_orig": -1.001
+            "unigrams_cosine_similarity_with_orig": 0.5190000000000015
         },
         "UnorderedBigramWeights": {
             "uw_expression_norm_count": -0.060999999999999055,

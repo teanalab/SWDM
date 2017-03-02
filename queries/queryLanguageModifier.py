@@ -3,6 +3,7 @@ import re
 import sys
 
 from bs4 import BeautifulSoup
+from sklearn.model_selection import KFold
 
 from embeddings.embedding_space import EmbeddingSpace
 from parameters.parameters import Parameters
@@ -30,6 +31,28 @@ class QueryLanguageModifier(object):
     def find_all_queries(soup):
         queries = soup.findAll("query")
         return queries
+
+    def get_query_numbers_to_keep(self, queries, is_test):
+
+        query_numbers = [q.find("number").string for q in queries]
+
+        number_of_folds = int(self.parameters.params["cross_validation"]["number_of_folds"])
+        testing_fold = int(self.parameters.params["cross_validation"]["testing_fold"])
+
+        kf = KFold(n_splits=number_of_folds, random_state=0, shuffle=True)
+
+        all_kf_indices = list(kf.split(query_numbers))
+
+        if is_test:
+            return [query_numbers[i] for i in all_kf_indices[testing_fold][1]]
+        else:
+            return [query_numbers[i] for i in all_kf_indices[testing_fold][0]]
+
+    @staticmethod
+    def keep_cv_queries(queries, query_numbers_to_keep):
+        for q in queries:
+            if q.find("number").string not in query_numbers_to_keep:
+                q.decompose()
 
     def gen_sdm_fields_texts(self, text):
         sdm_fields_texts = dict()
@@ -97,17 +120,22 @@ class QueryLanguageModifier(object):
             fb_docs_tag.string = str(fb_docs)
             soup_parameters.append(fb_docs_tag)
 
-    def run(self):
+    def run(self, is_test):
 
         self.embedding_space.initialize()
-        self.run_no_word2vec_initialization()
+        self.run_no_word2vec_initialization(is_test)
 
-    def run_no_word2vec_initialization(self):
+    def run_no_word2vec_initialization(self, is_test):
         soup = Queries().indri_query_file_2_soup(self.parameters.params["query_files"]["old_indri_query_file"])
 
         self.update_index_dir(soup, self.parameters.params["repo_dir"])
 
         queries = self.find_all_queries(soup)
+
+        query_numbers_to_keep = self.get_query_numbers_to_keep(queries, is_test)
+
+        self.keep_cv_queries(queries, query_numbers_to_keep)
+
         self.update_queries(queries, self.parameters.params["sdm_field_weights"])
 
         self.update_relevance_feedback(soup, self.parameters.params["prf"]["fb_terms"],
@@ -119,4 +147,4 @@ class QueryLanguageModifier(object):
 if __name__ == "__main__":
     parameters_ = Parameters()
     parameters_.read_from_params_file()
-    QueryLanguageModifier(parameters_).run()
+    QueryLanguageModifier(parameters_).run(is_test=True)

@@ -3,6 +3,7 @@ from unittest import TestCase
 from mock import MagicMock
 
 from parameters.parameters import Parameters
+from queries.queries import Queries
 from queries.queryLanguageModifier import QueryLanguageModifier
 
 
@@ -166,3 +167,35 @@ class TestQueryLanguageModifier(TestCase):
                         'w': '#weight(\n0.6#uw17(hello how)\n0.3#uw17(hello are)\n0.1#uw17(hello you)\n'
                              '0.2#uw17(world how)\n0.4#uw17(world are)\n0.5#uw17(world you)\n)\n'}
         self.assertEqual(res, expected_res)
+
+    def test_keep_cv_queries(self):
+        query_language_modifier = QueryLanguageModifier(self.parameters)
+        soup = Queries().indri_query_file_2_soup("test_files/indri_query.cfg")
+        queries = query_language_modifier.find_all_queries(soup)
+
+        query_numbers = ["INEX_LD-20120121", "QALD2_te-81"]
+
+        query_language_modifier.keep_cv_queries(queries, query_numbers)
+
+        self.assertEqual(str(soup.find_all("query")), """[<query>
+<number>INEX_LD-20120121</number>
+<text>vietnam food recipes</text>
+</query>, <query>
+<number>QALD2_te-81</number>
+<text>Which books by Kerouac were published by Viking Press</text>
+</query>]""")
+
+    def test_get_query_numbers_to_keep(self):
+
+        self.parameters.params["cross_validation"] = {"number_of_folds": 3, "testing_fold": 1}
+
+        query_language_modifier = QueryLanguageModifier(self.parameters)
+        soup = Queries().indri_query_file_2_soup("test_files/indri_query.cfg")
+        queries = query_language_modifier.find_all_queries(soup)
+
+        res = query_language_modifier.get_query_numbers_to_keep(queries, is_test=True)
+
+        self.assertEqual(res, ['INEX_LD-20120112', 'QALD2_te-81'])
+
+        res = query_language_modifier.get_query_numbers_to_keep(queries, is_test=False)
+        self.assertEqual(res, ['INEX_LD-20120111', 'INEX_LD-20120121', 'QALD2_te-82', 'TREC_Entity-20'])
