@@ -75,11 +75,12 @@ class QueryLanguageModifier(object):
 
     def update_queries(self, queries, field_weights):
         for q in queries:
-            q_text = q.find("text")
-            q_text_ = q_text.text.strip()
-            q_text_ = re.sub('[^0-9a-zA-Z]+', ' ', q_text_)
-            field_texts = self.gen_sdm_fields_texts(q_text_)
-            q_text.string = self.gen_combine_fields_text(field_weights, field_texts)
+            if str(q) != "<None></None>":
+                q_text = q.find("text")
+                q_text_ = q_text.text.strip()
+                q_text_ = re.sub('[^0-9a-zA-Z]+', ' ', q_text_)
+                field_texts = self.gen_sdm_fields_texts(q_text_)
+                q_text.string = self.gen_combine_fields_text(field_weights, field_texts)
 
     @staticmethod
     def post_process_indri_run_query_cfg(soup_str):

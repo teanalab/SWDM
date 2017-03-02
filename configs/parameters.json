@@ -1,9 +1,9 @@
 {
   "optimized_parameters_file_name": "../configs/optimized_parameters.json",
-  "repo_dir": "/scratch/index/indri_5_7/robust",
+  "repo_dir": "/scratch/index/indri_5_7/ap8889",
   "query_files": {
-    "old_indri_query_file": "../configs/queries/robust04.cfg",
-    "new_indri_query_file": "../configs/queries/robust04_expanded.cfg"
+    "old_indri_query_file": "../configs/queries/ap8889.cfg",
+    "new_indri_query_file": "../configs/queries/ap8889_expanded.cfg"
   },
   "prf": {
     "fb_docs": 1,
@@ -11,12 +11,12 @@
   },
   "cross_validation": {
     "number_of_folds": 3,
-    "testing_fold": 1
+    "testing_fold": 0
   },
   "indrirunquery_bin": "/home/fj9124/thirdPartyProgs/indri-5.11/build/bin/IndriRunQuery",
   "evaluation": {
     "measure": "map",
-    "qrels_file_name": "../configs/qrels/robust04.txt",
+    "qrels_file_name": "../configs/qrels/ap8889.txt",
     "trec_eval_bin": "/home/fj9124/projects/ir/evaluators/trec_eval/trec_eval.9.0/trec_eval"
   },
   "optimization": [

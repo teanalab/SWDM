@@ -49,7 +49,7 @@ class QueryWeightsOptimizer(object):
         initial_point = param_item["initial_point"]
         final_point = param_item["final_point"]
         step_size = param_item["step_size"]
-        return np.arange(initial_point, final_point , step_size)
+        return np.arange(initial_point, final_point, step_size)
 
     def reset_params_to_previous_best(self, params_previous_best_tmp):
         self.parameters.params = copy.deepcopy(params_previous_best_tmp)

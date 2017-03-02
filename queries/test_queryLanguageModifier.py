@@ -1,5 +1,6 @@
 from unittest import TestCase
 
+import sys
 from mock import MagicMock
 
 from parameters.parameters import Parameters
