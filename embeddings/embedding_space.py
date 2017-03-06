@@ -20,7 +20,7 @@ class EmbeddingSpace:
         if self.index_.check_if_have_same_stem(unigram, orig_unigram):
             return True
         for (other_unigram, distance) in unigrams_in_embedding_space_pruned:
-            if self.index_.check_if_have_same_stem(other_unigram, unigram):
+            if self.index_.check_if_have_same_stem(unigram, other_unigram):
                 return True
         return False
 
@@ -45,8 +45,7 @@ class EmbeddingSpace:
             if word2vec_n > word2vec_n_max:
                 break
             if distance > word2vec_threshold and "_" not in unigram and unigram.isalpha() and not \
-                    self.index_.check_if_have_same_stem(orig_unigram, unigram):
-                # not self.check_if_already_stem_exists(unigrams_in_embedding_space_pruned, unigram, orig_unigram):
+                    self.check_if_already_stem_exists(unigrams_in_embedding_space_pruned, unigram, orig_unigram):
                 unigrams_in_embedding_space_pruned += [(unigram, distance)]
                 word2vec_n += 1
         return unigrams_in_embedding_space_pruned
