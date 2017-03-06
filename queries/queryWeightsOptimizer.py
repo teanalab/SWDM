@@ -58,6 +58,7 @@ class QueryWeightsOptimizer(object):
         self.query_language_modifier.run(is_test=False)
         best_eval_res = self.evaluate_queries()
         print("best_eval_res:", best_eval_res)
+        self.run_test()
         for param_item in self.parameters.params["optimization"]:
             param_name = param_item["param_name"]
             for test_value in self.gen_test_values_offline_list(param_item):
@@ -72,6 +73,7 @@ class QueryWeightsOptimizer(object):
                 else:
                     best_eval_res = eval_res
                     self.parameters.write_to_parameters_file(self.parameters.params["optimized_parameters_file_name"])
+            self.run_test()
         return best_eval_res
 
     def run_test(self):

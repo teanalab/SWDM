@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from sdm.weights.ordered_bigram_weights import OrderedBigramWeights
 from sdm.weights.unigram_weights import UnigramWeights
 from sdm.weights.unordered_bigram_weights import UnorderedBigramWeights
@@ -41,6 +43,9 @@ class ExpandedSdm:
                     weight = self.compute_weight_sdm_bigrams(bigram, unigrams_in_embedding_space[i],
                                                              unigrams_in_embedding_space[i + 1],
                                                              operator)
+                    weight = Decimal(weight).quantize(Decimal('0.00000000000000000000'))
+                    if weight <= 0:
+                        continue
                     operator_s = operator + str(self.parameters.params["window_size"][operator])
                     sdm_bigrams_field_text += str(weight) + operator_s + "(" + bigram + ")\n"
 
@@ -53,6 +58,9 @@ class ExpandedSdm:
         for unigram_nearest_neighbor in unigrams_in_embedding_space:
             for similar_unigram in unigram_nearest_neighbor:
                 weight = self.compute_weight_sdm_unigrams(similar_unigram[0], unigram_nearest_neighbor)
+                weight = Decimal(weight).quantize(Decimal('0.00000000000000000000'))
+                if weight <= 0:
+                    continue
                 sdm_unigrams_field_text += str(weight) + operator + "(" + similar_unigram[0] + ")\n"
         sdm_unigrams_field_text += ")\n"
         return sdm_unigrams_field_text

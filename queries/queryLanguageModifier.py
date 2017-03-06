@@ -3,6 +3,7 @@ import re
 import sys
 
 from bs4 import BeautifulSoup
+from decimal import Decimal
 from sklearn.model_selection import KFold
 
 from embeddings.embedding_space import EmbeddingSpace
@@ -66,8 +67,9 @@ class QueryLanguageModifier(object):
     def gen_combine_fields_text(field_weights, field_texts):
         new_q_text = "#weight(\n"
         for field_name, field_weight in field_weights.items():
-            if field_weight > 0:
-                q_text = field_texts.get(field_name)
+            field_weight = Decimal(field_weight).quantize(Decimal('0.000000'))
+            q_text = field_texts.get(field_name)
+            if field_weight > 0 and len(q_text) > 14:
                 combine_text = str(field_weight) + q_text
                 new_q_text += combine_text
         new_q_text += ")\n"

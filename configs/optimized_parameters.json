@@ -1,54 +1,31 @@
 {
     "optimized_parameters_file_name": "../configs/optimized_parameters.json",
-    "repo_dir": "/scratch/index/indri_5_7/robust",
+    "repo_dir": "/scratch/index/indri_5_7/ap8889",
     "query_files": {
-        "old_indri_query_file": "../configs/queries/robust04.cfg",
-        "new_indri_query_file": "../configs/queries/robust04_expanded.cfg"
+        "old_indri_query_file": "../configs/queries/ap8889.cfg",
+        "new_indri_query_file": "../configs/queries/ap8889_expanded.cfg"
     },
     "prf": {
         "fb_docs": 1,
         "fb_terms": 0
     },
+    "cross_validation": {
+        "number_of_folds": 3,
+        "testing_fold": 0
+    },
     "indrirunquery_bin": "/home/fj9124/thirdPartyProgs/indri-5.11/build/bin/IndriRunQuery",
     "evaluation": {
         "measure": "map",
-        "qrels_file_name": "../configs/qrels/robust04.txt",
+        "qrels_file_name": "../configs/qrels/ap8889.txt",
         "trec_eval_bin": "/home/fj9124/projects/ir/evaluators/trec_eval/trec_eval.9.0/trec_eval"
     },
     "optimization": [
         {
             "param_name": [
                 "word2vec",
-                "n_max"
-            ],
-            "initial_point": 1,
-            "final_point": 40,
-            "step_size": 1
-        },
-        {
-            "param_name": [
-                "word2vec",
                 "threshold"
             ],
-            "initial_point": 0.3,
-            "final_point": 1,
-            "step_size": 0.05
-        },
-        {
-            "param_name": [
-                "word2vec",
-                "n_max"
-            ],
-            "initial_point": 1,
-            "final_point": 40,
-            "step_size": 1
-        },
-        {
-            "param_name": [
-                "word2vec",
-                "threshold"
-            ],
-            "initial_point": 0.3,
+            "initial_point": 0,
             "final_point": 1,
             "step_size": 0.05
         },
@@ -56,9 +33,99 @@
             "param_name": [
                 "expansion_coefficient"
             ],
-            "initial_point": 0.005,
-            "final_point": 0.3,
+            "initial_point": 0,
+            "final_point": 0.2,
             "step_size": 0.005
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "UnigramWeights",
+                "unigrams_cosine_similarity_with_orig"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.01
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "UnigramWeights",
+                "norm_term_count"
+            ],
+            "initial_point": 0,
+            "final_point": 0.1,
+            "step_size": 0.01
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "UnigramWeights",
+                "norm_document_count"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.01
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "UnorderedBigramWeights",
+                "uw_expression_norm_count"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.01
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "UnorderedBigramWeights",
+                "uw_expression_norm_document_count"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.01
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "UnorderedBigramWeights",
+                "bigrams_cosine_similarity_with_orig"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.01
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "OrderedBigramWeights",
+                "od_expression_norm_count"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.01
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "OrderedBigramWeights",
+                "od_expression_norm_document_count"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.01
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "OrderedBigramWeights",
+                "bigrams_cosine_similarity_with_orig"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.01
         },
         {
             "param_name": [
@@ -109,9 +176,9 @@
             "param_name": [
                 "expansion_coefficient"
             ],
-            "initial_point": 0.001,
-            "final_point": 0.3,
-            "step_size": 0.02
+            "initial_point": 0,
+            "final_point": 0.1,
+            "step_size": 0.001
         },
         {
             "param_name": [
@@ -163,7 +230,7 @@
                 "UnigramWeights",
                 "unigrams_cosine_similarity_with_orig"
             ],
-            "initial_point": -1.001,
+            "initial_point": 0,
             "final_point": 1,
             "step_size": 0.02
         },
@@ -183,7 +250,7 @@
                 "UnigramWeights",
                 "norm_document_count"
             ],
-            "initial_point": -1.001,
+            "initial_point": 0,
             "final_point": 1,
             "step_size": 0.01
         },
@@ -193,7 +260,7 @@
                 "UnorderedBigramWeights",
                 "uw_expression_norm_count"
             ],
-            "initial_point": -1.001,
+            "initial_point": 0,
             "final_point": 1,
             "step_size": 0.02
         },
@@ -203,7 +270,7 @@
                 "UnorderedBigramWeights",
                 "uw_expression_norm_document_count"
             ],
-            "initial_point": -1.001,
+            "initial_point": 0,
             "final_point": 1,
             "step_size": 0.02
         },
@@ -213,7 +280,7 @@
                 "UnorderedBigramWeights",
                 "bigrams_cosine_similarity_with_orig"
             ],
-            "initial_point": -1.001,
+            "initial_point": 0,
             "final_point": 1,
             "step_size": 0.02
         },
@@ -223,7 +290,7 @@
                 "OrderedBigramWeights",
                 "od_expression_norm_count"
             ],
-            "initial_point": -1.001,
+            "initial_point": 0,
             "final_point": 1,
             "step_size": 0.02
         },
@@ -233,7 +300,7 @@
                 "OrderedBigramWeights",
                 "od_expression_norm_document_count"
             ],
-            "initial_point": -1.001,
+            "initial_point": 0,
             "final_point": 1,
             "step_size": 0.02
         },
@@ -243,16 +310,42 @@
                 "OrderedBigramWeights",
                 "bigrams_cosine_similarity_with_orig"
             ],
-            "initial_point": -1.001,
+            "initial_point": 0,
             "final_point": 1,
             "step_size": 0.02
+        },
+        {
+            "param_name": [
+                "word2vec",
+                "n_max"
+            ],
+            "initial_point": 1,
+            "final_point": 30,
+            "step_size": 1
+        },
+        {
+            "param_name": [
+                "word2vec",
+                "threshold"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.05
+        },
+        {
+            "param_name": [
+                "expansion_coefficient"
+            ],
+            "initial_point": 0,
+            "final_point": 0.2,
+            "step_size": 0.005
         }
     ],
     "word2vec": {
-        "threshold": 0.4,
-        "n_max": 36
+        "threshold": 0.45,
+        "n_max": 17
     },
-    "expansion_coefficient": 0.005,
+    "expansion_coefficient": 0.003,
     "window_size": {
         "#uw": 18,
         "#od": 3
@@ -269,16 +362,76 @@
             "unigrams_cosine_similarity_with_orig": {
                 "unigram_nearest_neighbor": [
                     [
-                        "US",
+                        "Technology",
                         1
                     ],
                     [
-                        "multinational",
-                        0.490575909614563
+                        "Technolgy",
+                        0.6658780574798584
                     ],
                     [
-                        "Sino",
-                        0.4028245806694031
+                        "Techonology",
+                        0.6417951583862305
+                    ],
+                    [
+                        "Techology",
+                        0.6204392910003662
+                    ],
+                    [
+                        "Innovation",
+                        0.5914708375930786
+                    ],
+                    [
+                        "Applied",
+                        0.56825852394104
+                    ],
+                    [
+                        "Engineering",
+                        0.5649501085281372
+                    ],
+                    [
+                        "Innovations",
+                        0.546168327331543
+                    ],
+                    [
+                        "Biotechnology",
+                        0.5409557819366455
+                    ],
+                    [
+                        "Microelectronics",
+                        0.5396552085876465
+                    ],
+                    [
+                        "Computing",
+                        0.5357636213302612
+                    ],
+                    [
+                        "NanoTechnology",
+                        0.5349684953689575
+                    ],
+                    [
+                        "Techologies",
+                        0.5295495986938477
+                    ],
+                    [
+                        "Nanomanufacturing",
+                        0.5196930170059204
+                    ],
+                    [
+                        "Technical",
+                        0.5176039934158325
+                    ],
+                    [
+                        "MicroSystems",
+                        0.5159964561462402
+                    ],
+                    [
+                        "Bioscience",
+                        0.5159092545509338
+                    ],
+                    [
+                        "Science",
+                        0.5153551697731018
                     ]
                 ]
             }
@@ -302,18 +455,18 @@
     },
     "features_weights": {
         "UnigramWeights": {
-            "norm_term_count": 0.0789999999999999,
-            "norm_document_count": -0.09099999999999908,
-            "unigrams_cosine_similarity_with_orig": 0.5190000000000015
+            "norm_term_count": 0.09,
+            "norm_document_count": 0.34,
+            "unigrams_cosine_similarity_with_orig": 0.78
         },
         "UnorderedBigramWeights": {
             "uw_expression_norm_count": -0.060999999999999055,
-            "uw_expression_norm_document_count": 0.29900000000000126,
-            "bigrams_cosine_similarity_with_orig": 0.39900000000000135
+            "uw_expression_norm_document_count": 0.08,
+            "bigrams_cosine_similarity_with_orig": 0.35000000000000003
         },
         "OrderedBigramWeights": {
             "od_expression_norm_count": -0.20099999999999918,
-            "od_expression_norm_document_count": 0.3190000000000013,
+            "od_expression_norm_document_count": 0.33,
             "bigrams_cosine_similarity_with_orig": 0.49900000000000144
         }
     }
