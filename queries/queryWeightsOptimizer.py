@@ -79,7 +79,14 @@ class QueryWeightsOptimizer(object):
     def run_test(self):
         self.gen_queries(is_test=True)
         test_eval_res = self.evaluate_queries()
-        print("train_eval_res:", test_eval_res)
+        print("test_eval_res:", test_eval_res)
+
+        params_previous_best_tmp = copy.deepcopy(self.parameters.params)
+        self.parameters.params = self.update_params_nested_dict(self.parameters.params, 0, "expansion_coefficient")
+        self.gen_queries(is_test=True)
+        test_eval_res = self.evaluate_queries()
+        self.reset_params_to_previous_best(params_previous_best_tmp)
+        print("sdm_eval_res:", test_eval_res)
 
     def run(self):
         best_eval_res = self.obtain_best_parameter_set()

@@ -2,8 +2,11 @@ from __future__ import print_function
 
 import csv
 import os
+import re
 import subprocess
 from collections import defaultdict
+
+import sys
 
 from parameters.parameters import Parameters
 from runs.runs import Runs
@@ -39,6 +42,13 @@ class QueriesEvaluator(object):
         return evals
 
     @staticmethod
+    def check_indri_run_query_exception(runs_file_name):
+        with open(runs_file_name, "r") as f:
+            exception_lines = [line for line in f if re.search('EXCEPTION', line)]
+            print(exception_lines, file=sys.stderr)
+            raise Exception('The IndriRunQuery returned an EXCEPTION')
+
+    @staticmethod
     def write_evals_to_files(evals, eval_file_name):
         with open(eval_file_name, 'wb') as f:
             f.write(evals)
@@ -62,6 +72,8 @@ class QueriesEvaluator(object):
         runs = self.run_query(indrirunquery_bin, query_cfg_file)
         run_file_name = Runs().gen_runs_file_name(query_cfg_file)
         self.write_runs_to_file(runs, run_file_name)
+
+        self.check_indri_run_query_exception(run_file_name)
 
         evals = self.run_trec_eval_1(trec_eval_bin, run_file_name, qrels_file_name)
         eval_file_name = self.gen_configs_file_name(query_cfg_file, "evals", ".dsv")

@@ -347,13 +347,13 @@
     },
     "expansion_coefficient": 0.003,
     "window_size": {
-        "#uw": 18,
-        "#od": 3
+        "#uw": 6,
+        "#od": 1
     },
     "sdm_field_weights": {
-        "u": 0.9910000000000001,
+        "u": 0.8609999999999999,
         "o": 0.001,
-        "w": 0.24099999999999996
+        "w": 0.18099999999999997
     },
     "feature_parameters": {
         "UnigramWeights": {
