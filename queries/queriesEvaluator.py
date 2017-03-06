@@ -45,8 +45,10 @@ class QueriesEvaluator(object):
     def check_indri_run_query_exception(runs_file_name):
         with open(runs_file_name, "r") as f:
             exception_lines = [line for line in f if re.search('EXCEPTION', line)]
-            print(exception_lines, file=sys.stderr)
-            raise Exception('The IndriRunQuery returned an EXCEPTION')
+            if len(exception_lines) > 0:
+                print(exception_lines, file=sys.stderr)
+                raise Exception('IndriRunQuery returned an EXCEPTION')
+        return True
 
     @staticmethod
     def write_evals_to_files(evals, eval_file_name):

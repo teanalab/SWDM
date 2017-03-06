@@ -42,7 +42,7 @@ class ExpandedSdm:
                                                              unigrams_in_embedding_space[i + 1],
                                                              operator)
                     weight = '{0:.10f}'.format(weight)
-                    if float(weight) <= 0:
+                    if float(weight) <= 0 or len(bigram) == 0:
                         continue
                     operator_s = operator + str(self.parameters.params["window_size"][operator])
                     sdm_bigrams_field_text += weight + operator_s + "(" + bigram + ")\n"
@@ -57,7 +57,7 @@ class ExpandedSdm:
             for similar_unigram in unigram_nearest_neighbor:
                 weight = self.compute_weight_sdm_unigrams(similar_unigram[0], unigram_nearest_neighbor)
                 weight = '{0:.10f}'.format(weight)
-                if float(weight) <= 0:
+                if float(weight) <= 0 or len(similar_unigram[0]) == 0:
                     continue
                 sdm_unigrams_field_text += weight + operator + "(" + similar_unigram[0] + ")\n"
         sdm_unigrams_field_text += ")\n"
