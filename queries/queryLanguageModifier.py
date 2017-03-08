@@ -122,6 +122,12 @@ class QueryLanguageModifier(object):
             fb_docs_tag.string = str(fb_docs)
             soup_parameters.append(fb_docs_tag)
 
+    @staticmethod
+    def remove_empty_queries(queries):
+        for q in queries:
+            if q.find("text") is not None and q.find("text").text.strip() == "#weight(\n)":
+                q.decompose()
+
     def run(self, is_test):
 
         self.embedding_space.initialize()
@@ -139,6 +145,8 @@ class QueryLanguageModifier(object):
         self.keep_cv_queries(queries, query_numbers_to_keep)
 
         self.update_queries(queries, self.parameters.params["sdm_field_weights"])
+
+        self.remove_empty_queries(queries)
 
         self.update_relevance_feedback(soup, self.parameters.params["prf"]["fb_terms"],
                                        self.parameters.params["prf"]["fb_docs"])

@@ -22,6 +22,103 @@
     "optimization": [
         {
             "param_name": [
+                "word2vec",
+                "n_max"
+            ],
+            "initial_point": 0,
+            "final_point": 30,
+            "step_size": 1
+        },
+        {
+            "param_name": [
+                "word2vec",
+                "upper_threshold"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.05
+        },
+        {
+            "param_name": [
+                "word2vec",
+                "lower_threshold"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.05
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "UnigramWeights",
+                "norm_document_count"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.05
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "UnorderedBigramWeights",
+                "uw_expression_norm_count"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.05
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "UnorderedBigramWeights",
+                "uw_expression_norm_document_count"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.05
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "UnorderedBigramWeights",
+                "bigrams_cosine_similarity_with_orig"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.05
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "OrderedBigramWeights",
+                "od_expression_norm_count"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.05
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "OrderedBigramWeights",
+                "od_expression_norm_document_count"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.05
+        },
+        {
+            "param_name": [
+                "features_weights",
+                "OrderedBigramWeights",
+                "bigrams_cosine_similarity_with_orig"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.05
+        },
+        {
+            "param_name": [
                 "expansion_coefficient"
             ],
             "initial_point": 0,
@@ -53,7 +150,7 @@
             ],
             "initial_point": 0.001,
             "final_point": 1,
-            "step_size": 0.01
+            "step_size": 0.05
         },
         {
             "param_name": [
@@ -62,7 +159,7 @@
             ],
             "initial_point": 0.001,
             "final_point": 1,
-            "step_size": 0.01
+            "step_size": 0.05
         },
         {
             "param_name": [
@@ -71,15 +168,7 @@
             ],
             "initial_point": 0.001,
             "final_point": 1,
-            "step_size": 0.01
-        },
-        {
-            "param_name": [
-                "expansion_coefficient"
-            ],
-            "initial_point": 0,
-            "final_point": 0.2,
-            "step_size": 0.005
+            "step_size": 0.05
         },
         {
             "param_name": [
@@ -133,7 +222,7 @@
             ],
             "initial_point": 0,
             "final_point": 1,
-            "step_size": 0.01
+            "step_size": 0.05
         },
         {
             "param_name": [
@@ -143,94 +232,6 @@
             ],
             "initial_point": 0,
             "final_point": 0.1,
-            "step_size": 0.01
-        },
-        {
-            "param_name": [
-                "features_weights",
-                "UnigramWeights",
-                "norm_document_count"
-            ],
-            "initial_point": 0,
-            "final_point": 1,
-            "step_size": 0.01
-        },
-        {
-            "param_name": [
-                "features_weights",
-                "UnorderedBigramWeights",
-                "uw_expression_norm_count"
-            ],
-            "initial_point": 0,
-            "final_point": 1,
-            "step_size": 0.01
-        },
-        {
-            "param_name": [
-                "features_weights",
-                "UnorderedBigramWeights",
-                "uw_expression_norm_document_count"
-            ],
-            "initial_point": 0,
-            "final_point": 1,
-            "step_size": 0.01
-        },
-        {
-            "param_name": [
-                "features_weights",
-                "UnorderedBigramWeights",
-                "bigrams_cosine_similarity_with_orig"
-            ],
-            "initial_point": 0,
-            "final_point": 1,
-            "step_size": 0.01
-        },
-        {
-            "param_name": [
-                "features_weights",
-                "OrderedBigramWeights",
-                "od_expression_norm_count"
-            ],
-            "initial_point": 0,
-            "final_point": 1,
-            "step_size": 0.01
-        },
-        {
-            "param_name": [
-                "features_weights",
-                "OrderedBigramWeights",
-                "od_expression_norm_document_count"
-            ],
-            "initial_point": 0,
-            "final_point": 1,
-            "step_size": 0.01
-        },
-        {
-            "param_name": [
-                "features_weights",
-                "OrderedBigramWeights",
-                "bigrams_cosine_similarity_with_orig"
-            ],
-            "initial_point": 0,
-            "final_point": 1,
-            "step_size": 0.01
-        },
-        {
-            "param_name": [
-                "word2vec",
-                "n_max"
-            ],
-            "initial_point": 1,
-            "final_point": 30,
-            "step_size": 1
-        },
-        {
-            "param_name": [
-                "word2vec",
-                "threshold"
-            ],
-            "initial_point": 0,
-            "final_point": 1,
             "step_size": 0.05
         },
         {
@@ -243,18 +244,19 @@
         }
     ],
     "word2vec": {
-        "threshold": 0.45,
-        "n_max": 17
+        "upper_threshold": 0.45,
+        "lower_threshold": 0,
+        "n_max": 0
     },
     "expansion_coefficient": 0.005,
     "window_size": {
-        "#uw": 6,
+        "#uw": 4,
         "#od": 1
     },
     "sdm_field_weights": {
-        "u": 0.8609999999999999,
+        "u": 0.9510000000000001,
         "o": 0.001,
-        "w": 0.18099999999999997
+        "w": 0.101
     },
     "feature_parameters": {
         "UnigramWeights": {
@@ -265,74 +267,6 @@
                     [
                         "Technology",
                         1
-                    ],
-                    [
-                        "Technolgy",
-                        0.6658780574798584
-                    ],
-                    [
-                        "Techonology",
-                        0.6417951583862305
-                    ],
-                    [
-                        "Techology",
-                        0.6204392910003662
-                    ],
-                    [
-                        "Innovation",
-                        0.5914708375930786
-                    ],
-                    [
-                        "Applied",
-                        0.56825852394104
-                    ],
-                    [
-                        "Engineering",
-                        0.5649501085281372
-                    ],
-                    [
-                        "Biotechnology",
-                        0.5409557819366455
-                    ],
-                    [
-                        "Microelectronics",
-                        0.5396552085876465
-                    ],
-                    [
-                        "Computing",
-                        0.5357636213302612
-                    ],
-                    [
-                        "NanoTechnology",
-                        0.5349684953689575
-                    ],
-                    [
-                        "Nanomanufacturing",
-                        0.5196930170059204
-                    ],
-                    [
-                        "Technical",
-                        0.5176039934158325
-                    ],
-                    [
-                        "MicroSystems",
-                        0.5159964561462402
-                    ],
-                    [
-                        "Bioscience",
-                        0.5159092545509338
-                    ],
-                    [
-                        "Science",
-                        0.5153551697731018
-                    ],
-                    [
-                        "Microfabrication",
-                        0.5110900402069092
-                    ],
-                    [
-                        "Microtechnologies",
-                        0.5023666620254517
                     ]
                 ]
             }
@@ -342,7 +276,7 @@
                 "window_size": 18
             },
             "uw_expression_norm_document_count": {
-                "window_size": 17
+                "window_size": 1
             }
         },
         "OrderedBigramWeights": {
@@ -356,13 +290,13 @@
     },
     "features_weights": {
         "UnigramWeights": {
-            "norm_term_count": 0.09,
+            "norm_term_count": 0.0,
             "norm_document_count": 0.34,
-            "unigrams_cosine_similarity_with_orig": 0.78
+            "unigrams_cosine_similarity_with_orig": 0.0
         },
         "UnorderedBigramWeights": {
             "uw_expression_norm_count": 0,
-            "uw_expression_norm_document_count": 0.08,
+            "uw_expression_norm_document_count": 0.25,
             "bigrams_cosine_similarity_with_orig": 0.35000000000000003
         },
         "OrderedBigramWeights": {

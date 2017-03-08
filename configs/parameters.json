@@ -20,43 +20,44 @@
     "trec_eval_bin": "/home/fj9124/projects/ir/evaluators/trec_eval/trec_eval.9.0/trec_eval"
   },
   "optimization": [
+      {"param_name": ["word2vec", "n_max"], "initial_point": 0, "final_point": 30, "step_size": 1},
+      {"param_name": ["word2vec", "upper_threshold"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
+      {"param_name": ["word2vec", "lower_threshold"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
+      {"param_name": ["features_weights", "UnigramWeights", "norm_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
+      {"param_name": ["features_weights", "UnorderedBigramWeights", "uw_expression_norm_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
+      {"param_name": ["features_weights", "UnorderedBigramWeights", "uw_expression_norm_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
+      {"param_name": ["features_weights", "UnorderedBigramWeights", "bigrams_cosine_similarity_with_orig"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
+      {"param_name": ["features_weights", "OrderedBigramWeights", "od_expression_norm_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
+      {"param_name": ["features_weights", "OrderedBigramWeights", "od_expression_norm_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
+      {"param_name": ["features_weights", "OrderedBigramWeights", "bigrams_cosine_similarity_with_orig"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["expansion_coefficient"], "initial_point": 0, "final_point": 0.2, "step_size": 0.005},
       {"param_name": ["window_size", "#uw"], "initial_point": 1, "final_point": 30, "step_size": 1},
       {"param_name": ["window_size", "#od"], "initial_point": 1, "final_point": 30, "step_size": 1},
-      {"param_name": ["sdm_field_weights", "u"], "initial_point": 0.001, "final_point": 1, "step_size": 0.01},
-      {"param_name": ["sdm_field_weights", "o"], "initial_point": 0.001, "final_point": 1, "step_size": 0.01},
-      {"param_name": ["sdm_field_weights", "w"], "initial_point": 0.001, "final_point": 1, "step_size": 0.01},
-      {"param_name": ["expansion_coefficient"], "initial_point": 0, "final_point": 0.2, "step_size": 0.005},
+      {"param_name": ["sdm_field_weights", "u"], "initial_point": 0.001, "final_point": 1, "step_size": 0.05},
+      {"param_name": ["sdm_field_weights", "o"], "initial_point": 0.001, "final_point": 1, "step_size": 0.05},
+      {"param_name": ["sdm_field_weights", "w"], "initial_point": 0.001, "final_point": 1, "step_size": 0.05},
       {"param_name": ["feature_parameters", "UnorderedBigramWeights", "uw_expression_norm_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1},
       {"param_name": ["feature_parameters", "UnorderedBigramWeights", "uw_expression_norm_document_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1},
       {"param_name": ["feature_parameters", "OrderedBigramWeights", "od_expression_norm_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1},
       {"param_name": ["feature_parameters", "OrderedBigramWeights", "od_expression_norm_document_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1},
-      {"param_name": ["features_weights", "UnigramWeights", "unigrams_cosine_similarity_with_orig"], "initial_point": 0, "final_point": 1, "step_size": 0.01},
-      {"param_name": ["features_weights", "UnigramWeights", "norm_term_count"], "initial_point": 0, "final_point": 0.1, "step_size": 0.01},
-      {"param_name": ["features_weights", "UnigramWeights", "norm_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.01},
-      {"param_name": ["features_weights", "UnorderedBigramWeights", "uw_expression_norm_count"], "initial_point": 0, "final_point": 1, "step_size": 0.01},
-      {"param_name": ["features_weights", "UnorderedBigramWeights", "uw_expression_norm_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.01},
-      {"param_name": ["features_weights", "UnorderedBigramWeights", "bigrams_cosine_similarity_with_orig"], "initial_point": 0, "final_point": 1, "step_size": 0.01},
-      {"param_name": ["features_weights", "OrderedBigramWeights", "od_expression_norm_count"], "initial_point": 0, "final_point": 1, "step_size": 0.01},
-      {"param_name": ["features_weights", "OrderedBigramWeights", "od_expression_norm_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.01},
-      {"param_name": ["features_weights", "OrderedBigramWeights", "bigrams_cosine_similarity_with_orig"], "initial_point": 0, "final_point": 1, "step_size": 0.01},
-      {"param_name": ["word2vec", "n_max"], "initial_point": 1, "final_point": 30, "step_size": 1},
-      {"param_name": ["word2vec", "threshold"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
+      {"param_name": ["features_weights", "UnigramWeights", "unigrams_cosine_similarity_with_orig"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
+      {"param_name": ["features_weights", "UnigramWeights", "norm_term_count"], "initial_point": 0, "final_point": 0.1, "step_size": 0.05},
       {"param_name": ["expansion_coefficient"], "initial_point": 0, "final_point": 0.2, "step_size": 0.005}
   ],
     "word2vec": {
-        "threshold": 0.45,
-        "n_max": 17
+        "upper_threshold": 0.75,
+        "lower_threshold": 0.45,
+        "n_max": 10
     },
-    "expansion_coefficient": 0.003,
+    "expansion_coefficient": 0.005,
     "window_size": {
-        "#uw": 6,
+        "#uw": 4,
         "#od": 1
     },
     "sdm_field_weights": {
-        "u": 0.8609999999999999,
+        "u": 0.9510000000000001,
         "o": 0.001,
-        "w": 0.18099999999999997
+        "w": 0.101
     },
     "feature_parameters": {
         "UnigramWeights": {
@@ -69,7 +70,7 @@
                 "window_size": 18
             },
             "uw_expression_norm_document_count": {
-                "window_size": 17
+                "window_size": 1
             }
         },
         "OrderedBigramWeights": {
@@ -83,13 +84,13 @@
     },
     "features_weights": {
         "UnigramWeights": {
-            "norm_term_count": 0.09,
+            "norm_term_count": 0.0,
             "norm_document_count": 0.34,
-            "unigrams_cosine_similarity_with_orig": 0.78
+            "unigrams_cosine_similarity_with_orig": 0.0
         },
         "UnorderedBigramWeights": {
             "uw_expression_norm_count": 0,
-            "uw_expression_norm_document_count": 0.08,
+            "uw_expression_norm_document_count": 0.25,
             "bigrams_cosine_similarity_with_orig": 0.35000000000000003
         },
         "OrderedBigramWeights": {

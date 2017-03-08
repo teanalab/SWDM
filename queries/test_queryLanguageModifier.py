@@ -187,7 +187,6 @@ class TestQueryLanguageModifier(TestCase):
 </query>]""")
 
     def test_get_query_numbers_to_keep(self):
-
         self.parameters.params["cross_validation"] = {"number_of_folds": 3, "testing_fold": 1}
 
         query_language_modifier = QueryLanguageModifier(self.parameters)
@@ -200,3 +199,4 @@ class TestQueryLanguageModifier(TestCase):
 
         res = query_language_modifier.get_query_numbers_to_keep(queries, is_test=False)
         self.assertEqual(res, ['INEX_LD-20120111', 'INEX_LD-20120121', 'QALD2_te-82', 'TREC_Entity-20'])
+
