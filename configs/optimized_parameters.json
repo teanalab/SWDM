@@ -23,6 +23,24 @@
         {
             "param_name": [
                 "word2vec",
+                "upper_threshold"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.05
+        },
+        {
+            "param_name": [
+                "word2vec",
+                "lower_threshold"
+            ],
+            "initial_point": 0,
+            "final_point": 1,
+            "step_size": 0.05
+        },
+        {
+            "param_name": [
+                "word2vec",
                 "n_max"
             ],
             "initial_point": 0,
@@ -46,6 +64,15 @@
             "initial_point": 0,
             "final_point": 1,
             "step_size": 0.05
+        },
+        {
+            "param_name": [
+                "word2vec",
+                "n_max"
+            ],
+            "initial_point": 0,
+            "final_point": 30,
+            "step_size": 1
         },
         {
             "param_name": [
@@ -244,11 +271,11 @@
         }
     ],
     "word2vec": {
-        "upper_threshold": 0.45,
-        "lower_threshold": 0,
-        "n_max": 0
+        "upper_threshold": 0.75,
+        "lower_threshold": 0.5,
+        "n_max": 10
     },
-    "expansion_coefficient": 0.005,
+    "expansion_coefficient": 0.01,
     "window_size": {
         "#uw": 4,
         "#od": 1
@@ -267,6 +294,50 @@
                     [
                         "Technology",
                         1
+                    ],
+                    [
+                        "Technolgy",
+                        0.6658780574798584
+                    ],
+                    [
+                        "Techonology",
+                        0.6417951583862305
+                    ],
+                    [
+                        "Techology",
+                        0.6204392910003662
+                    ],
+                    [
+                        "Innovation",
+                        0.5914708375930786
+                    ],
+                    [
+                        "Applied",
+                        0.56825852394104
+                    ],
+                    [
+                        "Engineering",
+                        0.5649501085281372
+                    ],
+                    [
+                        "Biotechnology",
+                        0.5409557819366455
+                    ],
+                    [
+                        "Microelectronics",
+                        0.5396552085876465
+                    ],
+                    [
+                        "Computing",
+                        0.5357636213302612
+                    ],
+                    [
+                        "NanoTechnology",
+                        0.5349684953689575
+                    ],
+                    [
+                        "Nanomanufacturing",
+                        0.5196930170059204
                     ]
                 ]
             }
@@ -296,7 +367,7 @@
         },
         "UnorderedBigramWeights": {
             "uw_expression_norm_count": 0,
-            "uw_expression_norm_document_count": 0.25,
+            "uw_expression_norm_document_count": 0.30000000000000004,
             "bigrams_cosine_similarity_with_orig": 0.35000000000000003
         },
         "OrderedBigramWeights": {

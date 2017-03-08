@@ -20,9 +20,12 @@
     "trec_eval_bin": "/home/fj9124/projects/ir/evaluators/trec_eval/trec_eval.9.0/trec_eval"
   },
   "optimization": [
+      {"param_name": ["word2vec", "upper_threshold"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
+      {"param_name": ["word2vec", "lower_threshold"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["word2vec", "n_max"], "initial_point": 0, "final_point": 30, "step_size": 1},
       {"param_name": ["word2vec", "upper_threshold"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["word2vec", "lower_threshold"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
+      {"param_name": ["word2vec", "n_max"], "initial_point": 0, "final_point": 30, "step_size": 1},
       {"param_name": ["features_weights", "UnigramWeights", "norm_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["features_weights", "UnorderedBigramWeights", "uw_expression_norm_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["features_weights", "UnorderedBigramWeights", "uw_expression_norm_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},

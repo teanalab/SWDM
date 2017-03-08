@@ -8,8 +8,6 @@ import sys
 from embeddings.word2vec import Word2vec
 
 
-
-
 class TestWord2vec(TestCase):
     def setUp(self):
         self.word2vec = Word2vec()

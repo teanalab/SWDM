@@ -1,6 +1,8 @@
 import re
 
 import sys
+from collections import defaultdict
+
 from gensim.models import Word2Vec
 from sklearn.datasets import fetch_20newsgroups
 
@@ -39,17 +41,16 @@ class Tsne():
 
         print("doc_words_model =", len(doc_words_model), file=sys.stderr)
 
-        X = self.word2vec_model[doc_words_model]
+        X = []
+        for k, v in doc_words_model.items():
+            X += [self.word2vec_model[{k: v}][0]]
 
         print("X =", X, file=sys.stderr)
 
-        tsne = TSNE(n_components=2)
+        tsne = TSNE(n_components=2, random_state=0)
         X_tsne = tsne.fit_transform(X)
 
         print("X_tsne =", len(X_tsne), file=sys.stderr)
-
-        # plt.scatter(X_tsne[:, 0], X_tsne[:, 1])
-        # plt.savefig(file_name)
 
         z = X_tsne[:, 0]
         y = X_tsne[:, 1]
@@ -59,7 +60,9 @@ class Tsne():
         for i, txt in enumerate(list(doc_words_model.keys())):
             ax.annotate(txt, (z[i], y[i]))
 
-        plt.savefig(file_name)
+        fig.set_size_inches(36, 20)
+        plt.savefig(file_name, dpi=100)
+
 
 if __name__ == '__main__':
     tsne_ = Tsne()
