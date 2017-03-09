@@ -1,7 +1,5 @@
 from unittest import TestCase
 
-import sys
-
 from embeddings.similarity.neighborhood import Neighborhood
 from embeddings.word2vec import Word2vec
 
@@ -90,8 +88,6 @@ class TestNeighborhood(TestCase):
         significant_neighbor = self.neighbor.find_significant_neighbors(self.other_unigrams, min_distance,
                                                                         neighbor_size)
 
-        print(significant_neighbor, file=sys.stderr)
-
         self.assertEqual(significant_neighbor,
                          [['Homo', 'sapiens', 'hominins', 'species', 'evolutionary'],
                           ['in', 'about', 'out', 'through', 'at'],
@@ -121,8 +117,6 @@ class TestNeighborhood(TestCase):
              ['brains', 'anatomically', 'brain', 'prefrontal', 'temporal'],
              ['are', 'has', 'this', 'been', 'be'],
              ['had', 'have', 'been', 'subsequently', 'is']], minimum_merge_intersection)
-
-        print(merged_neighbors, file=sys.stderr)
 
         self.assertEqual(merged_neighbors,
                          [{'species', 'hominins', 'Homo', 'bipedal', 'evolutionary', 'humans', 'genus', 'human',

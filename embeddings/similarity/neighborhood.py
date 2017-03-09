@@ -1,6 +1,3 @@
-import sys
-
-
 class Neighborhood:
     def __init__(self, word2vec_model):
         self.word2vec_model = word2vec_model
@@ -37,17 +34,11 @@ class Neighborhood:
             merged_neighbors += [set(neighbors[i])]
             j = i + 1
             while j < len(neighbors):
-                print("i =", i, file=sys.stderr)
-                print("j =", j, file=sys.stderr)
-                print("neighbors =", neighbors, file=sys.stderr)
-                print("neighbors[j] =", neighbors[j], file=sys.stderr)
-                print("before merged_neighbors[i] =", merged_neighbors[i], file=sys.stderr)
                 neighbor_intersection = merged_neighbors[i].intersection(neighbors[j])
                 if len(neighbor_intersection) >= minimum_merge_intersection:
                     merged_neighbors[i] = set(merged_neighbors[i]).union(neighbors[j])
                     del neighbors[j]
                 else:
                     j += 1
-                print("after merged_neighbors[i] =", merged_neighbors[i], file=sys.stderr)
             i += 1
         return merged_neighbors
