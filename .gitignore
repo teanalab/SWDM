@@ -93,4 +93,5 @@ configs/evals/
 configs/qrels/
 configs/queries/
 configs/runs/
+configs/others/
 
