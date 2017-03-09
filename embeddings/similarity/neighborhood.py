@@ -25,3 +25,20 @@ class Neighborhood:
                     significant_neighbors += [neighbor]
         significant_neighbors = [list(x) for x in set(tuple(x) for x in significant_neighbors)]
         return significant_neighbors
+
+    @staticmethod
+    def merge_close_neighbors(neighbors, minimum_intersection):
+        merged_neighbors = []
+        i = 0
+        while i < len(neighbors):
+            j = i
+            merged_neighbors += [set(neighbors[i])]
+            while j < len(neighbors):
+                if neighbors[i] != neighbors[j]:
+                    neighbor_intersection = merged_neighbors[i].intersection(neighbors[j])
+                    if len(neighbor_intersection) >= minimum_intersection:
+                        merged_neighbors[i] = set(neighbors[i]).union(neighbors[j])
+                        del neighbors[j]
+                j += 1
+            i += 1
+        return merged_neighbors

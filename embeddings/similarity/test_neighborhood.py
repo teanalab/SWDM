@@ -9,8 +9,6 @@ from embeddings.word2vec import Word2vec
 class TestNeighborhood(TestCase):
     def setUp(self):
         self.word2vec = Word2vec()
-        self.word2vec.pre_trained_google_news_300_model()
-        self.neighbor = Neighborhood(self.word2vec.model)
         self.other_unigrams = ['Modern', 'humans', '(Homo', 'sapiens,', 'primarily', 'ssp.', 'Homo', 'sapiens',
                                'sapiens)', 'are', 'the', 'only', 'extant', 'members', 'of', 'Hominina', 'tribe', '(or',
                                'human', 'tribe),', 'a', 'branch', 'of', 'the', 'tribe', 'Hominini', 'belonging', 'to',
@@ -69,6 +67,9 @@ class TestNeighborhood(TestCase):
                                '7.5', 'billion.']
 
     def test_find_nearest_neighbor_in_a_list(self):
+        self.word2vec.pre_trained_google_news_300_model()
+        self.neighbor = Neighborhood(self.word2vec.model)
+
         unigram = "human"
 
         min_distance = 0.3
@@ -80,6 +81,9 @@ class TestNeighborhood(TestCase):
         self.assertEqual(neighbor, ['humans', 'sapiens', 'bipedal', 'anatomy', 'evolutionary', 'Humans', 'scientific'])
 
     def test_find_significant_neighbors(self):
+        self.word2vec.pre_trained_google_news_300_model()
+        self.neighbor = Neighborhood(self.word2vec.model)
+
         min_distance = 0.4
         neighbor_size = 5
 
@@ -100,3 +104,30 @@ class TestNeighborhood(TestCase):
                           ['brains', 'anatomically', 'brain', 'prefrontal', 'temporal'],
                           ['are', 'has', 'this', 'been', 'be'],
                           ['had', 'have', 'been', 'subsequently', 'is']])
+
+    def test_merge_close_neighbors(self):
+        self.neighbor = Neighborhood(None)
+
+        minimum_intersection = 2
+        merged_neighbors = self.neighbor.merge_close_neighbors(
+            [['Homo', 'sapiens', 'hominins', 'species', 'evolutionary'],
+             ['in', 'about', 'out', 'through', 'at'],
+             ['humans', 'sapiens', 'hominins', 'genus', 'evolutionary'],
+             ['the', 'only', 'other', 'that', 'this'],
+             ['humans', 'sapiens', 'human', 'bipedal', 'evolutionary'],
+             ['increased', 'trend', 'increasing', 'higher', 'growth'],
+             ['compared', 'rise', 'increasing', 'higher', 'expanded'],
+             ['more', 'less', 'than', 'large', 'higher'],
+             ['brains', 'anatomically', 'brain', 'prefrontal', 'temporal'],
+             ['are', 'has', 'this', 'been', 'be'],
+             ['had', 'have', 'been', 'subsequently', 'is']], minimum_intersection)
+
+        print(merged_neighbors, file=sys.stderr)
+
+        self.assertEqual(merged_neighbors,
+                         [{'hominins', 'bipedal', 'humans', 'human', 'Homo', 'sapiens', 'evolutionary', 'species'},
+                          {'through', 'at', 'out', 'in', 'about'}, {'this', 'the', 'other', 'that', 'only'},
+                          {'expanded', 'compared', 'rise', 'growth', 'increased', 'increasing', 'trend', 'higher'},
+                          {'large', 'more', 'less', 'than', 'higher'},
+                          {'temporal', 'brains', 'prefrontal', 'anatomically', 'brain'},
+                          {'this', 'has', 'are', 'been', 'be'}, {'is', 'subsequently', 'been', 'had', 'have'}])
