@@ -108,7 +108,7 @@ class TestNeighborhood(TestCase):
     def test_merge_close_neighbors(self):
         self.neighbor = Neighborhood(None)
 
-        minimum_intersection = 2
+        minimum_merge_intersection = 1
         merged_neighbors = self.neighbor.merge_close_neighbors(
             [['Homo', 'sapiens', 'hominins', 'species', 'evolutionary'],
              ['in', 'about', 'out', 'through', 'at'],
@@ -120,14 +120,14 @@ class TestNeighborhood(TestCase):
              ['more', 'less', 'than', 'large', 'higher'],
              ['brains', 'anatomically', 'brain', 'prefrontal', 'temporal'],
              ['are', 'has', 'this', 'been', 'be'],
-             ['had', 'have', 'been', 'subsequently', 'is']], minimum_intersection)
+             ['had', 'have', 'been', 'subsequently', 'is']], minimum_merge_intersection)
 
         print(merged_neighbors, file=sys.stderr)
 
         self.assertEqual(merged_neighbors,
-                         [{'hominins', 'bipedal', 'humans', 'human', 'Homo', 'sapiens', 'evolutionary', 'species'},
-                          {'through', 'at', 'out', 'in', 'about'}, {'this', 'the', 'other', 'that', 'only'},
-                          {'expanded', 'compared', 'rise', 'growth', 'increased', 'increasing', 'trend', 'higher'},
-                          {'large', 'more', 'less', 'than', 'higher'},
-                          {'temporal', 'brains', 'prefrontal', 'anatomically', 'brain'},
-                          {'this', 'has', 'are', 'been', 'be'}, {'is', 'subsequently', 'been', 'had', 'have'}])
+                         [{'species', 'hominins', 'Homo', 'bipedal', 'evolutionary', 'humans', 'genus', 'human',
+                           'sapiens'}, {'out', 'through', 'in', 'at', 'about'},
+                          {'is', 'are', 'been', 'other', 'this', 'be', 'that', 'had', 'the', 'only', 'have',
+                           'subsequently', 'has'},
+                          {'trend', 'higher', 'than', 'increasing', 'less', 'increased', 'compared', 'expanded', 'rise',
+                           'more', 'growth', 'large'}, {'brain', 'brains', 'prefrontal', 'anatomically', 'temporal'}])
