@@ -125,3 +125,25 @@ class TestNeighborhood(TestCase):
                            'subsequently', 'has'},
                           {'trend', 'higher', 'than', 'increasing', 'less', 'increased', 'compared', 'expanded', 'rise',
                            'more', 'growth', 'large'}, {'brain', 'brains', 'prefrontal', 'anatomically', 'temporal'}])
+
+    def test_find_significant_merged_neighbors(self):
+        self.word2vec.pre_trained_google_news_300_model()
+        self.neighbor = Neighborhood(self.word2vec.model)
+
+        min_distance = 0.4
+        neighbor_size = 5
+        minimum_merge_intersection = 1
+
+        significant_merge_neighbor = self.neighbor.find_significant_merged_neighbors(self.other_unigrams, min_distance,
+                                                                                     neighbor_size,
+                                                                                     minimum_merge_intersection)
+
+        expected_res = [{'sapiens', 'human', 'genus', 'evolutionary', 'species', 'humans', 'hominins', 'Homo',
+                         'bipedal'}, {'this', 'other', 'be', 'are', 'that', 'only', 'been', 'has', 'the'},
+                        {'less', 'expanded', 'than', 'rise', 'more', 'growth', 'higher', 'large', 'trend', 'compared',
+                         'increasing', 'increased'}, {'subsequently', 'have', 'had', 'been', 'is'},
+                        {'about', 'at', 'in', 'through', 'out'},
+                        {'prefrontal', 'brain', 'brains', 'temporal', 'anatomically'}]
+
+        self.assertTrue(significant_merge_neighbor[0] in expected_res)
+        self.assertEqual(len(significant_merge_neighbor), len(expected_res))

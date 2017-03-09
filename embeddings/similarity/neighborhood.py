@@ -15,11 +15,11 @@ class Neighborhood:
                         neighbor += [other_unigram]
         return neighbor
 
-    def find_significant_neighbors(self, other_unigrams, min_distance, neighbor_size):
+    def find_significant_neighbors(self, doc_words, min_distance, neighbor_size):
         significant_neighbors = []
-        for other_unigram in other_unigrams:
+        for other_unigram in doc_words:
             if other_unigram in self.word2vec_model.wv.vocab:
-                neighbor = self.find_nearest_neighbor_in_a_list(other_unigram, other_unigrams, min_distance,
+                neighbor = self.find_nearest_neighbor_in_a_list(other_unigram, doc_words, min_distance,
                                                                 neighbor_size)
                 if len(neighbor) == neighbor_size:
                     significant_neighbors += [neighbor]
@@ -42,3 +42,8 @@ class Neighborhood:
                     j += 1
             i += 1
         return merged_neighbors
+
+    def find_significant_merged_neighbors(self, doc_words, min_distance, neighbor_size, minimum_merge_intersection):
+        significant_neighbors = self.find_significant_neighbors(doc_words, min_distance, neighbor_size)
+        significant_merged_neighbors = self.merge_close_neighbors(significant_neighbors, minimum_merge_intersection)
+        return significant_merged_neighbors
