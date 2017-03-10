@@ -44,18 +44,18 @@ class TestCollection(TestCase):
 
     def test_uw_expression_norm_count(self):
         self.assertEqual(self.features.uw_expression_norm_count(
-            "SAMPSON Dog", self.feature_parameters["uw_expression_count"]), 0.00273224043715847)
+            "SAMPSON Dog", self.feature_parameters["uw_expression_count"]), 5.497168225293202)
 
     def test_od_expression_norm_document_count(self):
         self.assertEqual(self.features.od_expression_norm_document_count(
-            "SAMPSON True", self.feature_parameters["od_expression_document_count"]), 0.3333333333333333)
+            "SAMPSON True", self.feature_parameters["od_expression_document_count"]), 0.40546510810816444)
 
     def test_uw_document_expression_norm_count(self):
         self.assertEqual(self.features.uw_expression_norm_document_count(
-            "SAMPSON True", self.feature_parameters["uw_expression_document_count"]), 0.3333333333333333)
+            "SAMPSON True", self.feature_parameters["uw_expression_document_count"]), 0.40546510810816444)
 
     def test_norm_term_count(self):
-        self.assertEqual(self.features.norm_term_count("dog", {}), 0.00273224043715847)
+        self.assertEqual(self.features.norm_term_count("dog", {}), 5.497168225293202)
 
     def test_norm_document_count(self):
-        self.assertEqual(self.features.norm_document_count("dog", {}), 0.3333333333333333)
+        self.assertEqual(self.features.norm_document_count("dog", {}), 0.40546510810816444)

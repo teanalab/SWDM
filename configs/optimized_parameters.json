@@ -11,7 +11,7 @@
     },
     "cross_validation": {
         "number_of_folds": 3,
-        "testing_fold": 0
+        "testing_fold": 1
     },
     "indrirunquery_bin": "/home/fj9124/thirdPartyProgs/indri-5.11/build/bin/IndriRunQuery",
     "evaluation": {
@@ -275,14 +275,14 @@
         "lower_threshold": 0.5,
         "n_max": 10
     },
-    "expansion_coefficient": 0.01,
+    "expansion_coefficient": 0.06,
     "window_size": {
-        "#uw": 4,
+        "#uw": 5,
         "#od": 1
     },
     "sdm_field_weights": {
-        "u": 0.9510000000000001,
-        "o": 0.001,
+        "u": 0.401,
+        "o": 0.101,
         "w": 0.101
     },
     "feature_parameters": {
@@ -292,52 +292,48 @@
             "unigrams_cosine_similarity_with_orig": {
                 "unigram_nearest_neighbor": [
                     [
-                        "Technology",
+                        "Manufacturers",
                         1
                     ],
                     [
-                        "Technolgy",
-                        0.6658780574798584
+                        "Suppliers",
+                        0.6179746389389038
                     ],
                     [
-                        "Techonology",
-                        0.6417951583862305
+                        "Retailers",
+                        0.616181492805481
                     ],
                     [
-                        "Techology",
-                        0.6204392910003662
+                        "Exporters",
+                        0.5878163576126099
                     ],
                     [
-                        "Innovation",
-                        0.5914708375930786
+                        "Makers",
+                        0.5555952191352844
                     ],
                     [
-                        "Applied",
-                        0.56825852394104
+                        "Automakers",
+                        0.5361173152923584
                     ],
                     [
-                        "Engineering",
-                        0.5649501085281372
+                        "Importers",
+                        0.5297344923019409
                     ],
                     [
-                        "Biotechnology",
-                        0.5409557819366455
+                        "Dealers",
+                        0.5278615951538086
                     ],
                     [
-                        "Microelectronics",
-                        0.5396552085876465
+                        "Carmakers",
+                        0.5242558717727661
                     ],
                     [
-                        "Computing",
-                        0.5357636213302612
+                        "Consumers",
+                        0.5150564312934875
                     ],
                     [
-                        "NanoTechnology",
-                        0.5349684953689575
-                    ],
-                    [
-                        "Nanomanufacturing",
-                        0.5196930170059204
+                        "Companies",
+                        0.506920337677002
                     ]
                 ]
             }
