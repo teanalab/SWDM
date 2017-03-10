@@ -1,7 +1,5 @@
 from collections import defaultdict
 
-import sys
-
 from embeddings.word2vec import Word2vec
 from index.index import Index
 

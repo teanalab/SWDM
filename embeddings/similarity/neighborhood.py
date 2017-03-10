@@ -1,11 +1,13 @@
+import nltk
 import sys
 
-import nltk
+from index.index import Index
 
 
 class Neighborhood:
-    def __init__(self, word2vec_model):
+    def __init__(self, word2vec_model, parameters):
         self.word2vec_model = word2vec_model
+        self.index_ = Index(parameters)
 
     def find_nearest_neighbor_in_a_list(self, unigram, other_unigrams, min_distance, neighbor_size):
         neighbor = []
@@ -66,4 +68,19 @@ class Neighborhood:
                     if a in stop_words:
                         neighbors[i].remove(a)
                 i += 1
+        return neighbors
+
+    def remove_stemmed_similar_words(self, neighbors):
+        for k in range(len(neighbors)):
+            neighbor_ = list(neighbors[k])
+            i = 0
+            while i < len(neighbor_):
+                j = i + 1
+                while j < len(neighbor_):
+                    if self.index_.check_if_have_same_stem(neighbor_[i], neighbor_[j]):
+                        del neighbor_[j]
+                    else:
+                        j += 1
+                i += 1
+            neighbors[k] = set(neighbor_)
         return neighbors

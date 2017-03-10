@@ -1,12 +1,17 @@
+import sys
 from unittest import TestCase
 
 from embeddings.similarity.neighborhood import Neighborhood
 from embeddings.word2vec import Word2vec
+from parameters.parameters import Parameters
 
 
 class TestNeighborhood(TestCase):
     def setUp(self):
         self.word2vec = Word2vec()
+        self.parameters = Parameters()
+        self.parameters.params["repo_dir"] = '../../index/test_files/index'
+
         self.other_unigrams = ['Modern', 'humans', '(Homo', 'sapiens,', 'primarily', 'ssp.', 'Homo', 'sapiens',
                                'sapiens)', 'are', 'the', 'only', 'extant', 'members', 'of', 'Hominina', 'tribe', '(or',
                                'human', 'tribe),', 'a', 'branch', 'of', 'the', 'tribe', 'Hominini', 'belonging', 'to',
@@ -66,7 +71,7 @@ class TestNeighborhood(TestCase):
 
     def test_find_nearest_neighbor_in_a_list(self):
         self.word2vec.pre_trained_google_news_300_model()
-        self.neighbor = Neighborhood(self.word2vec.model)
+        self.neighbor = Neighborhood(self.word2vec.model, self.parameters)
 
         unigram = "human"
 
@@ -80,7 +85,7 @@ class TestNeighborhood(TestCase):
 
     def test_find_significant_neighbors(self):
         self.word2vec.pre_trained_google_news_300_model()
-        self.neighbor = Neighborhood(self.word2vec.model)
+        self.neighbor = Neighborhood(self.word2vec.model, self.parameters)
 
         min_distance = 0.4
         neighbor_size = 5
@@ -102,7 +107,7 @@ class TestNeighborhood(TestCase):
                           ['had', 'have', 'been', 'subsequently', 'is']])
 
     def test_merge_close_neighbors(self):
-        self.neighbor = Neighborhood(None)
+        self.neighbor = Neighborhood(None, self.parameters)
 
         minimum_merge_intersection = 1
         merged_neighbors = self.neighbor.merge_close_neighbors(
@@ -128,7 +133,7 @@ class TestNeighborhood(TestCase):
 
     def test_find_significant_merged_neighbors(self):
         self.word2vec.pre_trained_google_news_300_model()
-        self.neighbor = Neighborhood(self.word2vec.model)
+        self.neighbor = Neighborhood(self.word2vec.model, self.parameters)
 
         min_distance = 0.4
         neighbor_size = 5
@@ -149,7 +154,7 @@ class TestNeighborhood(TestCase):
         self.assertEqual(len(significant_merge_neighbor), len(expected_res))
 
     def test_remove_stopwords_neighbors(self):
-        self.neighbor = Neighborhood(None)
+        self.neighbor = Neighborhood(None, self.parameters)
         max_stop_words = 3
         neighbors = [{'sapiens', 'human', 'genus', 'evolutionary', 'species', 'humans', 'hominins', 'Homo',
                       'bipedal'}, {'this', 'other', 'be', 'are', 'that', 'only', 'been', 'has', 'the'},
@@ -163,3 +168,19 @@ class TestNeighborhood(TestCase):
             {'increasing', 'less', 'trend', 'increased', 'higher', 'compared', 'rise', 'expanded', 'large', 'growth'},
             {'anatomically', 'brain', 'prefrontal', 'brains', 'temporal'}]
         self.assertEqual(res, expected_res)
+
+    def test_remove_stemmed_similar_words(self):
+        self.neighbor = Neighborhood(None, self.parameters)
+        neighbors = [{'sapiens', 'human', 'genus', 'evolutionary', 'species', 'humans', 'hominins', 'Homo',
+                      'bipedal'}, {'this', 'other', 'be', 'are', 'that', 'only', 'been', 'has', 'the'},
+                     {'less', 'expanded', 'than', 'rise', 'more', 'growth', 'higher', 'large', 'trend', 'compared',
+                      'increasing', 'increased'}, {'subsequently', 'have', 'had', 'been', 'is'},
+                     {'about', 'at', 'in', 'through', 'out'},
+                     {'prefrontal', 'brain', 'brains', 'temporal', 'anatomically'}]
+        res = self.neighbor.remove_stemmed_similar_words(neighbors)
+        self.assertEqual(res, [{'bipedal', 'species', 'human', 'sapiens', 'hominins', 'Homo', 'genus', 'evolutionary'},
+                               {'been', 'the', 'are', 'that', 'other', 'be', 'has', 'this', 'only'},
+                               {'increasing', 'than', 'rise', 'trend', 'growth', 'higher', 'more', 'compared', 'less',
+                                'expanded', 'large'}, {'been', 'is', 'subsequently', 'have', 'had'},
+                               {'at', 'about', 'through', 'in', 'out'},
+                               {'brains', 'temporal', 'anatomically', 'prefrontal'}])

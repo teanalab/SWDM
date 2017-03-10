@@ -52,28 +52,75 @@
         "lower_threshold": 0.5,
         "n_max": 10
     },
-    "expansion_coefficient": 0.01,
+    "expansion_coefficient": 0.06,
     "window_size": {
-        "#uw": 4,
+        "#uw": 5,
         "#od": 1
     },
     "sdm_field_weights": {
-        "u": 0.9510000000000001,
-        "o": 0.001,
+        "u": 0.401,
+        "o": 0.101,
         "w": 0.101
     },
     "feature_parameters": {
         "UnigramWeights": {
             "norm_term_count": {},
             "norm_document_count": {},
-            "unigrams_cosine_similarity_with_orig": {}
+            "unigrams_cosine_similarity_with_orig": {
+                "unigram_nearest_neighbor": [
+                    [
+                        "Manufacturers",
+                        1
+                    ],
+                    [
+                        "Suppliers",
+                        0.6179746389389038
+                    ],
+                    [
+                        "Retailers",
+                        0.616181492805481
+                    ],
+                    [
+                        "Exporters",
+                        0.5878163576126099
+                    ],
+                    [
+                        "Makers",
+                        0.5555952191352844
+                    ],
+                    [
+                        "Automakers",
+                        0.5361173152923584
+                    ],
+                    [
+                        "Importers",
+                        0.5297344923019409
+                    ],
+                    [
+                        "Dealers",
+                        0.5278615951538086
+                    ],
+                    [
+                        "Carmakers",
+                        0.5242558717727661
+                    ],
+                    [
+                        "Consumers",
+                        0.5150564312934875
+                    ],
+                    [
+                        "Companies",
+                        0.506920337677002
+                    ]
+                ]
+            }
         },
         "UnorderedBigramWeights": {
             "uw_expression_norm_count": {
                 "window_size": 18
             },
             "uw_expression_norm_document_count": {
-                "window_size": 1
+                "window_size": 2
             }
         },
         "OrderedBigramWeights": {
@@ -81,13 +128,13 @@
                 "window_size": 9
             },
             "od_expression_norm_document_count": {
-                "window_size": 4
+                "window_size": 1
             }
         }
     },
     "features_weights": {
         "UnigramWeights": {
-            "norm_term_count": 0.0,
+            "norm_term_count": 0.05,
             "norm_document_count": 0.34,
             "unigrams_cosine_similarity_with_orig": 0.0
         },
