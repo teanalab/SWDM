@@ -1,4 +1,3 @@
-import sys
 from unittest import TestCase
 
 from embeddings.similarity.neighborhood import Neighborhood
@@ -184,3 +183,22 @@ class TestNeighborhood(TestCase):
                                 'expanded', 'large'}, {'been', 'is', 'subsequently', 'have', 'had'},
                                {'at', 'about', 'through', 'in', 'out'},
                                {'brains', 'temporal', 'anatomically', 'prefrontal'}])
+
+    def test_find_significant_pruned_neighbors(self):
+        self.word2vec.pre_trained_google_news_300_model()
+        self.neighbor = Neighborhood(self.word2vec.model, self.parameters)
+
+        min_distance = 0.4
+        neighbor_size = 5
+        minimum_merge_intersection = 1
+        max_stop_words = 1
+
+        res = self.neighbor.find_significant_pruned_neighbors(self.other_unigrams, min_distance,
+                                                              neighbor_size,
+                                                              minimum_merge_intersection,
+                                                              max_stop_words)
+
+        expected_res = [{'bipedal', 'genus', 'hominins', 'human', 'species', 'sapiens', 'evolutionary', 'Homo'},
+                        {'prefrontal', 'brain', 'temporal', 'anatomically'}]
+
+        self.assertTrue(res, expected_res)

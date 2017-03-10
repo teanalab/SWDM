@@ -1,5 +1,4 @@
 import nltk
-import sys
 
 from index.index import Index
 
@@ -84,3 +83,11 @@ class Neighborhood:
                 i += 1
             neighbors[k] = set(neighbor_)
         return neighbors
+
+    def find_significant_pruned_neighbors(self, doc_words, min_distance, neighbor_size, minimum_merge_intersection,
+                                          max_stop_words):
+        significant_neighbors = \
+            self.find_significant_merged_neighbors(doc_words, min_distance, neighbor_size, minimum_merge_intersection)
+        significant_neighbors = self.remove_stopwords_neighbors(significant_neighbors, max_stop_words)
+        significant_neighbors = self.remove_stemmed_similar_words(significant_neighbors)
+        return significant_neighbors

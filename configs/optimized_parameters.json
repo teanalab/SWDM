@@ -273,7 +273,7 @@
     "word2vec": {
         "upper_threshold": 0.8500000000000001,
         "lower_threshold": 0.5,
-        "n_max": 10
+        "n_max": 8
     },
     "expansion_coefficient": 0.06,
     "window_size": {
@@ -330,10 +330,6 @@
                     [
                         "Consumers",
                         0.5150564908981323
-                    ],
-                    [
-                        "Companies",
-                        0.506920337677002
                     ]
                 ]
             }
