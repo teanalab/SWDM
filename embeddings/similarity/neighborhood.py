@@ -1,3 +1,8 @@
+import sys
+
+import nltk
+
+
 class Neighborhood:
     def __init__(self, word2vec_model):
         self.word2vec_model = word2vec_model
@@ -47,3 +52,18 @@ class Neighborhood:
         significant_neighbors = self.find_significant_neighbors(doc_words, min_distance, neighbor_size)
         significant_merged_neighbors = self.merge_close_neighbors(significant_neighbors, minimum_merge_intersection)
         return significant_merged_neighbors
+
+    @staticmethod
+    def remove_stopwords_neighbors(neighbors, max_stop_words):
+        stop_words = set(nltk.corpus.stopwords.words('english'))
+        i = 0
+        while i < len(neighbors):
+            neighbor_stop_words_intersection = set(neighbors[i]).intersection(set(stop_words))
+            if len(neighbor_stop_words_intersection) >= max_stop_words:
+                del neighbors[i]
+            else:
+                for a in neighbors[i].copy():
+                    if a in stop_words:
+                        neighbors[i].remove(a)
+                i += 1
+        return neighbors

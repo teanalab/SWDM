@@ -343,7 +343,7 @@
                 "window_size": 18
             },
             "uw_expression_norm_document_count": {
-                "window_size": 1
+                "window_size": 2
             }
         },
         "OrderedBigramWeights": {

@@ -147,3 +147,19 @@ class TestNeighborhood(TestCase):
 
         self.assertTrue(significant_merge_neighbor[0] in expected_res)
         self.assertEqual(len(significant_merge_neighbor), len(expected_res))
+
+    def test_remove_stopwords_neighbors(self):
+        self.neighbor = Neighborhood(None)
+        max_stop_words = 3
+        neighbors = [{'sapiens', 'human', 'genus', 'evolutionary', 'species', 'humans', 'hominins', 'Homo',
+                      'bipedal'}, {'this', 'other', 'be', 'are', 'that', 'only', 'been', 'has', 'the'},
+                     {'less', 'expanded', 'than', 'rise', 'more', 'growth', 'higher', 'large', 'trend', 'compared',
+                      'increasing', 'increased'}, {'subsequently', 'have', 'had', 'been', 'is'},
+                     {'about', 'at', 'in', 'through', 'out'},
+                     {'prefrontal', 'brain', 'brains', 'temporal', 'anatomically'}]
+        res = self.neighbor.remove_stopwords_neighbors(neighbors, max_stop_words)
+        expected_res = [
+            {'hominins', 'Homo', 'sapiens', 'evolutionary', 'genus', 'humans', 'human', 'bipedal', 'species'},
+            {'increasing', 'less', 'trend', 'increased', 'higher', 'compared', 'rise', 'expanded', 'large', 'growth'},
+            {'anatomically', 'brain', 'prefrontal', 'brains', 'temporal'}]
+        self.assertEqual(res, expected_res)
