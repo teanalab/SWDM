@@ -1,5 +1,5 @@
 import nltk
-import sys
+import numpy as np
 
 from index.index import Index
 
@@ -119,11 +119,23 @@ class Neighborhood:
         return doc_words
 
     def find_significant_pruned_neighbors_in_doc(self, doc_file_name, min_distance, neighbor_size,
-                                                 minimum_merge_intersection,
-                                                 max_stop_words):
+                                                 minimum_merge_intersection, max_stop_words):
 
         doc_words = self.get_words(doc_file_name)
 
         significant_neighbors = self.find_significant_pruned_neighbors(doc_words, min_distance, neighbor_size,
                                                                        minimum_merge_intersection, max_stop_words)
         return significant_neighbors
+
+    def find_significant_neighbors_weight(self, doc_words, significant_neighbors):
+        max_tf = max([self.index_.term_count(term_) for term_ in doc_words])
+
+        significant_neighbors_weight = dict()
+        for ind, neighbor in list(significant_neighbors.items()):
+            significant_neighbors_weight[ind] = np.mean([self.index_.tfidf_fast(term, max_tf) for term in neighbor])
+
+        return significant_neighbors_weight
+
+    @staticmethod
+    def index_neighbors(neighbors):
+        return {ind: neighbor for ind, neighbor in enumerate(neighbors)}

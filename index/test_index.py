@@ -32,3 +32,6 @@ class TestIndex(TestCase):
     def test_check_if_have_same_stem(self):
         self.assertEqual(self.index_.check_if_have_same_stem("goes", "goe"), True)
         self.assertEqual(self.index_.check_if_have_same_stem("goes", "g"), False)
+
+    def test_idf(self):
+        self.assertEqual(self.index_.idf("dog"), 0.4054651081081644)

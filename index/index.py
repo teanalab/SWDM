@@ -1,4 +1,6 @@
+import math
 import pyndri
+import sys
 
 
 class Index:
@@ -40,6 +42,22 @@ class Index:
 
     def total_terms(self):
         return self.index.total_terms()
+
+    def idf(self, term):
+        return math.log(self.index.total_count()/(1+self.document_count(term)))
+
+    def tf(self, term, max_tf):
+        return 0.5 + 0.5 * self.term_count(term) / max_tf
+
+    def tfidf_fast(self, term, max_tf):
+        print(term, file=sys.stderr)
+        print(self.tf(term, max_tf), file=sys.stderr)
+        print(self.idf(term), file=sys.stderr)
+        return self.tf(term, max_tf) * self.idf(term)
+
+    def tfidf(self, term, doc_terms):
+        max_tf = max([self.term_count(term_) for term_ in doc_terms])
+        return self.tfidf_fast(term, max_tf)
 
 if __name__ == '__main__':
     pass
