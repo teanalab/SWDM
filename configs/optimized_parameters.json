@@ -1,22 +1,22 @@
 {
     "optimized_parameters_file_name": "../configs/optimized_parameters.json",
-    "repo_dir": "/scratch/index/indri_5_7/ap8889",
+    "repo_dir": "/scratch/index/indri_5_7/robust",
     "query_files": {
-        "old_indri_query_file": "../configs/queries/ap8889.cfg",
-        "new_indri_query_file": "../configs/queries/ap8889_expanded.cfg"
+        "old_indri_query_file": "../configs/queries/robust04.cfg",
+        "new_indri_query_file": "../configs/queries/robust04_expanded.cfg"
     },
     "prf": {
         "fb_docs": 1,
         "fb_terms": 0
     },
     "cross_validation": {
-        "number_of_folds": 3,
-        "testing_fold": 1
+        "number_of_folds": 10,
+        "testing_fold": 0
     },
     "indrirunquery_bin": "/home/fj9124/thirdPartyProgs/indri-5.11/build/bin/IndriRunQuery",
     "evaluation": {
         "measure": "map",
-        "qrels_file_name": "../configs/qrels/ap8889.txt",
+        "qrels_file_name": "../configs/qrels/robust04.txt",
         "trec_eval_bin": "/home/fj9124/projects/ir/evaluators/trec_eval/trec_eval.9.0/trec_eval"
     },
     "optimization": [
@@ -271,17 +271,17 @@
         }
     ],
     "word2vec": {
-        "upper_threshold": 0.8500000000000001,
+        "upper_threshold": 0.0,
         "lower_threshold": 0.5,
         "n_max": 8
     },
-    "expansion_coefficient": 0.06,
+    "expansion_coefficient": 0.065,
     "window_size": {
-        "#uw": 5,
+        "#uw": 25,
         "#od": 1
     },
     "sdm_field_weights": {
-        "u": 0.401,
+        "u": 0.9510000000000001,
         "o": 0.101,
         "w": 0.101
     },
@@ -292,44 +292,8 @@
             "unigrams_cosine_similarity_with_orig": {
                 "unigram_nearest_neighbor": [
                     [
-                        "Manufacturers",
+                        "US",
                         1
-                    ],
-                    [
-                        "Suppliers",
-                        0.6179746985435486
-                    ],
-                    [
-                        "Retailers",
-                        0.616181492805481
-                    ],
-                    [
-                        "Exporters",
-                        0.5878162384033203
-                    ],
-                    [
-                        "Makers",
-                        0.5555952191352844
-                    ],
-                    [
-                        "Automakers",
-                        0.5361173748970032
-                    ],
-                    [
-                        "Importers",
-                        0.5297344923019409
-                    ],
-                    [
-                        "Dealers",
-                        0.5278615951538086
-                    ],
-                    [
-                        "Carmakers",
-                        0.5242558717727661
-                    ],
-                    [
-                        "Consumers",
-                        0.5150564908981323
                     ]
                 ]
             }
@@ -339,7 +303,7 @@
                 "window_size": 18
             },
             "uw_expression_norm_document_count": {
-                "window_size": 2
+                "window_size": 6
             }
         },
         "OrderedBigramWeights": {
@@ -355,7 +319,7 @@
         "UnigramWeights": {
             "norm_term_count": 0.05,
             "norm_document_count": 0.34,
-            "unigrams_cosine_similarity_with_orig": 0.0
+            "unigrams_cosine_similarity_with_orig": 0.9500000000000001
         },
         "UnorderedBigramWeights": {
             "uw_expression_norm_count": 0,
@@ -363,8 +327,8 @@
             "bigrams_cosine_similarity_with_orig": 0.05
         },
         "OrderedBigramWeights": {
-            "od_expression_norm_count": 0,
-            "od_expression_norm_document_count": 0.33,
+            "od_expression_norm_count": 0.75,
+            "od_expression_norm_document_count": 0.0,
             "bigrams_cosine_similarity_with_orig": 0.49900000000000144
         }
     }

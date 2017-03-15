@@ -1,4 +1,5 @@
 import nltk
+import sys
 
 from index.index import Index
 
@@ -7,6 +8,7 @@ class Neighborhood:
     def __init__(self, word2vec_model, parameters):
         self.word2vec_model = word2vec_model
         self.index_ = Index(parameters)
+        self.stop_words = set(nltk.corpus.stopwords.words('english'))
 
     def find_nearest_neighbor_in_a_list(self, unigram, other_unigrams, min_distance, neighbor_size):
         neighbor = []
@@ -54,40 +56,74 @@ class Neighborhood:
         significant_merged_neighbors = self.merge_close_neighbors(significant_neighbors, minimum_merge_intersection)
         return significant_merged_neighbors
 
-    @staticmethod
-    def remove_stopwords_neighbors(neighbors, max_stop_words):
-        stop_words = set(nltk.corpus.stopwords.words('english'))
+    def remove_stopwords_neighbors(self, neighbors, max_stop_words):
         i = 0
         while i < len(neighbors):
-            neighbor_stop_words_intersection = set(neighbors[i]).intersection(set(stop_words))
+            neighbor_stop_words_intersection = set(neighbors[i]).intersection(set(self.stop_words))
             if len(neighbor_stop_words_intersection) >= max_stop_words:
                 del neighbors[i]
             else:
                 for a in neighbors[i].copy():
-                    if a in stop_words:
+                    if a in self.stop_words:
                         neighbors[i].remove(a)
                 i += 1
         return neighbors
 
-    def remove_stemmed_similar_words(self, neighbors):
+    def remove_stemmed_similar_words_neighbors(self, neighbors):
         for k in range(len(neighbors)):
             neighbor_ = list(neighbors[k])
-            i = 0
-            while i < len(neighbor_):
-                j = i + 1
-                while j < len(neighbor_):
-                    if self.index_.check_if_have_same_stem(neighbor_[i], neighbor_[j]):
-                        del neighbor_[j]
-                    else:
-                        j += 1
-                i += 1
-            neighbors[k] = set(neighbor_)
+            neighbors[k] = set(self.remove_stemmed_similar_words_list(neighbor_))
         return neighbors
+
+    def remove_stemmed_similar_words_list(self, l):
+        i = 0
+        while i < len(l):
+            j = i + 1
+            while j < len(l):
+                if self.index_.check_if_have_same_stem(l[i], l[j]):
+                    del l[j]
+                else:
+                    j += 1
+            i += 1
+        return l
+
+    def replace_stemmed_similar_words_list(self, l):
+        i = 0
+        while i < len(l):
+            j = i + 1
+            while j < len(l):
+                if self.index_.check_if_have_same_stem(l[i], l[j]):
+                    l[j] = l[i]
+                j += 1
+            i += 1
+        return l
 
     def find_significant_pruned_neighbors(self, doc_words, min_distance, neighbor_size, minimum_merge_intersection,
                                           max_stop_words):
+        doc_words = list(set(doc_words))
         significant_neighbors = \
             self.find_significant_merged_neighbors(doc_words, min_distance, neighbor_size, minimum_merge_intersection)
         significant_neighbors = self.remove_stopwords_neighbors(significant_neighbors, max_stop_words)
-        significant_neighbors = self.remove_stemmed_similar_words(significant_neighbors)
+        significant_neighbors = self.remove_stemmed_similar_words_neighbors(significant_neighbors)
+        return significant_neighbors
+
+    def get_words(self, doc_file_name):
+        tokenizer = nltk.tokenize.RegexpTokenizer(r'\w+')
+        with open(doc_file_name, 'r') as f:
+            doc_words = tokenizer.tokenize(f.read())
+        doc_words = [w.lower() for w in doc_words]
+        doc_words = [w for w in doc_words if w not in self.stop_words]
+        doc_words = self.replace_stemmed_similar_words_list(doc_words)
+        doc_words = [w for w in doc_words if w.isalpha()]
+        doc_words = [w for w in doc_words if len(w) > 2]
+        return doc_words
+
+    def find_significant_pruned_neighbors_in_doc(self, doc_file_name, min_distance, neighbor_size,
+                                                 minimum_merge_intersection,
+                                                 max_stop_words):
+
+        doc_words = self.get_words(doc_file_name)
+
+        significant_neighbors = self.find_significant_pruned_neighbors(doc_words, min_distance, neighbor_size,
+                                                                       minimum_merge_intersection, max_stop_words)
         return significant_neighbors
