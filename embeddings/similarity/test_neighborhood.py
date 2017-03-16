@@ -1,6 +1,5 @@
-from unittest import TestCase
-
 import sys
+from unittest import TestCase
 
 from embeddings.similarity.neighborhood import Neighborhood
 from embeddings.word2vec import Word2vec
@@ -360,4 +359,171 @@ class TestNeighborhood(TestCase):
         significant_neighbors_wiki = self.neighbor.index_neighbors(self.significant_neighbors_wiki)
         significant_neighbors_weight = self.neighbor.find_significant_neighbors_weight(doc_words,
                                                                                        significant_neighbors_wiki)
-        print("significant_neighbors_weight =", significant_neighbors_weight, file=sys.stderr)
+        print(significant_neighbors_weight, file=sys.stderr)
+        self.assertEqual(significant_neighbors_weight,
+                         {0: 1.9657078410960527, 1: 1.9683658951704364, 2: 2.4480979287834641, 3: 2.0842528829702265,
+                          4: 2.7511415404138724, 5: 2.7896288147053578, 6: 2.4429873399337798, 7: 1.5525003405814493,
+                          8: 3.3854693632901158, 9: 2.2115369760229528, 10: 2.0384620803628803, 11: 1.4874710681311145,
+                          12: 2.1526264204636982, 13: 2.0828900357613529, 14: 2.706715019070205, 15: 2.6264039661400878,
+                          16: 1.203510833885312, 17: 2.2288942504357725, 18: 1.4284576106213134, 19: 3.2435934976361729,
+                          20: 2.7711783428977199, 21: 2.2893316431048722, 22: 3.1796463326772111,
+                          23: 2.4549643568113124, 24: 2.5434144735503503, 25: 2.7581736015111566, 26: 2.564925624408728,
+                          27: 1.8296276817113244, 28: 2.0051271018302055, 29: 4.006608961860346, 30: 2.9067522415376059,
+                          31: 1.278885369636712, 32: 2.7560488141020385, 33: 2.4642912491882978, 34: 4.1549814591354233,
+                          35: 4.3677319378719091, 36: 2.0299240134899401, 37: 2.2725138641549796, 38: 3.597216546805833,
+                          39: 1.9776010225667644})
+
+    def test_sort_significant_neighbors(self):
+        self.neighbor = Neighborhood(None, self.parameters)
+
+        significant_neighbors_wiki = {
+            0: {'caught', 'set', 'came', 'revealed', 'moved', 'began', 'arose', 'become', 'arrived'},
+            1: {'failed', 'expects', 'described', 'major', 'identified', 'counteracted', 'hopes', 'believe', 'driven',
+                'reputed', 'considered', 'dictated', 'led', 'determined', 'either', 'managed', 'aided', 'inspired',
+                'know',
+                'decided', 'renowned', 'promised', 'intention', 'unlikely', 'top', 'influenced', 'unable', 'depending',
+                'regardless', 'tried', 'certain', 'trying', 'key'},
+            2: {'trait', 'humility', 'characteristic', 'qualities', 'knowledge', 'accomplishments', 'vocabulary',
+                'seasoned', 'experience', 'experienced', 'background', 'abilities'},
+            3: {'classic', 'significant', 'memorable', 'beautiful', 'major', 'rapidly', 'amusing', 'notable',
+                'slightly',
+                'key', 'greatly', 'dramatic', 'considerably'},
+            4: {'contemporary', 'prejudice', 'gentility', 'wrongs', 'companionate', 'text', 'themes', 'distrust',
+                'fashion', 'manuscript', 'literature', 'adaptations', 'perception', 'playfulness', 'environment',
+                'shades',
+                'confusion', 'pliancy', 'languages', 'designs', 'society'},
+            5: {'approve', 'darcy', 'seek', 'lizzy', 'ask', 'gentleman', 'adopts', 'enact', 'lord'},
+            6: {'introduced', 'acquired', 'formerly', 'expanded', 'name'},
+            7: {'factors', 'concern', 'mistake', 'problem', 'matters', 'situation', 'issues', 'obstacle', 'themes'},
+            8: {'jokes', 'silly', 'sarcastic', 'saw', 'knew', 'gossiping', 'acknowledged', 'really', 'cried'},
+            9: {'persuade', 'raise', 'ease', 'avoid', 'entice', 'put', 'dissuade', 'keep', 'encourage', 'improve',
+                'tempt',
+                'stays', 'still'},
+            10: {'way', 'viewpoint', 'process', 'technique', 'tool', 'approach', 'concept', 'method', 'formula'},
+            11: {'granted', 'brought', 'exposes', 'done', 'gives', 'undergone', 'uses', 'given', 'serves', 'undertaken',
+                 'confronts', 'creates', 'providing', 'takes', 'allowed', 'carried', 'responds', 'conducted', 'learns',
+                 'receive', 'taken'}, 12: {'feelings', 'economically', 'introspective', 'emotional', 'deeply'},
+            13: {'one', 'six', 'minimum', 'five', 'three'},
+            14: {'mentioned', 'spoke', 'written', 'wrote', 'essay', 'witty', 'writing', 'literary', 'amorous',
+                 'released',
+                 'reads', 'speaking', 'journal', 'sketching', 'published', 'article', 'talk', 'artless', 'spoken',
+                 'novelist'}, 15: {'thoroughly', 'closely', 'heavily', 'beautifully', 'scrupulously'},
+            16: {'company', 'financial', 'commercial', 'economy', 'market'},
+            17: {'wealthy', 'rich', 'wealth', 'income', 'prosperous'},
+            18: {'subsequently', 'initially', 'recently', 'later', 'previously'},
+            19: {'ignorance', 'agonizing', 'disappointment', 'impropriety', 'decorum', 'decency', 'embarrassment',
+                 'disgrace', 'arrogance', 'upset', 'horrified', 'surprised', 'folly', 'insolence', 'indecorous',
+                 'rectitude', 'ridicule'},
+            20: {'women', 'children', 'social', 'others', 'men', 'upbringing', 'anybody', 'child', 'adult'},
+            21: {'goes', 'happened', 'seems', 'learns', 'comes'},
+            22: {'romances', 'elope', 'friendship', 'jealous', 'affair', 'mingling', 'interactions', 'amorous',
+                 'laughing',
+                 'flirting', 'seducing', 'interrelationships', 'connections'},
+            23: {'depiction', 'picture', 'artwork', 'graphic', 'illustration', 'portrait', 'gallery', 'example'},
+            24: {'silly', 'genuine', 'lies', 'condescending', 'fact', 'childish', 'unnecessary', 'true', 'cynical',
+                 'illogical', 'haste', 'truth', 'serious', 'reality', 'merely', 'quick', 'irony', 'real', 'actually',
+                 'great'}, 25: {'sexual', 'male', 'marriage', 'unmarried', 'adultery'},
+            26: {'manuscript', 'trilogy', 'writing', 'memoir', 'music', 'journal', 'concert', 'article', 'sequel'},
+            27: {'empirical', 'case', 'evidence', 'admit', 'justification', 'attest', 'motive', 'reasons', 'say',
+                 'argument', 'believe', 'proof'},
+            28: {'spite', 'despite', 'nevertheless', 'fact', 'due', 'caused', 'resulted', 'forced'},
+            29: {'gentility', 'amiability', 'playfulness', 'feminity', 'insolence'},
+            30: {'tendency', 'sufficiently', 'often', 'extremely', 'particularly'},
+            31: {'importance', 'instrumental', 'involvement', 'position', 'part'},
+            32: {'dance', 'imitating', 'piano', 'music', 'harp'},
+            33: {'empirical', 'scholarly', 'scientists', 'biology', 'research'},
+            34: {'aside', 'apart', 'back', 'around', 'behind'},
+            35: {'barely', 'practically', 'though', 'every', 'hardly'},
+            36: {'poor', 'sickly', 'low', 'bad', 'hurting'},
+            37: {'imperative', 'stresses', 'necessity', 'role', 'advantages'},
+            38: {'unequal', 'subjection', 'illiberal', 'evil', 'overbearing'},
+            39: {'regard', 'respect', 'veneration', 'confidence', 'affection'}}
+        significant_neighbors_weight = {0: 1.9657078410960527, 1: 1.9683658951704364, 2: 2.4480979287834641,
+                                        3: 2.0842528829702265, 4: 2.7511415404138724, 5: 2.7896288147053578,
+                                        6: 2.4429873399337798, 7: 1.5525003405814493, 8: 3.3854693632901158,
+                                        9: 2.2115369760229528, 10: 2.0384620803628803, 11: 1.4874710681311145,
+                                        12: 2.1526264204636982, 13: 2.0828900357613529, 14: 2.706715019070205,
+                                        15: 2.6264039661400878, 16: 1.203510833885312, 17: 2.2288942504357725,
+                                        18: 1.4284576106213134, 19: 3.2435934976361729, 20: 2.7711783428977199,
+                                        21: 2.2893316431048722, 22: 3.1796463326772111, 23: 2.4549643568113124,
+                                        24: 2.5434144735503503, 25: 2.7581736015111566, 26: 2.564925624408728,
+                                        27: 1.8296276817113244, 28: 2.0051271018302055, 29: 4.006608961860346,
+                                        30: 2.9067522415376059, 31: 1.278885369636712, 32: 2.7560488141020385,
+                                        33: 2.4642912491882978, 34: 4.1549814591354233, 35: 4.3677319378719091,
+                                        36: 2.0299240134899401, 37: 2.2725138641549796, 38: 3.597216546805833,
+                                        39: 1.9776010225667644}
+        sorted_significant_neighbors = self.neighbor.sort_significant_neighbors(significant_neighbors_weight,
+                                                                                significant_neighbors_wiki)
+        print(sorted_significant_neighbors, file=sys.stderr)
+        self.assertEqual(sorted_significant_neighbors,
+                         [({'practically', 'every', 'barely', 'hardly', 'though'}, 4.367731937871909),
+                          ({'around', 'aside', 'apart', 'behind', 'back'}, 4.154981459135423),
+                          ({'gentility', 'playfulness', 'amiability', 'insolence', 'feminity'}, 4.006608961860346),
+                          ({'unequal', 'subjection', 'evil', 'overbearing', 'illiberal'}, 3.597216546805833), (
+                          {'sarcastic', 'silly', 'acknowledged', 'really', 'saw', 'cried', 'jokes', 'knew',
+                           'gossiping'}, 3.385469363290116), (
+                          {'folly', 'impropriety', 'ridicule', 'surprised', 'horrified', 'embarrassment',
+                           'disappointment', 'insolence', 'decency', 'upset', 'arrogance', 'agonizing', 'ignorance',
+                           'disgrace', 'decorum', 'rectitude', 'indecorous'}, 3.243593497636173), (
+                          {'amorous', 'mingling', 'laughing', 'romances', 'interrelationships', 'flirting', 'jealous',
+                           'friendship', 'affair', 'seducing', 'interactions', 'connections', 'elope'},
+                          3.179646332677211),
+                          ({'often', 'tendency', 'particularly', 'sufficiently', 'extremely'}, 2.906752241537606), (
+                          {'approve', 'lizzy', 'ask', 'darcy', 'seek', 'gentleman', 'adopts', 'enact', 'lord'},
+                          2.789628814705358), (
+                          {'social', 'upbringing', 'women', 'anybody', 'child', 'children', 'men', 'adult', 'others'},
+                          2.77117834289772),
+                          ({'marriage', 'unmarried', 'male', 'sexual', 'adultery'}, 2.7581736015111566),
+                          ({'music', 'piano', 'harp', 'imitating', 'dance'}, 2.7560488141020385), (
+                          {'gentility', 'perception', 'contemporary', 'companionate', 'literature', 'environment',
+                           'distrust', 'text', 'playfulness', 'themes', 'prejudice', 'manuscript', 'fashion',
+                           'confusion', 'languages', 'shades', 'designs', 'society', 'adaptations', 'wrongs',
+                           'pliancy'}, 2.7511415404138724), (
+                          {'amorous', 'literary', 'reads', 'article', 'witty', 'artless', 'mentioned', 'written',
+                           'sketching', 'talk', 'spoken', 'novelist', 'speaking', 'writing', 'published', 'journal',
+                           'spoke', 'wrote', 'released', 'essay'}, 2.706715019070205),
+                          ({'closely', 'heavily', 'thoroughly', 'scrupulously', 'beautifully'}, 2.6264039661400878), (
+                          {'sequel', 'manuscript', 'article', 'music', 'memoir', 'writing', 'concert', 'journal',
+                           'trilogy'}, 2.564925624408728), (
+                          {'true', 'great', 'childish', 'unnecessary', 'silly', 'haste', 'real', 'fact', 'illogical',
+                           'genuine', 'merely', 'condescending', 'reality', 'quick', 'truth', 'irony', 'cynical',
+                           'lies', 'actually', 'serious'}, 2.5434144735503503),
+                          ({'research', 'empirical', 'biology', 'scholarly', 'scientists'}, 2.464291249188298), (
+                          {'picture', 'illustration', 'example', 'graphic', 'portrait', 'gallery', 'artwork',
+                           'depiction'}, 2.4549643568113124), (
+                          {'experienced', 'characteristic', 'vocabulary', 'qualities', 'accomplishments', 'knowledge',
+                           'abilities', 'trait', 'background', 'seasoned', 'experience', 'humility'},
+                          2.448097928783464),
+                          ({'name', 'introduced', 'expanded', 'formerly', 'acquired'}, 2.44298733993378),
+                          ({'happened', 'seems', 'learns', 'comes', 'goes'}, 2.2893316431048722),
+                          ({'advantages', 'role', 'stresses', 'necessity', 'imperative'}, 2.2725138641549796),
+                          ({'wealth', 'rich', 'wealthy', 'income', 'prosperous'}, 2.2288942504357725), (
+                          {'dissuade', 'encourage', 'ease', 'raise', 'tempt', 'persuade', 'put', 'stays', 'entice',
+                           'improve', 'avoid', 'still', 'keep'}, 2.211536976022953),
+                          ({'introspective', 'emotional', 'feelings', 'deeply', 'economically'}, 2.1526264204636982), (
+                          {'classic', 'memorable', 'notable', 'slightly', 'amusing', 'beautiful', 'significant',
+                           'greatly', 'considerably', 'key', 'rapidly', 'dramatic', 'major'}, 2.0842528829702265),
+                          ({'one', 'three', 'six', 'five', 'minimum'}, 2.082890035761353), (
+                          {'viewpoint', 'approach', 'formula', 'way', 'technique', 'concept', 'tool', 'process',
+                           'method'}, 2.0384620803628803),
+                          ({'bad', 'low', 'sickly', 'poor', 'hurting'}, 2.02992401348994), (
+                          {'caused', 'resulted', 'nevertheless', 'fact', 'despite', 'forced', 'due', 'spite'},
+                          2.0051271018302055),
+                          ({'respect', 'confidence', 'regard', 'affection', 'veneration'}, 1.9776010225667644), (
+                          {'identified', 'regardless', 'counteracted', 'renowned', 'depending', 'expects', 'considered',
+                           'driven', 'hopes', 'led', 'unable', 'major', 'unlikely', 'tried', 'believe', 'intention',
+                           'dictated', 'inspired', 'know', 'trying', 'promised', 'described', 'top', 'determined',
+                           'certain', 'managed', 'reputed', 'key', 'decided', 'aided', 'failed', 'either',
+                           'influenced'}, 1.9683658951704364), (
+                          {'arrived', 'came', 'become', 'arose', 'caught', 'set', 'revealed', 'moved', 'began'},
+                          1.9657078410960527), (
+                          {'reasons', 'motive', 'attest', 'proof', 'case', 'believe', 'admit', 'empirical', 'evidence',
+                           'justification', 'say', 'argument'}, 1.8296276817113244), (
+                          {'matters', 'issues', 'factors', 'situation', 'themes', 'concern', 'problem', 'mistake',
+                           'obstacle'}, 1.5525003405814493), (
+                          {'brought', 'confronts', 'allowed', 'receive', 'taken', 'learns', 'uses', 'exposes',
+                           'undertaken', 'serves', 'gives', 'done', 'granted', 'given', 'carried', 'responds', 'takes',
+                           'conducted', 'undergone', 'providing', 'creates'}, 1.4874710681311145),
+                          ({'later', 'subsequently', 'previously', 'recently', 'initially'}, 1.4284576106213134),
+                          ({'position', 'part', 'instrumental', 'importance', 'involvement'}, 1.278885369636712),
+                          ({'financial', 'commercial', 'market', 'economy', 'company'}, 1.203510833885312)])

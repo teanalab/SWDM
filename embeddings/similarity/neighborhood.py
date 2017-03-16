@@ -1,5 +1,9 @@
+import operator
+
+import copy
 import nltk
 import numpy as np
+import sys
 
 from index.index import Index
 
@@ -87,12 +91,24 @@ class Neighborhood:
             i += 1
         return l
 
+    def remove_non_existent_words_in_repo(self, l):
+        return [w for w in l if self.index_.index.process_term(w)]
+
     def replace_stemmed_similar_words_list(self, l):
+        l1 = copy.deepcopy(l)
         i = 0
         while i < len(l):
             j = i + 1
             while j < len(l):
                 if self.index_.check_if_have_same_stem(l[i], l[j]):
+                    if l[i] == "first":
+                        print(self.index_.index.process_term(l[i]), self.index_.index.process_term(l[j]), file=sys.stderr)
+                        print(self.index_.check_if_have_same_stem(l[i], l[j]), file=sys.stderr)
+                        print(l[i], file=sys.stderr)
+                        print(l[j], file=sys.stderr)
+                        print(l1[i], file=sys.stderr)
+                        print(l1[j], file=sys.stderr)
+                        print("--------------", file=sys.stderr)
                     l[j] = l[i]
                 j += 1
             i += 1
@@ -113,6 +129,7 @@ class Neighborhood:
             doc_words = tokenizer.tokenize(f.read())
         doc_words = [w.lower() for w in doc_words]
         doc_words = [w for w in doc_words if w not in self.stop_words]
+        doc_words = self.remove_non_existent_words_in_repo(doc_words)
         doc_words = self.replace_stemmed_similar_words_list(doc_words)
         doc_words = [w for w in doc_words if w.isalpha()]
         doc_words = [w for w in doc_words if len(w) > 2]
@@ -128,13 +145,17 @@ class Neighborhood:
         return significant_neighbors
 
     def find_significant_neighbors_weight(self, doc_words, significant_neighbors):
-        max_tf = max([self.index_.term_count(term_) for term_ in doc_words])
 
         significant_neighbors_weight = dict()
         for ind, neighbor in list(significant_neighbors.items()):
-            significant_neighbors_weight[ind] = np.mean([self.index_.tfidf_fast(term, max_tf) for term in neighbor])
+            significant_neighbors_weight[ind] = np.mean([self.index_.tfidf(term, doc_words) for term in neighbor])
 
         return significant_neighbors_weight
+
+    @staticmethod
+    def sort_significant_neighbors(significant_neighbors_weight, significant_neighbors):
+        sorted_w = sorted(significant_neighbors_weight.items(), key=operator.itemgetter(1), reverse=True)
+        return [(significant_neighbors[k], v) for (k, v) in sorted_w]
 
     @staticmethod
     def index_neighbors(neighbors):

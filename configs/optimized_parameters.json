@@ -278,12 +278,12 @@
     "expansion_coefficient": 0.065,
     "window_size": {
         "#uw": 25,
-        "#od": 1
+        "#od": 24
     },
     "sdm_field_weights": {
-        "u": 0.9510000000000001,
-        "o": 0.101,
-        "w": 0.101
+        "u": 0.901,
+        "o": 0.15100000000000002,
+        "w": 0.051000000000000004
     },
     "feature_parameters": {
         "UnigramWeights": {
@@ -303,12 +303,12 @@
                 "window_size": 18
             },
             "uw_expression_norm_document_count": {
-                "window_size": 6
+                "window_size": 1
             }
         },
         "OrderedBigramWeights": {
             "od_expression_norm_count": {
-                "window_size": 9
+                "window_size": 28
             },
             "od_expression_norm_document_count": {
                 "window_size": 1
@@ -317,9 +317,9 @@
     },
     "features_weights": {
         "UnigramWeights": {
-            "norm_term_count": 0.05,
+            "norm_term_count": 0.0,
             "norm_document_count": 0.34,
-            "unigrams_cosine_similarity_with_orig": 0.9500000000000001
+            "unigrams_cosine_similarity_with_orig": 0.4
         },
         "UnorderedBigramWeights": {
             "uw_expression_norm_count": 0,
