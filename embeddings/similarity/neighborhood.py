@@ -1,11 +1,20 @@
-import operator
-
+import argparse
 import copy
-import nltk
-import numpy as np
+import operator
+import os
 import sys
 
-from index.index import Index
+import nltk
+import numpy as np
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), '../..'))
+try:
+    from embeddings.word2vec import Word2vec
+    from index.index import Index
+    from parameters.parameters import Parameters
+except:
+    raise
 
 
 class Neighborhood:
@@ -102,7 +111,8 @@ class Neighborhood:
             while j < len(l):
                 if self.index_.check_if_have_same_stem(l[i], l[j]):
                     if l[i] == "first":
-                        print(self.index_.index.process_term(l[i]), self.index_.index.process_term(l[j]), file=sys.stderr)
+                        print(self.index_.index.process_term(l[i]), self.index_.index.process_term(l[j]),
+                              file=sys.stderr)
                         print(self.index_.check_if_have_same_stem(l[i], l[j]), file=sys.stderr)
                         print(l[i], file=sys.stderr)
                         print(l[j], file=sys.stderr)
@@ -144,19 +154,59 @@ class Neighborhood:
                                                                        minimum_merge_intersection, max_stop_words)
         return significant_neighbors
 
-    def find_significant_neighbors_weight(self, doc_words, significant_neighbors):
+    def find_significant_neighbors_weight(self, doc_words, significant_neighbors_ind):
 
         significant_neighbors_weight = dict()
-        for ind, neighbor in list(significant_neighbors.items()):
+        for ind, neighbor in list(significant_neighbors_ind.items()):
             significant_neighbors_weight[ind] = np.mean([self.index_.tfidf(term, doc_words) for term in neighbor])
 
         return significant_neighbors_weight
 
     @staticmethod
-    def sort_significant_neighbors(significant_neighbors_weight, significant_neighbors):
+    def sort_significant_neighbors(significant_neighbors_weight, significant_neighbors_ind):
         sorted_w = sorted(significant_neighbors_weight.items(), key=operator.itemgetter(1), reverse=True)
-        return [(significant_neighbors[k], v) for (k, v) in sorted_w]
+        return [(significant_neighbors_ind[k], v) for (k, v) in sorted_w]
 
     @staticmethod
     def index_neighbors(neighbors):
         return {ind: neighbor for ind, neighbor in enumerate(neighbors)}
+
+    def run(self, doc_file_name, min_distance, neighbor_size, minimum_merge_intersection, max_stop_words):
+        doc_words = self.get_words(doc_file_name)
+        significant_neighbors = self.find_significant_pruned_neighbors(doc_words, min_distance, neighbor_size,
+                                                                       minimum_merge_intersection, max_stop_words)
+        significant_neighbors_ind = self.index_neighbors(significant_neighbors)
+        significant_neighbors_weight = self.find_significant_neighbors_weight(doc_words, significant_neighbors_ind)
+        sorted_significant_neighbors = self.sort_significant_neighbors(significant_neighbors_weight,
+                                                                       significant_neighbors_ind)
+        return sorted_significant_neighbors
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("--minDistance",
+                        default=0.4,
+                        help="minimum distance that determines similarity")
+    current_path = os.path.dirname(os.path.realpath(__file__))
+    parser.add_argument("--docFileName",
+                        default=os.path.join(current_path, "../../configs/others/pride_and_prejudice.txt"),
+                        help="minimum distance that determines similarity")
+
+    args = parser.parse_args()
+
+    min_distance_ = args.minDistance
+    doc_file_name_ = args.docFileName
+    neighbor_size_ = 5
+    minimum_merge_intersection_ = 1
+    max_stop_words_ = 1
+
+    parameters_ = Parameters()
+    parameters_.read_from_params_file()
+    word2vec = Word2vec()
+    word2vec.pre_trained_google_news_300_model()
+    neighbor_1 = Neighborhood(word2vec, parameters_)
+
+    sorted_significant_neighbors_ = neighbor_1.run(doc_file_name_, min_distance_, neighbor_size_,
+                                                   minimum_merge_intersection_, max_stop_words_)
+    print("sorted_significant_neighbors =", sorted_significant_neighbors_)

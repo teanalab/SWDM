@@ -816,147 +816,153 @@ class TestNeighborhood(TestCase):
                                               3.528690941714558),
                                              ({'clever', 'marvel', 'magic', 'folly', 'conceit'}, 3.4570164916518578),
                                              ({'zombie', 'evil', 'characters', 'ninja', 'hordes'}, 3.359073500297634), (
-                                             {'clever', 'sensible', 'unintelligent', 'witty', 'minded'},
-                                             3.2241826916396548), (
-                                             {'esteem', 'affection', 'obsequiousness', 'fascination', 'admiration'},
-                                             3.0325759240195507), (
-                                             {'cynical', 'quick', 'unnecessary', 'illogical', 'haste'},
-                                             3.0135018013682227), (
-                                             {'greedy', 'lord', 'zombies', 'oppressive', 'morality'},
-                                             2.9787298788792937), (
-                                             {'political', 'principled', 'decency', 'morality', 'impropriety',
-                                              'rectitude', 'decorum'}, 2.975794689893901), (
-                                             {'memoir', 'narrative', 'article', 'tales', 'storyline', 'stories',
-                                              'diary'}, 2.949700209718181), (
-                                             {'trait', 'qualities', 'characteristics', 'prejudices', 'tendencies',
-                                              'characteristic', 'tendency'}, 2.7531760337817244), (
-                                             {'alliteration', 'language', 'phrase', 'words', 'abilities'},
-                                             2.6899048611350174),
+                                                 {'clever', 'sensible', 'unintelligent', 'witty', 'minded'},
+                                                 3.2241826916396548), (
+                                                 {'esteem', 'affection', 'obsequiousness', 'fascination', 'admiration'},
+                                                 3.0325759240195507), (
+                                                 {'cynical', 'quick', 'unnecessary', 'illogical', 'haste'},
+                                                 3.0135018013682227), (
+                                                 {'greedy', 'lord', 'zombies', 'oppressive', 'morality'},
+                                                 2.9787298788792937), (
+                                                 {'political', 'principled', 'decency', 'morality', 'impropriety',
+                                                  'rectitude', 'decorum'}, 2.975794689893901), (
+                                                 {'memoir', 'narrative', 'article', 'tales', 'storyline', 'stories',
+                                                  'diary'}, 2.949700209718181), (
+                                                 {'trait', 'qualities', 'characteristics', 'prejudices', 'tendencies',
+                                                  'characteristic', 'tendency'}, 2.7531760337817244), (
+                                                 {'alliteration', 'language', 'phrase', 'words', 'abilities'},
+                                                 2.6899048611350174),
                                              ({'better', 'sweeter', 'harsh', 'respectful', 'nicer'}, 2.684323282856412),
                                              ({'thoroughly', 'heavily', 'beautifully', 'scrupulously', 'closely'},
                                               2.628786585396807), (
-                                             {'sport', 'socializing', 'pastimes', 'happiness', 'pursuits', 'pleasures',
-                                              'pursuit', 'activities', 'conceit', 'adventures'}, 2.58015634287613), (
-                                             {'adaptation', 'translations', 'novels', 'characters', 'sequel'},
-                                             2.5763514512456465), (
-                                             {'heirs', 'estate', 'patriarch', 'inheritance', 'property', 'manor',
-                                              'grandson', 'father'}, 2.5515855459287833), (
-                                             {'scholarly', 'empirical', 'biology', 'research', 'scientists'},
-                                             2.4653947041548014), (
-                                             {'sex', 'morality', 'unmarried', 'marriage', 'marriages'},
-                                             2.430590160720464), (
-                                             {'merely', 'sufficiently', 'strongly', 'equally', 'duly'},
-                                             2.422572316578747), (
-                                             {'poll', 'dislike', 'approve', 'disapproves', 'disapproval'},
-                                             2.417852929083968), (
-                                             {'obsession', 'arrogance', 'desires', 'desire', 'intention'},
-                                             2.3799025608423694), (
-                                             {'qualities', 'protagonists', 'character', 'characters', 'celebrity'},
-                                             2.3535702078667597), (
-                                             {'revisions', 'revision', 'variations', 'altering', 'altered'},
-                                             2.3114541345872732), (
-                                             {'reduce', 'overcome', 'unnecessary', 'dissuade', 'keep'},
-                                             2.1850026150569617), (
-                                             {'proof', 'empirical', 'case', 'argument', 'justification'},
-                                             2.1302056847799724),
+                                                 {'sport', 'socializing', 'pastimes', 'happiness', 'pursuits',
+                                                  'pleasures',
+                                                  'pursuit', 'activities', 'conceit', 'adventures'}, 2.58015634287613),
+                                             (
+                                                 {'adaptation', 'translations', 'novels', 'characters', 'sequel'},
+                                                 2.5763514512456465), (
+                                                 {'heirs', 'estate', 'patriarch', 'inheritance', 'property', 'manor',
+                                                  'grandson', 'father'}, 2.5515855459287833), (
+                                                 {'scholarly', 'empirical', 'biology', 'research', 'scientists'},
+                                                 2.4653947041548014), (
+                                                 {'sex', 'morality', 'unmarried', 'marriage', 'marriages'},
+                                                 2.430590160720464), (
+                                                 {'merely', 'sufficiently', 'strongly', 'equally', 'duly'},
+                                                 2.422572316578747), (
+                                                 {'poll', 'dislike', 'approve', 'disapproves', 'disapproval'},
+                                                 2.417852929083968), (
+                                                 {'obsession', 'arrogance', 'desires', 'desire', 'intention'},
+                                                 2.3799025608423694), (
+                                                 {'qualities', 'protagonists', 'character', 'characters', 'celebrity'},
+                                                 2.3535702078667597), (
+                                                 {'revisions', 'revision', 'variations', 'altering', 'altered'},
+                                                 2.3114541345872732), (
+                                                 {'reduce', 'overcome', 'unnecessary', 'dissuade', 'keep'},
+                                                 2.1850026150569617), (
+                                                 {'proof', 'empirical', 'case', 'argument', 'justification'},
+                                                 2.1302056847799724),
                                              ({'musical', 'singing', 'piano', 'music', 'dances'}, 2.1195292237387457), (
-                                             {'perception', 'opinion', 'views', 'viewpoint', 'picture'},
-                                             2.1027277398046342), (
-                                             {'preference', 'pleasing', 'dislike', 'loves', 'love'},
-                                             2.0764989830657825), (
-                                             {'problems', 'burden', 'sufferings', 'pain', 'hardship', 'families',
-                                              'humiliation', 'miseries'}, 2.0574074127071276),
+                                                 {'perception', 'opinion', 'views', 'viewpoint', 'picture'},
+                                                 2.1027277398046342), (
+                                                 {'preference', 'pleasing', 'dislike', 'loves', 'love'},
+                                                 2.0764989830657825), (
+                                                 {'problems', 'burden', 'sufferings', 'pain', 'hardship', 'families',
+                                                  'humiliation', 'miseries'}, 2.0574074127071276),
                                              ({'unfolding', 'done', 'going', 'transpires', 'know'}, 2.0466286814664665),
                                              ({'poor', 'low', 'bad', 'sickly', 'hurting'}, 2.0314520776586873), (
-                                             {'described', 'characterizes', 'perceived', 'describes', 'depiction'},
-                                             2.024282790911345), (
-                                             {'significantly', 'slightly', 'actually', 'greatly', 'bit'},
-                                             2.0189600313325906),
+                                                 {'described', 'characterizes', 'perceived', 'describes', 'depiction'},
+                                                 2.024282790911345), (
+                                                 {'significantly', 'slightly', 'actually', 'greatly', 'bit'},
+                                                 2.0189600313325906),
                                              ({'genuine', 'actually', 'truth', 'reality', 'real'}, 2.0156028105241646),
                                              ({'required', 'imperative', 'key', 'role', 'advantages', 'desirable',
                                                'necessity', 'stresses'}, 1.9927229144180862), (
-                                             {'insufficiently', 'equally', 'highly', 'alike', 'generally'},
-                                             1.9871188035311202), (
-                                             {'rich', 'economic', 'happiness', 'wealthy', 'economy', 'prosperous',
-                                              'income', 'wealth'}, 1.944470357571036), (
-                                             {'poor', 'greedy', 'respectable', 'generous', 'modest'},
-                                             1.9435087641856974), (
-                                             {'factors', 'motive', 'reason', 'justification', 'reasoning'},
-                                             1.8937247285994858), (
-                                             {'experienced', 'accomplishment', 'done', 'successful', 'accomplishments'},
-                                             1.886402792949167),
+                                                 {'insufficiently', 'equally', 'highly', 'alike', 'generally'},
+                                                 1.9871188035311202), (
+                                                 {'rich', 'economic', 'happiness', 'wealthy', 'economy', 'prosperous',
+                                                  'income', 'wealth'}, 1.944470357571036), (
+                                                 {'poor', 'greedy', 'respectable', 'generous', 'modest'},
+                                                 1.9435087641856974), (
+                                                 {'factors', 'motive', 'reason', 'justification', 'reasoning'},
+                                                 1.8937247285994858), (
+                                                 {'experienced', 'accomplishment', 'done', 'successful',
+                                                  'accomplishments'},
+                                                 1.886402792949167),
                                              ({'method', 'technique', 'ways', 'tool', 'approach'}, 1.8258601568078046),
                                              ({'objections', 'rejects', 'failure', 'disapproval', 'accept'},
                                               1.7975316298254298), (
-                                             {'reduced', 'restrict', 'lack', 'restricted', 'insufficient'},
-                                             1.7706842787592225), (
-                                             {'key', 'dramatic', 'significant', 'major', 'memorable'},
-                                             1.7671996874027147), (
-                                             {'dictated', 'aided', 'different', 'welcomed', 'altering', 'grateful',
-                                              'counteracted', 'led', 'ensured', 'support', 'influenced', 'changes',
-                                              'despite', 'benefited'}, 1.7455375178526558), (
-                                             {'knowledge', 'explaining', 'experience', 'understand', 'learn'},
-                                             1.7199366352869319),
+                                                 {'reduced', 'restrict', 'lack', 'restricted', 'insufficient'},
+                                                 1.7706842787592225), (
+                                                 {'key', 'dramatic', 'significant', 'major', 'memorable'},
+                                                 1.7671996874027147), (
+                                                 {'dictated', 'aided', 'different', 'welcomed', 'altering', 'grateful',
+                                                  'counteracted', 'led', 'ensured', 'support', 'influenced', 'changes',
+                                                  'despite', 'benefited'}, 1.7455375178526558), (
+                                                 {'knowledge', 'explaining', 'experience', 'understand', 'learn'},
+                                                 1.7199366352869319),
                                              ({'unfolds', 'happened', 'learns', 'goes', 'comes'}, 1.7022629887297538), (
-                                             {'nominated', 'declared', 'identified', 'renamed', 'known'},
-                                             1.6999132728382196), (
-                                             {'concern', 'objections', 'hopes', 'fury', 'concerns'},
-                                             1.6697480097261181), (
-                                             {'carried', 'taken', 'undertaken', 'done', 'conducted', 'brought',
-                                              'undergone', 'pointed'}, 1.6348764267493465),
+                                                 {'nominated', 'declared', 'identified', 'renamed', 'known'},
+                                                 1.6999132728382196), (
+                                                 {'concern', 'objections', 'hopes', 'fury', 'concerns'},
+                                                 1.6697480097261181), (
+                                                 {'carried', 'taken', 'undertaken', 'done', 'conducted', 'brought',
+                                                  'undergone', 'pointed'}, 1.6348764267493465),
                                              ({'merely', 'true', 'great', 'serious', 'real'}, 1.6347605634767493), (
-                                             {'learning', 'teaches', 'educated', 'classes', 'learn'},
-                                             1.6186878178287194), (
-                                             {'numerous', 'entire', 'comprehensive', 'experience', 'completion',
-                                              'begin', 'detailed', 'significant'}, 1.616081874740976), (
-                                             {'published', 'article', 'publication', 'editions', 'version'},
-                                             1.6146667706585078), (
-                                             {'engaged', 'intervene', 'join', 'encourage', 'involved'},
-                                             1.610338183532663),
+                                                 {'learning', 'teaches', 'educated', 'classes', 'learn'},
+                                                 1.6186878178287194), (
+                                                 {'numerous', 'entire', 'comprehensive', 'experience', 'completion',
+                                                  'begin', 'detailed', 'significant'}, 1.616081874740976), (
+                                                 {'published', 'article', 'publication', 'editions', 'version'},
+                                                 1.6146667706585078), (
+                                                 {'engaged', 'intervene', 'join', 'encourage', 'involved'},
+                                                 1.610338183532663),
                                              ({'arrived', 'revealed', 'arose', 'came', 'appeared'}, 1.6009982529514235),
                                              ({'improved', 'reduce', 'expanded', 'significantly', 'limited'},
                                               1.5856917220679265), (
-                                             {'originally', 'initially', 'subsequently', 'repeatedly', 'recently'},
-                                             1.58043910157331), (
-                                             {'surely', 'considered', 'probably', 'ironically', 'proved'},
-                                             1.5698487658446745), (
-                                             {'disclosed', 'detailed', 'detail', 'information', 'specify'},
-                                             1.5646536577813435),
+                                                 {'originally', 'initially', 'subsequently', 'repeatedly', 'recently'},
+                                                 1.58043910157331), (
+                                                 {'surely', 'considered', 'probably', 'ironically', 'proved'},
+                                                 1.5698487658446745), (
+                                                 {'disclosed', 'detailed', 'detail', 'information', 'specify'},
+                                                 1.5646536577813435),
                                              ({'sold', 'purchase', 'buying', 'leasing', 'sell'}, 1.5562824993490156), (
-                                             {'staying', 'life', 'rescued', 'lives', 'death', 'deceased', 'lived',
-                                              'born'}, 1.5278866807058789),
+                                                 {'staying', 'life', 'rescued', 'lives', 'death', 'deceased', 'lived',
+                                                  'born'}, 1.5278866807058789),
                                              ({'asked', 'fallen', 'refuses', 'specify', 'refused'}, 1.519462984916895),
                                              ({'decision', 'opinion', 'judge', 'judgments', 'reasoning'},
                                               1.4910329693819828), (
-                                             {'natural', 'simply', 'usually', 'actually', 'generally'},
-                                             1.4460918977035817), (
-                                             {'problems', 'responsibility', 'risk', 'effects', 'consequence'},
-                                             1.4063033176086415),
+                                                 {'natural', 'simply', 'usually', 'actually', 'generally'},
+                                                 1.4460918977035817), (
+                                                 {'problems', 'responsibility', 'risk', 'effects', 'consequence'},
+                                                 1.4063033176086415),
                                              ({'working', 'work', 'goes', 'uses', 'teaches'}, 1.4028296492231784),
                                              ({'united', 'conquer', 'bring', 'join', 'uniting'}, 1.401698655104568),
                                              ({'miss', 'speak', 'invited', 'join', 'meet'}, 1.3763064995384275), (
-                                             {'required', 'standard', 'minimum', 'rules', 'require'},
-                                             1.3665297224378843), (
-                                             {'show', 'suggesting', 'display', 'reveals', 'shows'}, 1.3538101384670755),
+                                                 {'required', 'standard', 'minimum', 'rules', 'require'},
+                                                 1.3665297224378843), (
+                                                 {'show', 'suggesting', 'display', 'reveals', 'shows'},
+                                                 1.3538101384670755),
                                              (
-                                             {'sentence', 'judgment', 'case', 'courts', 'attorney'}, 1.343206484324142),
+                                                 {'sentence', 'judgment', 'case', 'courts', 'attorney'},
+                                                 1.343206484324142),
                                              ({'house', 'sold', 'residence', 'rents', 'lived'}, 1.34182331922759), (
-                                             {'problems', 'position', 'circumstance', 'matters', 'problem'},
-                                             1.3073346181218133), (
-                                             {'proposed', 'anticipated', 'promised', 'plans', 'decided'},
-                                             1.2878626070626698), (
-                                             {'come', 'followed', 'follows', 'adhere', 'following'},
-                                             1.2754955709500986), (
-                                             {'claimed', 'thought', 'speculated', 'believed', 'accepted'},
-                                             1.2474574760013515), (
-                                             {'law', 'laws', 'legal', 'courts', 'requirements', 'policy', 'rules',
-                                              'code'}, 1.192694060474281), (
-                                             {'message', 'stating', 'statement', 'dated', 'letters'},
-                                             1.1902469564427711),
+                                                 {'problems', 'position', 'circumstance', 'matters', 'problem'},
+                                                 1.3073346181218133), (
+                                                 {'proposed', 'anticipated', 'promised', 'plans', 'decided'},
+                                                 1.2878626070626698), (
+                                                 {'come', 'followed', 'follows', 'adhere', 'following'},
+                                                 1.2754955709500986), (
+                                                 {'claimed', 'thought', 'speculated', 'believed', 'accepted'},
+                                                 1.2474574760013515), (
+                                                 {'law', 'laws', 'legal', 'courts', 'requirements', 'policy', 'rules',
+                                                  'code'}, 1.192694060474281), (
+                                                 {'message', 'stating', 'statement', 'dated', 'letters'},
+                                                 1.1902469564427711),
                                              ({'looking', 'search', 'seeking', 'found', 'find'}, 1.142907299637085),
                                              ({'broke', 'came', 'began', 'resulted', 'end'}, 1.0667467559477213), (
-                                             {'staying', 'remain', 'leaving', 'living', 'stays', 'continue', 'remains',
-                                              'keep'}, 1.0620522032605224),
+                                                 {'staying', 'remain', 'leaving', 'living', 'stays', 'continue',
+                                                  'remains',
+                                                  'keep'}, 1.0620522032605224),
                                              ({'turn', 'came', 'brought', 'moved', 'put'}, 1.0400374033544608),
                                              ({'beginning', 'begin', 'going', 'coming', 'begins'}, 1.0195250181812443),
                                              ({'helping', 'allows', 'managed', 'aided', 'allowed'}, 0.9909598185417627),
@@ -1170,3 +1176,26 @@ class TestNeighborhood(TestCase):
         doc_words = self.neighbor.get_words("../../configs/others/pride_and_prejudice_wiki.txt")
         print(doc_words, file=sys.stderr)
         self.assertEqual(doc_words, self.doc_words)
+
+    def test_run(self):
+        self.neighbor = Neighborhood(None, self.parameters)
+
+        min_distance = 0.4
+        neighbor_size = 5
+        minimum_merge_intersection = 2
+        max_stop_words = 1
+
+        self.neighbor.get_words = MagicMock(return_value=self.doc_words)
+        self.neighbor.find_significant_pruned_neighbors = MagicMock(return_value=self.significant_neighbors_wiki)
+        self.neighbor.index_neighbors = MagicMock(return_value=self.significant_neighbors_wiki_index)
+        self.neighbor.find_significant_neighbors_weight = MagicMock(return_value=self.significant_neighbors_weight)
+        self.neighbor.sort_significant_neighbors = MagicMock(return_value=self.sorted_significant_neighbors)
+
+        sorted_significant_neighbors = self.neighbor.run(
+            "../../configs/others/pride_and_prejudice_wiki.txt",
+            min_distance,
+            neighbor_size,
+            minimum_merge_intersection,
+            max_stop_words)
+        print(sorted_significant_neighbors, file=sys.stderr)
+        self.assertEqual(sorted_significant_neighbors, self.sorted_significant_neighbors)
