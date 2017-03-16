@@ -92,7 +92,7 @@ class Neighborhood:
         return l
 
     def remove_non_existent_words_in_repo(self, l):
-        return [w for w in l if self.index_.index.process_term(w)]
+        return [w for w in l if self.index_.check_if_exists_in_index(w)]
 
     def replace_stemmed_similar_words_list(self, l):
         l1 = copy.deepcopy(l)

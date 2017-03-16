@@ -1,7 +1,6 @@
 import math
 
 import pyndri
-import sys
 
 
 class Index:
@@ -10,15 +9,15 @@ class Index:
         self.index = pyndri.Index(self.repo_dir)
 
     def check_if_exists_in_index(self, unigram):
-        return self.index.process_term(unigram) != ""
+        return self.index.process_term(unigram) != "" and self.document_count(unigram) > 0
 
     def check_if_have_same_stem(self, unigram1, unigram2):
         unigram1_ = self.index.process_term(unigram1)
         unigram2_ = self.index.process_term(unigram2)
         if unigram1_ == "":
-            raise LookupError("unigram " + unigram1 + " not exist. Probably was a stopword in indexing.")
+            raise LookupError("unigram \"" + unigram1 + "\" not exist. Probably was a stopword in indexing.")
         if unigram2_ == "":
-            raise LookupError("unigram " + unigram2 + " not exist. Probably was a stopword in indexing.")
+            raise LookupError("unigram \"" + unigram2 + "\" not exist. Probably was a stopword in indexing.")
         return
 
     def expression_count(self, term, operator, window_size):
@@ -54,15 +53,17 @@ class Index:
         return self.index.total_terms()
 
     def idf(self, term):
-        return math.log(self.index.total_count()/(1+self.document_count(term)))
+        return math.log(self.index.total_count() / (self.document_count(term)))
 
     def tf(self, term, doc_terms):
         max_f = max([doc_terms.count(term_) for term_ in doc_terms])
-        print(max_f, file=sys.stderr)
         return 0.5 + 0.5 * doc_terms.count(term) / max_f
 
     def tfidf(self, term, doc_terms):
+        if not self.check_if_exists_in_index(term):
+            raise LookupError("unigram \"" + term + "\" not exist. Probably was a stopword in indexing.")
         return self.tf(term, doc_terms) * self.idf(term)
+
 
 if __name__ == '__main__':
     pass

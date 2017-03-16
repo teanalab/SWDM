@@ -50,6 +50,11 @@ class TestIndex(TestCase):
     def test_idf(self):
         self.assertEqual(self.index_.idf("dog"), 0.4054651081081644)
 
+        self.parameters.params["repo_dir"] = '/scratch/index/indri_5_7/ap8889'
+        self.index_ = index.index.Index(self.parameters)
+
+        self.assertEqual(self.index_.document_count("first"), 0)
+
     def test_tfidf(self):
         self.parameters.params["repo_dir"] = '/scratch/index/indri_5_7/ap8889'
 
@@ -79,3 +84,5 @@ class TestIndex(TestCase):
 
         self.assertTrue(self.index_.check_if_exists_in_index("emotional"))
         self.assertFalse(self.index_.check_if_exists_in_index("first"))
+        self.assertFalse(self.index_.check_if_exists_in_index("included"))
+        self.assertTrue(self.index_.check_if_exists_in_index("includes"))
