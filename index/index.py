@@ -1,4 +1,5 @@
 import math
+
 import pyndri
 import sys
 
@@ -8,8 +9,17 @@ class Index:
         self.repo_dir = parameters.params['repo_dir']
         self.index = pyndri.Index(self.repo_dir)
 
+    def check_if_exists_in_index(self, unigram):
+        return self.index.process_term(unigram) != ""
+
     def check_if_have_same_stem(self, unigram1, unigram2):
-        return self.index.process_term(unigram1) == self.index.process_term(unigram2)
+        unigram1_ = self.index.process_term(unigram1)
+        unigram2_ = self.index.process_term(unigram2)
+        if unigram1_ == "":
+            raise LookupError("unigram " + unigram1 + " not exist. Probably was a stopword in indexing.")
+        if unigram2_ == "":
+            raise LookupError("unigram " + unigram2 + " not exist. Probably was a stopword in indexing.")
+        return
 
     def expression_count(self, term, operator, window_size):
         query = operator + str(window_size) + "(" + term + ")"
@@ -46,18 +56,13 @@ class Index:
     def idf(self, term):
         return math.log(self.index.total_count()/(1+self.document_count(term)))
 
-    def tf(self, term, max_tf):
-        return 0.5 + 0.5 * self.term_count(term) / max_tf
-
-    def tfidf_fast(self, term, max_tf):
-        print(term, file=sys.stderr)
-        print(self.tf(term, max_tf), file=sys.stderr)
-        print(self.idf(term), file=sys.stderr)
-        return self.tf(term, max_tf) * self.idf(term)
+    def tf(self, term, doc_terms):
+        max_f = max([doc_terms.count(term_) for term_ in doc_terms])
+        print(max_f, file=sys.stderr)
+        return 0.5 + 0.5 * doc_terms.count(term) / max_f
 
     def tfidf(self, term, doc_terms):
-        max_tf = max([self.term_count(term_) for term_ in doc_terms])
-        return self.tfidf_fast(term, max_tf)
+        return self.tf(term, doc_terms) * self.idf(term)
 
 if __name__ == '__main__':
     pass
