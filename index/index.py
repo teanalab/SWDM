@@ -1,6 +1,7 @@
 import math
 
 import pyndri
+from bs4 import BeautifulSoup
 
 
 class Index:
@@ -64,6 +65,9 @@ class Index:
             raise LookupError("unigram \"" + term + "\" not exist. Probably was a stopword in indexing.")
         return self.tf(term, doc_terms) * self.idf(term)
 
+    def obtain_text_of_a_document(self, docId):
+        text = self.index.document_text(docId)
+        return BeautifulSoup(text, "lxml").find("text").text
 
 if __name__ == '__main__':
     pass

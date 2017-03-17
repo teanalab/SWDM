@@ -328,7 +328,7 @@
         },
         "OrderedBigramWeights": {
             "od_expression_norm_count": 0.8,
-            "od_expression_norm_document_count": 0.75,
+            "od_expression_norm_document_count": 0.0,
             "bigrams_cosine_similarity_with_orig": 0.49900000000000144
         }
     }
