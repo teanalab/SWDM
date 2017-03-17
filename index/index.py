@@ -69,5 +69,14 @@ class Index:
         text = self.index.document_text(docId)
         return BeautifulSoup(text, "lxml").find("text").text
 
+    def obtain_term_ids_of_a_document(self, docId):
+        return self.index.document_term_ids(docId)
+
+    def obtain_terms_of_a_document(self, docId):
+        return self.index.document_terms(docId)
+
+    def term(self, term_id):
+        return self.index.term(term_id)
+
 if __name__ == '__main__':
     pass
