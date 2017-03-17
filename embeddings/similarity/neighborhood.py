@@ -1,5 +1,4 @@
 import argparse
-import copy
 import operator
 import os
 import sys
@@ -7,19 +6,22 @@ import sys
 import nltk
 import numpy as np
 
+
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), '../..'))
 try:
     from embeddings.word2vec import Word2vec
     from index.index import Index
     from parameters.parameters import Parameters
+    from collection.simple_document import SimpleDocument
 except:
     raise
 
 
 class Neighborhood:
-    def __init__(self, word2vec_model, parameters):
-        self.word2vec_model = word2vec_model
+    def __init__(self, word2vec_, parameters):
+        self.word2vec_model = word2vec_.model
+        self.single_document = SimpleDocument(parameters)
         self.index_ = Index(parameters)
         self.stop_words = set(nltk.corpus.stopwords.words('english'))
 
@@ -30,7 +32,7 @@ class Neighborhood:
                 if len(neighbor) > neighbor_size:
                     break
                 if other_unigram is not unigram and other_unigram not in neighbor and \
-                                other_unigram in self.word2vec_model.wv.vocab:
+                        other_unigram in self.word2vec_model.wv.vocab:
                     sim = self.word2vec_model.similarity(unigram, other_unigram)
                     if sim > min_distance:
                         neighbor += [other_unigram]
@@ -100,30 +102,6 @@ class Neighborhood:
             i += 1
         return l
 
-    def remove_non_existent_words_in_repo(self, l):
-        return [w for w in l if self.index_.check_if_exists_in_index(w)]
-
-    def replace_stemmed_similar_words_list(self, l):
-        l1 = copy.deepcopy(l)
-        i = 0
-        while i < len(l):
-            j = i + 1
-            while j < len(l):
-                if self.index_.check_if_have_same_stem(l[i], l[j]):
-                    if l[i] == "first":
-                        print(self.index_.index.process_term(l[i]), self.index_.index.process_term(l[j]),
-                              file=sys.stderr)
-                        print(self.index_.check_if_have_same_stem(l[i], l[j]), file=sys.stderr)
-                        print(l[i], file=sys.stderr)
-                        print(l[j], file=sys.stderr)
-                        print(l1[i], file=sys.stderr)
-                        print(l1[j], file=sys.stderr)
-                        print("--------------", file=sys.stderr)
-                    l[j] = l[i]
-                j += 1
-            i += 1
-        return l
-
     def find_significant_pruned_neighbors(self, doc_words, min_distance, neighbor_size, minimum_merge_intersection,
                                           max_stop_words):
         doc_words = list(set(doc_words))
@@ -133,22 +111,10 @@ class Neighborhood:
         significant_neighbors = self.remove_stemmed_similar_words_neighbors(significant_neighbors)
         return significant_neighbors
 
-    def get_words(self, doc_file_name):
-        tokenizer = nltk.tokenize.RegexpTokenizer(r'\w+')
-        with open(doc_file_name, 'r') as f:
-            doc_words = tokenizer.tokenize(f.read())
-        doc_words = [w.lower() for w in doc_words]
-        doc_words = [w for w in doc_words if w not in self.stop_words]
-        doc_words = self.remove_non_existent_words_in_repo(doc_words)
-        doc_words = self.replace_stemmed_similar_words_list(doc_words)
-        doc_words = [w for w in doc_words if w.isalpha()]
-        doc_words = [w for w in doc_words if len(w) > 2]
-        return doc_words
-
     def find_significant_pruned_neighbors_in_doc(self, doc_file_name, min_distance, neighbor_size,
                                                  minimum_merge_intersection, max_stop_words):
 
-        doc_words = self.get_words(doc_file_name)
+        doc_words = self.single_document.get_words(doc_file_name)
 
         significant_neighbors = self.find_significant_pruned_neighbors(doc_words, min_distance, neighbor_size,
                                                                        minimum_merge_intersection, max_stop_words)
@@ -172,13 +138,18 @@ class Neighborhood:
         return {ind: neighbor for ind, neighbor in enumerate(neighbors)}
 
     def run(self, doc_file_name, min_distance, neighbor_size, minimum_merge_intersection, max_stop_words):
-        doc_words = self.get_words(doc_file_name)
+        doc_words = self.single_document.get_words(doc_file_name)
+        print("doc_words length =", len(doc_words))
         significant_neighbors = self.find_significant_pruned_neighbors(doc_words, min_distance, neighbor_size,
                                                                        minimum_merge_intersection, max_stop_words)
+        print("significant_neighbors length =", len(significant_neighbors))
         significant_neighbors_ind = self.index_neighbors(significant_neighbors)
+        print("significant_neighbors_ind length =", len(significant_neighbors_ind))
         significant_neighbors_weight = self.find_significant_neighbors_weight(doc_words, significant_neighbors_ind)
+        print("significant_neighbors_weight length =", len(significant_neighbors_weight))
         sorted_significant_neighbors = self.sort_significant_neighbors(significant_neighbors_weight,
                                                                        significant_neighbors_ind)
+        print("sorted_significant_neighbors length =", len(sorted_significant_neighbors))
         return sorted_significant_neighbors
 
 
@@ -189,15 +160,18 @@ if __name__ == '__main__':
                         default=0.4,
                         help="minimum distance that determines similarity")
     current_path = os.path.dirname(os.path.realpath(__file__))
-    parser.add_argument("--docFileName",
+    parser.add_argument("--docFilePath",
                         default=os.path.join(current_path, "../../configs/others/pride_and_prejudice.txt"),
+                        help="document file path")
+    parser.add_argument("--neighborSize",
+                        default=5,
                         help="minimum distance that determines similarity")
 
     args = parser.parse_args()
 
-    min_distance_ = args.minDistance
-    doc_file_name_ = args.docFileName
-    neighbor_size_ = 5
+    min_distance_ = float(args.minDistance)
+    doc_file_name_ = args.docFilePath
+    neighbor_size_ = int(args.neighborSize)
     minimum_merge_intersection_ = 1
     max_stop_words_ = 1
 

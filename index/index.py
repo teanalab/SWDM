@@ -18,7 +18,7 @@ class Index:
             raise LookupError("unigram \"" + unigram1 + "\" not exist. Probably was a stopword in indexing.")
         if unigram2_ == "":
             raise LookupError("unigram \"" + unigram2 + "\" not exist. Probably was a stopword in indexing.")
-        return
+        return unigram1_ == unigram2_
 
     def expression_count(self, term, operator, window_size):
         query = operator + str(window_size) + "(" + term + ")"

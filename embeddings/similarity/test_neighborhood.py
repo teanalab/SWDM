@@ -972,7 +972,7 @@ class TestNeighborhood(TestCase):
 
     def test_find_nearest_neighbor_in_a_list(self):
         self.word2vec.pre_trained_google_news_300_model()
-        self.neighbor = Neighborhood(self.word2vec.model, self.parameters)
+        self.neighbor = Neighborhood(self.word2vec, self.parameters)
 
         unigram = "human"
 
@@ -986,7 +986,7 @@ class TestNeighborhood(TestCase):
 
     def test_find_significant_neighbors(self):
         self.word2vec.pre_trained_google_news_300_model()
-        self.neighbor = Neighborhood(self.word2vec.model, self.parameters)
+        self.neighbor = Neighborhood(self.word2vec, self.parameters)
 
         min_distance = 0.4
         neighbor_size = 5
@@ -1034,7 +1034,7 @@ class TestNeighborhood(TestCase):
 
     def test_find_significant_merged_neighbors(self):
         self.word2vec.pre_trained_google_news_300_model()
-        self.neighbor = Neighborhood(self.word2vec.model, self.parameters)
+        self.neighbor = Neighborhood(self.word2vec, self.parameters)
 
         min_distance = 0.4
         neighbor_size = 5
@@ -1095,18 +1095,9 @@ class TestNeighborhood(TestCase):
         expected_res = ['bipedal', 'species', 'human', 'sapiens', 'hominins', 'Homo', 'genus', 'evolutionary']
         self.assertEqual(set(res), set(expected_res))
 
-    def test_replace_stemmed_similar_words_list(self):
-        self.neighbor = Neighborhood(None, self.parameters)
-        neighbor = ['sapiens', 'human', 'genus', 'evolutionary', 'species', 'humans', "Human", 'hominins', 'Homo',
-                    'bipedal']
-        res = self.neighbor.replace_stemmed_similar_words_list(neighbor)
-        expected_res = ['sapiens', 'human', 'genus', 'evolutionary', 'species', 'human', 'human', 'hominins', 'Homo',
-                        'bipedal']
-        self.assertEqual(res, expected_res)
-
     def test_find_significant_pruned_neighbors(self):
         self.word2vec.pre_trained_google_news_300_model()
-        self.neighbor = Neighborhood(self.word2vec.model, self.parameters)
+        self.neighbor = Neighborhood(self.word2vec, self.parameters)
 
         min_distance = 0.4
         neighbor_size = 5
@@ -1126,14 +1117,14 @@ class TestNeighborhood(TestCase):
 
     def test_find_significant_pruned_neighbors_in_doc(self):
         self.word2vec.pre_trained_google_news_300_model()
-        self.neighbor = Neighborhood(self.word2vec.model, self.parameters)
+        self.neighbor = Neighborhood(self.word2vec, self.parameters)
 
         min_distance = 0.4
         neighbor_size = 5
         minimum_merge_intersection = 2
         max_stop_words = 1
 
-        self.neighbor.get_words = MagicMock(return_value=self.doc_words)
+        self.neighbor.single_document.get_words = MagicMock(return_value=self.doc_words)
 
         res = self.neighbor.find_significant_pruned_neighbors_in_doc(
             "../../configs/others/pride_and_prejudice_wiki.txt",
@@ -1171,25 +1162,14 @@ class TestNeighborhood(TestCase):
         print(significant_neighbors_wiki_index, file=sys.stderr)
         self.assertEqual(significant_neighbors_wiki_index, self.significant_neighbors_wiki_index)
 
-    def test_get_words(self):
-        self.neighbor = Neighborhood(None, self.parameters)
-        doc_words = self.neighbor.get_words("../../configs/others/pride_and_prejudice_wiki.txt")
-        print(doc_words, file=sys.stderr)
-        self.assertEqual(doc_words, self.doc_words)
-
     def test_run(self):
-        self.neighbor = Neighborhood(None, self.parameters)
+        self.word2vec.pre_trained_google_news_300_model()
+        self.neighbor = Neighborhood(self.word2vec, self.parameters)
 
         min_distance = 0.4
         neighbor_size = 5
         minimum_merge_intersection = 2
         max_stop_words = 1
-
-        self.neighbor.get_words = MagicMock(return_value=self.doc_words)
-        self.neighbor.find_significant_pruned_neighbors = MagicMock(return_value=self.significant_neighbors_wiki)
-        self.neighbor.index_neighbors = MagicMock(return_value=self.significant_neighbors_wiki_index)
-        self.neighbor.find_significant_neighbors_weight = MagicMock(return_value=self.significant_neighbors_weight)
-        self.neighbor.sort_significant_neighbors = MagicMock(return_value=self.sorted_significant_neighbors)
 
         sorted_significant_neighbors = self.neighbor.run(
             "../../configs/others/pride_and_prejudice_wiki.txt",
@@ -1198,4 +1178,82 @@ class TestNeighborhood(TestCase):
             minimum_merge_intersection,
             max_stop_words)
         print(sorted_significant_neighbors, file=sys.stderr)
-        self.assertEqual(sorted_significant_neighbors, self.sorted_significant_neighbors)
+        self.assertEqual(sorted_significant_neighbors,
+                         [({'amorous', 'novelist', 'artless', 'witty', 'literary'}, 3.8730611512829034),
+                          ({'ask', 'darcy', 'gentleman', 'lizzy', 'lord'}, 3.8033656730068635),
+                          ({'subjection', 'overbearing', 'unequal', 'illiberal', 'evil'}, 3.6751087766529302),
+                          ({'insolence', 'arrogance', 'folly', 'rectitude', 'ignorance'}, 3.5286909417145589),
+                          ({'condescending', 'childish', 'silly', 'merely', 'cynical'}, 3.4963245488185875),
+                          ({'amorous', 'affair', 'flirting', 'romances', 'elope'}, 3.2539707321095603),
+                          ({'mingling', 'jealous', 'flirting', 'laughing', 'seducing'}, 3.240065973553957), (
+                          {'interactions', 'interrelationships', 'friendship', 'romances', 'connections'},
+                          3.1094407136221571),
+                          ({'gossiping', 'cried', 'silly', 'sarcastic', 'jokes'}, 3.0362586822053346),
+                          ({'illogical', 'unnecessary', 'cynical', 'haste', 'quick'}, 3.0216055784211249),
+                          ({'abilities', 'humility', 'accomplishments', 'characteristic', 'trait'}, 2.8617000432392219),
+                          ({'concert', 'memoir', 'sequel', 'music', 'trilogy'}, 2.8459674391058725),
+                          ({'imitating', 'harp', 'music', 'dance', 'piano'}, 2.7800846381455586),
+                          ({'unmarried', 'sexual', 'adultery', 'male', 'marriage'}, 2.776335949496207),
+                          ({'prejudice', 'confusion', 'distrust', 'wrongs', 'perception'}, 2.7599022062838698),
+                          ({'beautifully', 'closely', 'heavily', 'scrupulously', 'thoroughly'}, 2.6351931762898131),
+                          ({'literature', 'adaptations', 'languages', 'text', 'manuscript'}, 2.5928407199326484), (
+                          {'portrait', 'graphic', 'depiction', 'illustration', 'artwork', 'example', 'picture',
+                           'gallery'}, 2.4720345846503866),
+                          ({'biology', 'empirical', 'scholarly', 'scientists', 'research'}, 2.4653947041548014),
+                          ({'duly', 'strongly', 'equally', 'merely', 'sufficiently'}, 2.4293581888756894),
+                          ({'notable', 'beautiful', 'amusing', 'dramatic', 'classic'}, 2.3649336986732057), (
+                          {'manuscript', 'article', 'writing', 'memoir', 'written', 'released', 'essay', 'literary',
+                           'wrote', 'sketching', 'journal'}, 2.31049575129073),
+                          ({'surprised', 'embarrassment', 'horrified', 'disappointment', 'upset'}, 2.3063650673313472),
+                          ({'contemporary', 'literature', 'society', 'environment', 'perception'}, 2.296558838422059), (
+                          {'vocabulary', 'qualities', 'experience', 'accomplishments', 'knowledge'},
+                          2.2898643675576382),
+                          ({'stresses', 'necessity', 'role', 'advantages', 'imperative'}, 2.2731905311238894),
+                          ({'contemporary', 'shades', 'themes', 'fashion', 'designs'}, 2.2467488119126657),
+                          ({'rich', 'income', 'wealthy', 'prosperous', 'wealth'}, 2.2417154928276881),
+                          ({'exclusively', 'particular', 'simply', 'merely', 'necessarily'}, 2.2221294186069072),
+                          ({'keep', 'tempt', 'entice', 'persuade', 'avoid'}, 2.2047607130287754),
+                          ({'revolves', 'characterizes', 'retains', 'goes', 'sees'}, 2.2005819536899884),
+                          ({'economically', 'introspective', 'feelings', 'deeply', 'emotional'}, 2.1778176218820944),
+                          ({'reality', 'irony', 'fact', 'true', 'lies'}, 2.1758074320612253),
+                          ({'way', 'concept', 'method', 'technique', 'viewpoint'}, 2.1396536433136673),
+                          ({'remember', 'mother', 'loudly', 'felt', 'laughing'}, 2.1043664449825834),
+                          ({'transpires', 'going', 'unfolding', 'done', 'know'}, 2.0561466435366644),
+                          ({'adult', 'upbringing', 'child', 'social', 'children'}, 2.0512004884423103),
+                          ({'relevant', 'particular', 'specify', 'detailed', 'type'}, 2.0455266120322362), (
+                          {'counteracted', 'dictated', 'inspired', 'influenced', 'aided', 'led', 'driven'},
+                          2.035443654356595), ({'low', 'hurting', 'poor', 'sickly', 'bad'}, 2.0314520776586873),
+                          ({'process', 'technique', 'approach', 'tool', 'formula'}, 2.0037044910742781),
+                          ({'respect', 'veneration', 'regard', 'affection', 'confidence'}, 1.9906622850601341), (
+                          {'significant', 'actually', 'significantly', 'rapidly', 'bit', 'greatly', 'slightly',
+                           'considerably'}, 1.9805479525988616),
+                          ({'abilities', 'seasoned', 'experienced', 'background', 'knowledge'}, 1.9790139732795489), (
+                          {'proof', 'case', 'empirical', 'evidence', 'reasons', 'motive', 'argument', 'justification'},
+                          1.915553739980808),
+                          ({'determined', 'regardless', 'influenced', 'depending', 'driven'}, 1.8698891087002258),
+                          ({'described', 'identified', 'renowned', 'reputed', 'considered'}, 1.8164544531085611), (
+                          {'reality', 'great', 'genuine', 'serious', 'actually', 'good', 'merely', 'truth', 'real',
+                           'true'}, 1.8031163674969846),
+                          ({'proof', 'believe', 'say', 'admit', 'attest'}, 1.8014052841487562), (
+                          {'significant', 'memorable', 'major', 'dramatic', 'key', 'renowned', 'led', 'top'},
+                          1.7888148097526089),
+                          ({'speculated', 'revealed', 'claimed', 'acknowledged', 'hints'}, 1.7619726464697281), (
+                          {'travels', 'creates', 'exposes', 'responds', 'learns', 'confronts', 'hears', 'sees'},
+                          1.6708843270368847), ({'blames', 'rejects', 'insists', 'cites', 'sees'}, 1.6677047704790986),
+                          ({'initially', 'previously', 'recently', 'specify', 'eventually', 'subsequently', 'later',
+                            'originally', 'repeatedly'}, 1.6443367086934779),
+                          ({'done', 'conducted', 'taken', 'undergone', 'carried'}, 1.5850098105670667),
+                          ({'adding', 'explains', 'elaborated', 'cites', 'wrote'}, 1.5548842323558119),
+                          ({'concern', 'situation', 'mistake', 'issues', 'obstacle'}, 1.5469062712332178),
+                          ({'concern', 'problem', 'themes', 'factors', 'matters'}, 1.5007301603197039),
+                          ({'raise', 'encourage', 'improve', 'ease', 'avoid'}, 1.4939711150401898),
+                          ({'undertaken', 'given', 'takes', 'carried', 'brought'}, 1.4433022589411331),
+                          ({'despite', 'caused', 'resulted', 'forced', 'spite'}, 1.4186742764217244),
+                          ({'ask', 'enact', 'seek', 'approve', 'adopts'}, 1.4025449212792176), (
+                          {'century', 'past', 'days', 'months', 'chance', 'moment', 'twenty', 'period'},
+                          1.4011903526778635),
+                          ({'position', 'involvement', 'importance', 'part', 'instrumental'}, 1.2843403474118493),
+                          ({'commercial', 'company', 'market', 'economy', 'financial'}, 1.2035480639555975),
+                          ({'moved', 'came', 'set', 'began', 'caught'}, 1.1388445656941451),
+                          ({'receive', 'gives', 'allowed', 'granted', 'taken'}, 1.1341899088186533),
+                          ({'three', 'fourth', 'six', 'second', 'top'}, 1.0469928311305321)])
