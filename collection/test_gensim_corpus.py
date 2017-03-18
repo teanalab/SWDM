@@ -2,7 +2,7 @@ import sys
 from unittest import TestCase
 from unittest.mock import MagicMock
 
-from collection.gensimcorpus import GensimCorpus
+from collection.gensim_corpus import GensimCorpus
 from parameters.parameters import Parameters
 
 

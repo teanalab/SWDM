@@ -283,7 +283,7 @@
     "sdm_field_weights": {
         "u": 0.751,
         "o": 0.15100000000000002,
-        "w": 0.001
+        "w": 0.101
     },
     "feature_parameters": {
         "UnigramWeights": {
