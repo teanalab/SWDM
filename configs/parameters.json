@@ -47,6 +47,11 @@
       {"param_name": ["word2vec", "n_max"], "initial_point": 0, "final_point": 30, "step_size": 1},
       {"param_name": ["expansion_coefficient"], "initial_point": 0, "final_point": 0.2, "step_size": 0.005}
   ],
+    "lda": {
+      "file_name": "../configs/lda/ap8889.txt",
+      "model": "../configs/lda/ap8889.model",
+      "num_topics": 50
+    },
     "word2vec": {
         "upper_threshold": 1,
         "lower_threshold": 0.5,

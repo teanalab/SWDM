@@ -10,6 +10,10 @@ class TestGensimCorpus(TestCase):
     def setUp(self):
         self.parameters = Parameters()
         self.parameters.params["repo_dir"] = '../index/test_files/index'
+        self.parameters.params["lda"] = {
+            "file_name": '../configs/lda/ap8889.txt',
+            "number_topics": 50
+        }
 
     def test_get_texts(self):
         GensimCorpus.read_collection = MagicMock(return_value='1312 b c\n a a b')

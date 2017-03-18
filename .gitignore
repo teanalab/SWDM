@@ -94,4 +94,5 @@ configs/qrels/
 configs/queries/
 configs/runs/
 configs/others/
+configs/lda/
 
