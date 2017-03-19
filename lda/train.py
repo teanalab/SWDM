@@ -26,10 +26,5 @@ class Train:
             print("write model to:", self.parameters.params["lda"]["model"], file=sys.stderr)
             self.lda.save(self.parameters.params["lda"]["model"])
         else:
-            print("read model from:", self.parameters.params["lda"]["model"], file=sys.stderr)
-            id2word = gensim.corpora.Dictionary.load(self.parameters.params["lda"]["model"]+".id2word")
-            print("id2word:", id2word, file=sys.stderr)
-            self.lda = gensim.models.ldamodel.LdaModel(id2word=id2word)
-            print("loading model...", file=sys.stderr)
-            self.lda.load(self.parameters.params["lda"]["model"])
+            self.lda = gensim.models.ldamodel.LdaModel.load(self.parameters.params["lda"]["model"])
             print("model loaded.", file=sys.stderr)
