@@ -34,6 +34,7 @@ class GensimCorpus(TextCorpus):
             doc_words = self.tokenizer.tokenize(doc_text)
             doc_words = [w.lower() for w in doc_words if w.isalpha() and len(w) > 2]
             doc_words = [w for w in doc_words if w not in self.stop_words]
+            doc_words = [self.index_.index.process_term(w) for w in doc_words]
             collection_lines += ' '.join(doc_words) + '\n'
         return collection_lines
 

@@ -25,8 +25,4 @@ class Infer:
         doc_words = self.get_words(doc_text)
         bow = self.corpus.dictionary.doc2bow(doc_words)
         sparse_topics = lda.get_document_topics(bow)
-        print(sparse_topics, file=sys.stderr)
-        lda.
-        # nparray = gensim.matutils.sparse2full(sparse_topics, num_topics)
-        # return nparray.tolist()
-        return sparse_topics
+        return [lda.print_topic(i[0]) for i in sparse_topics]

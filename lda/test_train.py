@@ -18,9 +18,9 @@ class TestTrain(TestCase):
         train.run()
         print(train.lda.print_topics(1), file=sys.stderr)
         self.assertEqual(train.lda.print_topics(1),
-                         [(29,
-                           '0.036*"bank" + 0.024*"loan" + 0.020*"savings" + 0.018*"said" + 0.018*"banks" + '
-                           '0.017*"federal" + 0.015*"the" + 0.013*"loans" + 0.012*"wright" + 0.011*"institutions"')])
+                         [(85,
+                           '0.028*"republ" + 0.014*"yugoslavia" + 0.011*"haiti" + 0.011*"ethnic" + 0.011*"govern" '
+                           '+ 0.008*"kosovo" + 0.007*"yugoslav" + 0.007*"gregg" + 0.006*"haitian" + 0.006*"provinc"')])
 
     def test_add_corpus(self):
         train = Train(self.parameters)
