@@ -20,6 +20,7 @@ class GensimCorpus(TextCorpus):
 
     def __init__(self, parameters):
         self.stop_words = set(nltk.corpus.stopwords.words('english'))
+        self.tokenizer = nltk.tokenize.RegexpTokenizer(r'\w+')
         self.parameters = parameters
         self.index_ = Index(self.parameters)
         self.store_collection_if_not_exists()
@@ -30,9 +31,9 @@ class GensimCorpus(TextCorpus):
         collection_lines = ""
         for i in range(1, self.index_.total_count() + 1):
             doc_text = self.index_.obtain_text_of_a_document(i)
-            tokenizer = nltk.tokenize.RegexpTokenizer(r'\w+')
-            doc_words = tokenizer.tokenize(doc_text)
-            doc_words = [w.lower() for w in doc_words if w.isalpha() and len(w) > 2 and w not in self.stop_words]
+            doc_words = self.tokenizer.tokenize(doc_text)
+            doc_words = [w.lower() for w in doc_words if w.isalpha() and len(w) > 2]
+            doc_words = [w for w in doc_words if w not in self.stop_words]
             collection_lines += ' '.join(doc_words) + '\n'
         return collection_lines
 

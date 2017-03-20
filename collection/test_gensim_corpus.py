@@ -25,4 +25,4 @@ class TestGensimCorpus(TestCase):
     def test_read_collection(self):
         self.parameters.params["repo_dir"] = '/scratch/index/indri_5_7/ap8889'
         corpus = GensimCorpus(self.parameters)
-        self.assertEqual(len(corpus.dictionary), 185121)
+        self.assertEqual(len(corpus.dictionary), 224597)

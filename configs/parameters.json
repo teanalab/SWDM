@@ -50,6 +50,7 @@
     "lda": {
       "file_name": "../configs/lda/ap8889.txt",
       "model": "../configs/lda/ap8889.model",
+      "corpus": "../configs/lda/ap8889.corpus",
       "num_topics": 50
     },
     "word2vec": {
