@@ -1,5 +1,6 @@
-import gensim
 import sys
+
+import gensim
 
 
 class Word2vec:
@@ -8,8 +9,8 @@ class Word2vec:
         pass
 
     def pre_trained_google_news_300_model(self):
-        self.model = gensim.models.Word2Vec.load_word2vec_format('/scratch/data/GoogleNews-vectors-negative300.bin',
-                                                                 binary=True)
+        self.model = gensim.models.KeyedVectors.load_word2vec_format('/scratch/data/GoogleNews-vectors-negative300.bin',
+                                                                     binary=True)
 
     @staticmethod
     def sentences(fname):

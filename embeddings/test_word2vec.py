@@ -1,9 +1,5 @@
-from __future__ import print_function
-
-import os
-from unittest import TestCase
-
 import sys
+from unittest import TestCase
 
 from embeddings.word2vec import Word2vec
 
@@ -16,6 +12,8 @@ class TestWord2vec(TestCase):
         self.word2vec.pre_trained_google_news_300_model()
 
         res = self.word2vec.gen_similar_words('human', 20)
+
+        print(res, file=sys.stderr)
 
         expected_res = [(u'human_beings', 0.613968014717102), (u'humans', 0.5917960405349731),
                         (u'impertinent_flamboyant_endearingly', 0.5868302583694458),
