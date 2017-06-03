@@ -25,6 +25,10 @@ class Index:
         query = operator + str(window_size) + "(" + term + ")"
         return self.index.expression_count(query)
 
+    def expression_list(self, term, operator, window_size):
+        query = operator + str(window_size) + "(" + term + ")"
+        return self.index.expression_list(query)
+
     def expression_document_count(self, term, operator, window_size):
         query = operator + str(window_size) + "(" + term + ")"
         return self.index.document_expression_count(query)

@@ -269,3 +269,7 @@ Greece during the past week.
         res = self.index_.term(147)
         print(res, file=sys.stderr)
         self.assertEqual(res, 'minist')
+
+    def test_expression_list(self):
+        self.assertEqual(self.index_.expression_list("SAMPSON Dog", "#uw", 12), {'romeo': 2})
+        self.assertEqual(self.index_.expression_list("your", "#uw", 12), {'hamlet': 1, 'romeo': 3})
