@@ -56,7 +56,8 @@ class Index:
     def idf(self, term):
         return math.log(self.index.total_count() / (self.document_count(term)))
 
-    def tf(self, term, doc_terms):
+    @staticmethod
+    def tf(term, doc_terms):
         max_f = max([doc_terms.count(term_) for term_ in doc_terms])
         return 0.5 + 0.5 * doc_terms.count(term) / max_f
 
@@ -65,15 +66,15 @@ class Index:
             raise LookupError("unigram \"" + term + "\" not exist. Probably was a stopword in indexing.")
         return self.tf(term, doc_terms) * self.idf(term)
 
-    def obtain_text_of_a_document(self, docId):
-        text = self.index.document_text(docId)
+    def obtain_text_of_a_document(self, doc_id):
+        text = self.index.document_text(doc_id)
         return BeautifulSoup(text, "lxml").find("text").text
 
-    def obtain_term_ids_of_a_document(self, docId):
-        return self.index.document_term_ids(docId)
+    def obtain_term_ids_of_a_document(self, doc_id):
+        return self.index.document_term_ids(doc_id)
 
-    def obtain_terms_of_a_document(self, docId):
-        return self.index.document_terms(docId)
+    def obtain_terms_of_a_document(self, doc_id):
+        return self.index.document_terms(doc_id)
 
     def term(self, term_id):
         return self.index.term(term_id)
