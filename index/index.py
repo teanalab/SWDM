@@ -23,16 +23,20 @@ class Index:
             raise LookupError("unigram \"" + unigram2 + "\" not exist. Probably was a stopword in indexing.")
         return unigram1_ == unigram2_
 
+    @staticmethod
+    def gen_expression_query(term, operator, window_size):
+        return operator + str(window_size) + "(" + term + ")"
+
     def expression_count(self, term, operator, window_size):
-        query = operator + str(window_size) + "(" + term + ")"
+        query = self.gen_expression_query(term, operator, window_size)
         return self.index.expression_count(query)
 
     def expression_list(self, term, operator, window_size):
-        query = operator + str(window_size) + "(" + term + ")"
+        query = self.gen_expression_query(term, operator, window_size)
         return self.index.expression_list(query)
 
     def expression_document_count(self, term, operator, window_size):
-        query = operator + str(window_size) + "(" + term + ")"
+        query = self.gen_expression_query(term, operator, window_size)
         return self.index.document_expression_count(query)
 
     def uw_expression_count(self, term, window_size):
@@ -101,6 +105,15 @@ class Index:
     def run_query_doc_names(self, query):
         runs = self.run_query(query)
         return [self.get_ext_document_id(i) for i, j in runs]
+
+    def expression_list_in_top_docs(self, term, operator, window_size, n_top_docs):
+        query = self.gen_expression_query(term, operator, window_size)
+        runs = self.run_query_doc_names(query)
+        del runs[n_top_docs:]
+        runs = set(runs)
+        expression_list = self.index.expression_list(query)
+        return {k: v for k, v in expression_list.items() if k in runs}
+
 
 if __name__ == '__main__':
     pass
