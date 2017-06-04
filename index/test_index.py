@@ -273,3 +273,7 @@ Greece during the past week.
     def test_expression_list(self):
         self.assertEqual(self.index_.expression_list("SAMPSON Dog", "#uw", 12), {'romeo': 2})
         self.assertEqual(self.index_.expression_list("your", "#uw", 12), {'hamlet': 1, 'romeo': 3})
+
+    def test_run_query(self):
+        self.index_.init_query_env()
+        self.assertEqual(self.index_.run_query("you"), ((3, -4.207161834249701), (2, -4.27477458192466)))

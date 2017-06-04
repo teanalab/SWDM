@@ -8,6 +8,7 @@ class Index:
     def __init__(self, parameters):
         self.repo_dir = parameters.params['repo_dir']
         self.index = pyndri.Index(self.repo_dir)
+        self.query_env = None
 
     def check_if_exists_in_index(self, unigram):
         return self.index.process_term(unigram) != "" and self.document_count(unigram) > 0
@@ -82,6 +83,14 @@ class Index:
 
     def term(self, term_id):
         return self.index.term(term_id)
+
+    def init_query_env(self, rules=('method:linear,collectionLambda:0.4,documentLambda:0.2',)):
+        self.query_env = pyndri.QueryEnvironment(
+            self.index,
+            rules=rules)
+
+    def run_query(self, query):
+        return self.query_env.query(query)
 
 if __name__ == '__main__':
     pass
