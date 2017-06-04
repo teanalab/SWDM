@@ -277,3 +277,10 @@ Greece during the past week.
     def test_run_query(self):
         self.index_.init_query_env()
         self.assertEqual(self.index_.run_query("you"), ((3, -4.207161834249701), (2, -4.27477458192466)))
+
+    def test_run_query_doc_names(self):
+        self.index_.init_query_env()
+        self.assertEqual(self.index_.run_query_doc_names("you"), ['romeo', 'hamlet'])
+
+    def test_get_ext_document_id(self):
+        self.assertEqual(self.index_.get_ext_document_id(1), 'lorem')

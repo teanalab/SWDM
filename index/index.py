@@ -1,6 +1,7 @@
 import math
 
 import pyndri
+import sys
 from bs4 import BeautifulSoup
 
 
@@ -91,6 +92,15 @@ class Index:
 
     def run_query(self, query):
         return self.query_env.query(query)
+
+    def get_ext_document_id(self, doc_id):
+        if not isinstance(doc_id, int):
+            raise TypeError("doc_id is \"" + str(doc_id) + "\" which is not an integer")
+        return self.index.ext_document_id(doc_id)
+
+    def run_query_doc_names(self, query):
+        runs = self.run_query(query)
+        return [self.get_ext_document_id(i) for i, j in runs]
 
 if __name__ == '__main__':
     pass
