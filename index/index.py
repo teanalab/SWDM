@@ -1,7 +1,6 @@
 import math
 
 import pyndri
-import sys
 from bs4 import BeautifulSoup
 
 
