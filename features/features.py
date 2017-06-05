@@ -5,11 +5,12 @@ sys.path.insert(0, os.path.abspath('..'))
 try:
     from features.embeddings import Embeddings
     from features.collection import Collection
+    from features.topdocs import Topdocs
 except:
     raise
 
 
-class Features(Embeddings, Collection):
+class Features(Embeddings, Collection, Topdocs):
     def __init__(self, parameters):
         Collection.__init__(self, parameters)
         Embeddings.__init__(self)
