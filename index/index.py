@@ -56,6 +56,9 @@ class Index:
     def document_count(self, term):
         return self.index.document_count(term)
 
+    def document_length_doc_name(self, doc_name):
+        return self.index.document_length_doc_name(doc_name)
+
     def total_count(self):
         return self.index.total_count()
 
@@ -105,12 +108,14 @@ class Index:
         runs = self.run_query(query)
         return [self.get_ext_document_id(i) for i, j in runs]
 
-    def expression_list_in_top_docs(self, term, operator, window_size, n_top_docs):
-        query = self.gen_expression_query(term, operator, window_size)
-        runs = self.run_query_doc_names(query)
+    def expression_list_in_top_docs(self, term, operator, window_size, n_top_docs, runs):
+        expression = self.gen_expression_query(term, operator, window_size)
+        return self.expression_list_in_top_docs_exp(expression, runs, n_top_docs)
+
+    def expression_list_in_top_docs_exp(self, expression, runs, n_top_docs):
         del runs[n_top_docs:]
         runs = set(runs)
-        expression_list = self.index.expression_list(query)
+        expression_list = self.index.expression_list(expression)
         return {k: v for k, v in expression_list.items() if k in runs}
 
 

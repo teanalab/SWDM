@@ -287,5 +287,9 @@ Greece during the past week.
 
     def test_expression_list_in_top_docs(self):
         self.index_.init_query_env()
-        self.assertEqual(self.index_.expression_list_in_top_docs("you", "#uw", 12, 2), {'hamlet': 1, 'romeo': 9})
-        self.assertEqual(self.index_.expression_list_in_top_docs("you", "#uw", 12, 1), {'romeo': 9})
+        runs = self.index_.run_query_doc_names("a")
+        self.assertEqual(self.index_.expression_list_in_top_docs("you", "#uw", 12, 2, runs), {'hamlet': 1, 'romeo': 9})
+        self.assertEqual(self.index_.expression_list_in_top_docs("you", "#uw", 12, 1, runs), {'romeo': 9})
+
+    def test_document_length_doc_name(self):
+        self.assertEqual(self.index_.document_length_doc_name('lorem'), 88)
