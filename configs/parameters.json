@@ -19,45 +19,119 @@
     "qrels_file_name": "../configs/qrels/robust04.txt",
     "trec_eval_bin": "/home/fj9124/projects/ir/evaluators/trec_eval/trec_eval.9.0/trec_eval"
   },
+  "shared_params_optimization":[
+    [
+      ["features_weights", "UnigramWeights", "norm_term_count"],
+      ["features_weights", "UnorderedBigramWeights", "uw_expression_norm_count"],
+      ["features_weights", "OrderedBigramWeights", "od_expression_norm_count"]
+    ],
+    [
+      ["features_weights", "UnigramWeights", "norm_document_count"],
+      ["features_weights", "UnorderedBigramWeights", "uw_expression_norm_document_count"],
+      ["features_weights", "OrderedBigramWeights", "od_expression_norm_document_count"]
+    ],
+    [
+      ["features_weights", "UnigramWeights", "unigrams_cosine_similarity_with_orig"],
+      ["features_weights", "UnorderedBigramWeights", "bigrams_cosine_similarity_with_orig"],
+      ["features_weights", "OrderedBigramWeights", "bigrams_cosine_similarity_with_orig"]
+    ],
+    [
+      ["features_weights", "UnigramWeights", "td_norm_unigram_count"],
+      ["features_weights", "UnorderedBigramWeights", "td_uw_expression_norm_count"],
+      ["features_weights", "OrderedBigramWeights", "td_od_expression_norm_count"]
+    ],
+    [
+      ["features_weights", "UnigramWeights", "td_norm_unigram_document_count"],
+      ["features_weights", "UnorderedBigramWeights", "td_uw_expression_norm_document_count"],
+      ["features_weights", "OrderedBigramWeights", "td_od_expression_norm_document_count"]
+    ],
+    [
+      ["feature_parameters", "UnigramWeights", "td_norm_unigram_count", "n_top_docs"],
+      ["feature_parameters", "UnigramWeights", "td_norm_unigram_document_count", "n_top_docs"],
+      ["feature_parameters", "UnorderedBigramWeights", "td_uw_expression_norm_count", "n_top_docs"],
+      ["feature_parameters", "UnorderedBigramWeights", "td_uw_expression_norm_document_count", "n_top_docs"],
+      ["feature_parameters", "OrderedBigramWeights", "td_od_expression_norm_count", "n_top_docs"],
+      ["feature_parameters", "OrderedBigramWeights", "td_od_expression_norm_document_count", "n_top_docs"]
+    ],
+    [
+      ["feature_parameters", "UnorderedBigramWeights", "uw_expression_norm_count", "window_size"],
+      ["feature_parameters", "UnorderedBigramWeights", "uw_expression_norm_document_count", "window_size"],
+      ["feature_parameters", "UnorderedBigramWeights", "td_uw_expression_norm_count", "window_size"],
+      ["feature_parameters", "UnorderedBigramWeights", "td_uw_expression_norm_document_count", "window_size"],
+      ["window_size", "#uw"]
+    ],
+    [
+      ["feature_parameters", "OrderedBigramWeights", "od_expression_norm_count", "window_size"],
+      ["feature_parameters", "OrderedBigramWeights", "od_expression_norm_document_count", "window_size"],
+      ["feature_parameters", "OrderedBigramWeights", "td_od_expression_norm_count", "window_size"],
+      ["feature_parameters", "OrderedBigramWeights", "td_od_expression_norm_document_count", "window_size"],
+      ["window_size", "#od"]
+    ],
+    [
+      ["expansion_coefficient"]
+    ],
+    [
+      ["sdm_field_weights", "u"]
+    ],
+    [
+      ["sdm_field_weights", "o"],
+      ["sdm_field_weights", "w"]
+    ],
+    [
+      ["word2vec", "upper_threshold"]
+    ],
+    [
+      ["word2vec", "lower_threshold"]
+    ],
+    [
+      ["word2vec", "n_max"]
+    ]
+  ],
   "optimization": [
-      {"param_name": ["features_weights", "UnigramWeights", "norm_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["features_weights", "UnigramWeights", "norm_term_count"], "initial_point": 0, "final_point": 0.1, "step_size": 0.05},
+      {"param_name": ["features_weights", "UnigramWeights", "norm_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["features_weights", "UnigramWeights", "unigrams_cosine_similarity_with_orig"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["features_weights", "UnigramWeights", "td_norm_unigram_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["features_weights", "UnigramWeights", "td_norm_unigram_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
+
       {"param_name": ["features_weights", "UnorderedBigramWeights", "uw_expression_norm_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["features_weights", "UnorderedBigramWeights", "uw_expression_norm_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["features_weights", "UnorderedBigramWeights", "bigrams_cosine_similarity_with_orig"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["features_weights", "UnorderedBigramWeights", "td_uw_expression_norm_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["features_weights", "UnorderedBigramWeights", "td_uw_expression_norm_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
+
       {"param_name": ["features_weights", "OrderedBigramWeights", "od_expression_norm_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["features_weights", "OrderedBigramWeights", "od_expression_norm_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["features_weights", "OrderedBigramWeights", "bigrams_cosine_similarity_with_orig"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["features_weights", "OrderedBigramWeights", "td_od_expression_norm_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["features_weights", "OrderedBigramWeights", "td_od_expression_norm_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
+
+      {"param_name": ["feature_parameters", "UnigramWeights", "td_norm_unigram_count", "n_top_docs"], "initial_point": 1, "final_point": 30, "step_size": 1},
+      {"param_name": ["feature_parameters", "UnigramWeights", "td_norm_unigram_document_count", "n_top_docs"], "initial_point": 1, "final_point": 30, "step_size": 1},
+
+      {"param_name": ["feature_parameters", "UnorderedBigramWeights", "uw_expression_norm_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1},
+      {"param_name": ["feature_parameters", "UnorderedBigramWeights", "uw_expression_norm_document_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1},
+      {"param_name": ["feature_parameters", "UnorderedBigramWeights", "td_uw_expression_norm_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1},
+      {"param_name": ["feature_parameters", "UnorderedBigramWeights", "td_uw_expression_norm_document_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1},
+      {"param_name": ["feature_parameters", "UnorderedBigramWeights", "td_uw_expression_norm_count", "n_top_docs"], "initial_point": 1, "final_point": 30, "step_size": 1},
+      {"param_name": ["feature_parameters", "UnorderedBigramWeights", "td_uw_expression_norm_document_count", "n_top_docs"], "initial_point": 1, "final_point": 30, "step_size": 1},
+
+      {"param_name": ["feature_parameters", "OrderedBigramWeights", "od_expression_norm_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1},
+      {"param_name": ["feature_parameters", "OrderedBigramWeights", "od_expression_norm_document_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1},
+      {"param_name": ["feature_parameters", "OrderedBigramWeights", "td_od_expression_norm_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1},
+      {"param_name": ["feature_parameters", "OrderedBigramWeights", "td_od_expression_norm_document_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1},
+      {"param_name": ["feature_parameters", "OrderedBigramWeights", "td_od_expression_norm_count", "n_top_docs"], "initial_point": 1, "final_point": 30, "step_size": 1},
+      {"param_name": ["feature_parameters", "OrderedBigramWeights", "td_od_expression_norm_document_count", "n_top_docs"], "initial_point": 1, "final_point": 30, "step_size": 1},
+
       {"param_name": ["expansion_coefficient"], "initial_point": 0, "final_point": 0.2, "step_size": 0.005},
       {"param_name": ["window_size", "#uw"], "initial_point": 1, "final_point": 30, "step_size": 1},
       {"param_name": ["window_size", "#od"], "initial_point": 1, "final_point": 30, "step_size": 1},
       {"param_name": ["sdm_field_weights", "u"], "initial_point": 0.001, "final_point": 1, "step_size": 0.05},
       {"param_name": ["sdm_field_weights", "o"], "initial_point": 0.001, "final_point": 1, "step_size": 0.05},
       {"param_name": ["sdm_field_weights", "w"], "initial_point": 0.001, "final_point": 1, "step_size": 0.05},
-      {"param_name": ["feature_parameters", "UnigramWeights", "td_norm_unigram_count", "n_top_docs"], "initial_point": 1, "final_point": 30, "step_size": 1},
-      {"param_name": ["feature_parameters", "UnigramWeights", "td_norm_unigram_document_count", "n_top_docs"], "initial_point": 1, "final_point": 30, "step_size": 1},
-      {"param_name": ["feature_parameters", "UnorderedBigramWeights", "uw_expression_norm_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1},
-      {"param_name": ["feature_parameters", "UnorderedBigramWeights", "uw_expression_norm_document_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1},
-      {"param_name": ["feature_parameters", "UnorderedBigramWeights", "td_uw_expression_norm_count", "n_top_docs"], "initial_point": 1, "final_point": 30, "step_size": 1},
-      {"param_name": ["feature_parameters", "UnorderedBigramWeights", "td_uw_expression_norm_document_count", "n_top_docs"], "initial_point": 1, "final_point": 30, "step_size": 1},
-      {"param_name": ["feature_parameters", "OrderedBigramWeights", "od_expression_norm_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1},
-      {"param_name": ["feature_parameters", "OrderedBigramWeights", "od_expression_norm_document_count", "window_size"], "initial_point": 1, "final_point": 30, "step_size": 1},
-      {"param_name": ["feature_parameters", "OrderedBigramWeights", "td_od_expression_norm_count", "n_top_docs"], "initial_point": 1, "final_point": 30, "step_size": 1},
-      {"param_name": ["feature_parameters", "OrderedBigramWeights", "td_od_expression_norm_document_count", "n_top_docs"], "initial_point": 1, "final_point": 30, "step_size": 1},
       {"param_name": ["word2vec", "upper_threshold"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["word2vec", "lower_threshold"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
-      {"param_name": ["word2vec", "n_max"], "initial_point": 0, "final_point": 30, "step_size": 1},
-      {"param_name": ["word2vec", "upper_threshold"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
-      {"param_name": ["word2vec", "lower_threshold"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
-      {"param_name": ["word2vec", "n_max"], "initial_point": 0, "final_point": 30, "step_size": 1},
-      {"param_name": ["expansion_coefficient"], "initial_point": 0, "final_point": 0.2, "step_size": 0.005}
+      {"param_name": ["word2vec", "n_max"], "initial_point": 0, "final_point": 30, "step_size": 1}
   ],
     "lda": {
       "file_name": "../configs/lda/ap8889.txt",

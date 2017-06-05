@@ -83,6 +83,14 @@ class TestQueryWeightsOptimizer(TestCase):
         self.assertEqual(res, expected_res)
 
     def test_obtain_best_parameter_set(self):
+        self.parameters.params["shared_params_optimization"] = [
+            [
+                ["expansion_coefficient"]
+            ],
+            [
+                ["word2vec", "threshold"]
+            ]
+        ]
         self.parameters.params["optimization"] = [
             {"param_name": ["expansion_coefficient"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
             {"param_name": ["word2vec", "threshold"], "initial_point": 0, "final_point": 1, "step_size": 0.1}
