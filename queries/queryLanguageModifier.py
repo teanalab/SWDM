@@ -56,6 +56,7 @@ class QueryLanguageModifier(object):
 
     def gen_sdm_fields_texts(self, text):
         sdm_fields_texts = dict()
+        self.expanded_sdm.init_top_docs_run_query(text)
         unigrams_in_embedding_space = self.embedding_space.find_unigrams_in_embedding_space(text)
         sdm_fields_texts['u'] = self.expanded_sdm.gen_sdm_field_1_text(unigrams_in_embedding_space, "#combine")
         sdm_fields_texts['o'] = self.expanded_sdm.gen_sdm_field_1_text(unigrams_in_embedding_space, "#od")

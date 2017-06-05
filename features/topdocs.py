@@ -4,9 +4,12 @@ import index.index
 
 
 class Topdocs:
-    def __init__(self, parameters, query):
+    def __init__(self, parameters):
         self.index = index.index.Index(parameters)
         self.index.init_query_env()
+        self.runs = None
+
+    def init_top_docs_run_query(self, query):
         self.runs = self.index.run_query_doc_names(query)
 
     def uw_expression_count(self, term, feature_parameters):

@@ -10,6 +10,11 @@ class ExpandedSdm:
         self.unordered_bigram_weights = UnorderedBigramWeights(self.parameters)
         self.ordered_bigram_weights = OrderedBigramWeights(self.parameters)
 
+    def init_top_docs_run_query(self, query):
+        self.unigram_weights.init_top_docs_run_query(query)
+        self.unordered_bigram_weights.init_top_docs_run_query(query)
+        self.ordered_bigram_weights.init_top_docs_run_query(query)
+
     def compute_weight_sdm_unigrams(self, similar_unigram, unigram_nearest_neighbor):
         term_dependent_feature_parameters = {
             "unigram_nearest_neighbor": unigram_nearest_neighbor,

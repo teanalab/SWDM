@@ -11,10 +11,10 @@ except:
 
 
 class Features(Embeddings, Collection, Topdocs):
-    def __init__(self, parameters, query):
+    def __init__(self, parameters):
         Collection.__init__(self, parameters)
         Embeddings.__init__(self)
-        Topdocs.__init__(self, parameters, query)
+        Topdocs.__init__(self, parameters)
         self.feature_functions = {}
 
     def linear_combination(self, term, feature_names, features_weights, feature_parameters):

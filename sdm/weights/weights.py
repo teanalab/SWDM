@@ -11,6 +11,9 @@ class Weights:
 
         self.feature_parameters = dict()
 
+    def init_top_docs_run_query(self, query):
+        self.features.init_top_docs_run_query(query)
+
     def compute_weight(self, term, term_dependent_feature_parameters):
         del term_dependent_feature_parameters
         return self.features.linear_combination(term, self.feature_names, self.features_weights,
