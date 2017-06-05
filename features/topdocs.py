@@ -13,26 +13,38 @@ class Topdocs:
         self.runs = self.index.run_query_doc_names(query)
 
     def uw_expression_count(self, term, feature_parameters):
+        if self.runs is None:
+            raise ValueError("runs are empty")
         return sum(self.index.expression_list_in_top_docs(term, "#uw", feature_parameters["window_size"],
                                                           feature_parameters["n_top_docs"], self.runs).value())
 
     def od_expression_count(self, term, feature_parameters):
+        if self.runs is None:
+            raise ValueError("runs are empty")
         return sum(self.index.expression_list_in_top_docs(term, "#od", feature_parameters["window_size"],
                                                           feature_parameters["n_top_docs"], self.runs).value())
 
     def uw_expression_document_count(self, term, feature_parameters):
+        if self.runs is None:
+            raise ValueError("runs are empty")
         return len(self.index.expression_list_in_top_docs(term, "#uw", feature_parameters["window_size"],
                                                           feature_parameters["n_top_docs"], self.runs))
 
     def od_expression_document_count(self, term, feature_parameters):
+        if self.runs is None:
+            raise ValueError("runs are empty")
         return len(self.index.expression_list_in_top_docs(term, "#od", feature_parameters["window_size"],
                                                           feature_parameters["n_top_docs"], self.runs))
 
     def term_count(self, term, feature_parameters):
+        if self.runs is None:
+            raise ValueError("runs are empty")
         return len(self.index.expression_list_in_top_docs_exp(expression=term, runs=self.runs,
                                                               n_top_docs=feature_parameters["n_top_docs"]))
 
     def document_count(self, term, feature_parameters):
+        if self.runs is None:
+            raise ValueError("runs are empty")
         return sum(self.index.expression_list_in_top_docs_exp(expression=term, runs=self.runs,
                                                               n_top_docs=feature_parameters["n_top_docs"]).values)
 
