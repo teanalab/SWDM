@@ -11,9 +11,10 @@ except:
 
 
 class Features(Embeddings, Collection, Topdocs):
-    def __init__(self, parameters):
+    def __init__(self, parameters, query):
         Collection.__init__(self, parameters)
         Embeddings.__init__(self)
+        Topdocs.__init__(self, parameters, query)
         self.feature_functions = {}
 
     def linear_combination(self, term, feature_names, features_weights, feature_parameters):
@@ -31,8 +32,16 @@ class Features(Embeddings, Collection, Topdocs):
             "od_expression_norm_document_count": Collection.od_expression_norm_document_count,
             "norm_term_count": Collection.norm_term_count,
             "norm_document_count": Collection.norm_document_count,
+
             "unigrams_cosine_similarity_with_orig": Embeddings.unigrams_cosine_similarity_with_orig,
-            "bigrams_cosine_similarity_with_orig": Embeddings.bigrams_cosine_similarity_with_orig,
+            "td_bigrams_cosine_similarity_with_orig": Embeddings.bigrams_cosine_similarity_with_orig,
+
+            "td_uw_expression_norm_count": Topdocs.uw_expression_norm_count,
+            "td_od_expression_norm_count": Topdocs.od_expression_norm_count,
+            "td_uw_expression_norm_document_count": Topdocs.uw_expression_norm_document_count,
+            "td_od_expression_norm_document_count": Topdocs.od_expression_norm_document_count,
+            "td_norm_unigram_count": Topdocs.norm_term_count,
+            "td_norm_unigram_document_count": Topdocs.norm_document_count,
         })
 
         score = 0
