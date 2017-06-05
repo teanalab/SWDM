@@ -59,6 +59,9 @@ class Index:
     def document_length_doc_name(self, doc_name):
         return self.index.document_length_doc_name(doc_name)
 
+    def document_length_docs_names(self, docs_names):
+        return sum([self.index.document_length_doc_name(doc_name) for doc_name in docs_names])
+
     def total_count(self):
         return self.index.total_count()
 

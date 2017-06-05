@@ -293,3 +293,7 @@ Greece during the past week.
 
     def test_document_length_doc_name(self):
         self.assertEqual(self.index_.document_length_doc_name('lorem'), 88)
+        self.assertEqual(self.index_.document_length_doc_name('hamlet'), 71)
+
+    def test_document_length_docs_names(self):
+        self.assertEqual(self.index_.document_length_docs_names(['lorem', 'hamlet']), 159)
