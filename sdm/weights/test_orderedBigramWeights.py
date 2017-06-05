@@ -16,13 +16,23 @@ class TestOrderedBigramWeights(TestCase):
             },
             "od_expression_norm_document_count": {
                 "window_size": 4
-            }
+            },
+            "td_od_expression_norm_count": {
+                "window_size": 17,
+                "n_top_docs": 10,
+            },
+            "td_od_expression_norm_document_count": {
+                "window_size": 17,
+                "n_top_docs": 10,
+            },
         }
         self.parameters.params['features_weights'] = {}
         self.parameters.params['features_weights']['OrderedBigramWeights'] = {
             "od_expression_norm_count": 0.33,
             "od_expression_norm_document_count": 0.33,
-            "bigrams_cosine_similarity_with_orig": 0.33
+            "bigrams_cosine_similarity_with_orig": 0.33,
+            "td_od_expression_norm_count": 0.33,
+            "td_od_expression_norm_document_count": 0.33,
         }
 
     def test_compute_weight(self):
@@ -30,11 +40,12 @@ class TestOrderedBigramWeights(TestCase):
         unigram_nearest_neighbor_2 = [('how', 1), ('are', 0.8), ('you', 0.74)]
 
         ordered_bigram_weights = sdm.weights.ordered_bigram_weights.OrderedBigramWeights(self.parameters)
+        ordered_bigram_weights.init_top_docs_run_query("a")
 
         term_dependent_feature_parameters = {
             "unigram_nearest_neighbor_1": unigram_nearest_neighbor_1,
             "unigram_nearest_neighbor_2": unigram_nearest_neighbor_2
         }
         res = ordered_bigram_weights.compute_weight("world are", term_dependent_feature_parameters)
-        expected_res = 0.023925000000000005
+        expected_res = 0.5714860275162977
         self.assertEqual(res, expected_res)

@@ -11,6 +11,8 @@ class UnigramWeights(Weights):
             "norm_term_count",
             "norm_document_count",
             "unigrams_cosine_similarity_with_orig",
+            "td_norm_unigram_count",
+            "td_norm_unigram_document_count"
         }
 
     def compute_weight(self, term, term_dependent_feature_parameters):

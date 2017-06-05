@@ -34,7 +34,7 @@ class Features(Embeddings, Collection, Topdocs):
             "norm_document_count": Collection.norm_document_count,
 
             "unigrams_cosine_similarity_with_orig": Embeddings.unigrams_cosine_similarity_with_orig,
-            "td_bigrams_cosine_similarity_with_orig": Embeddings.bigrams_cosine_similarity_with_orig,
+            "bigrams_cosine_similarity_with_orig": Embeddings.bigrams_cosine_similarity_with_orig,
 
             "td_uw_expression_norm_count": Topdocs.uw_expression_norm_count,
             "td_od_expression_norm_count": Topdocs.od_expression_norm_count,
