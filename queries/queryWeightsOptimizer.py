@@ -70,7 +70,7 @@ class QueryWeightsOptimizer(object):
             self.parameters.write_to_parameters_file(self.parameters.params["optimized_parameters_file_name"])
         return best_eval_res
 
-    def fin_param_optimization_item(self, shared_param_names_first):
+    def find_param_optimization_item(self, shared_param_names_first):
         return next((item for item in self.parameters.params["optimization"] if item["param_name"] ==
                      shared_param_names_first))
 
@@ -82,7 +82,7 @@ class QueryWeightsOptimizer(object):
         for shared_param_items in self.parameters.params["shared_params_optimization"]:
             shared_param_names_first = shared_param_items[0]
             print(self.parameters.params, file=sys.stderr)
-            shared_param_items_first = self.fin_param_optimization_item(shared_param_names_first)
+            shared_param_items_first = self.find_param_optimization_item(shared_param_names_first)
             for test_value in self.gen_test_values_offline_list(shared_param_items_first):
                 print("shared_param_items_first, test_value:", shared_param_names_first, test_value)
                 best_eval_res = self.examine_a_test_value(test_value, best_eval_res, shared_param_names_first,
