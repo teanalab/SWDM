@@ -95,4 +95,5 @@ configs/queries/
 configs/runs/
 configs/others/
 configs/lda/
-
+configs/optimized_*
+configs/*_backup.json

@@ -88,7 +88,7 @@
     ]
   ],
   "optimization": [
-      {"param_name": ["features_weights", "UnigramWeights", "norm_term_count"], "initial_point": 0, "final_point": 0.1, "step_size": 0.05},
+      {"param_name": ["features_weights", "UnigramWeights", "norm_term_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["features_weights", "UnigramWeights", "norm_document_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["features_weights", "UnigramWeights", "unigrams_cosine_similarity_with_orig"], "initial_point": 0, "final_point": 1, "step_size": 0.05},
       {"param_name": ["features_weights", "UnigramWeights", "td_norm_unigram_count"], "initial_point": 0, "final_point": 1, "step_size": 0.05},

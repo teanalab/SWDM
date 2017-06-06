@@ -65,7 +65,7 @@ class QueryLanguageModifier(object):
 
     @staticmethod
     def gen_combine_fields_text(field_weights, field_texts):
-        new_q_text = "#weight(\n"
+        new_q_text = "\n#weight(\n"
         for field_name, field_weight in field_weights.items():
             field_weight = '{0:.5f}'.format(field_weight)
             q_text = field_texts.get(field_name)
@@ -130,7 +130,6 @@ class QueryLanguageModifier(object):
                 q.decompose()
 
     def run(self, is_test):
-
         self.embedding_space.initialize()
         self.run_no_word2vec_initialization(is_test)
 
