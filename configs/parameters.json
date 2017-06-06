@@ -158,7 +158,13 @@
         "UnigramWeights": {
             "norm_term_count": {},
             "norm_document_count": {},
-            "unigrams_cosine_similarity_with_orig": {}
+            "unigrams_cosine_similarity_with_orig": {},
+            "td_norm_unigram_count": {
+              "n_top_docs": 2
+            },
+            "td_norm_unigram_document_count": {
+              "n_top_docs": 2
+            }
         },
         "UnorderedBigramWeights": {
             "uw_expression_norm_count": {
@@ -166,6 +172,14 @@
             },
             "uw_expression_norm_document_count": {
                 "window_size": 2
+            },
+            "td_uw_expression_norm_count": {
+                "window_size": 2,
+                "n_top_docs": 1
+            },
+            "td_uw_expression_norm_document_count": {
+                "window_size": 2,
+                "n_top_docs": 1
             }
         },
         "OrderedBigramWeights": {
@@ -174,6 +188,14 @@
             },
             "od_expression_norm_document_count": {
                 "window_size": 1
+            },
+            "td_od_expression_norm_count": {
+                "window_size": 1,
+                "n_top_docs": 1
+            },
+            "td_od_expression_norm_document_count": {
+                "window_size": 1,
+                "n_top_docs": 1
             }
         }
     },
@@ -181,17 +203,23 @@
         "UnigramWeights": {
             "norm_term_count": 0.0,
             "norm_document_count": 0.34,
-            "unigrams_cosine_similarity_with_orig": 0.0
+            "unigrams_cosine_similarity_with_orig": 0.0,
+            "td_norm_unigram_count": 0.05,
+            "td_norm_unigram_document_count": 0.05
         },
         "UnorderedBigramWeights": {
             "uw_expression_norm_count": 0,
             "uw_expression_norm_document_count": 0.45,
-            "bigrams_cosine_similarity_with_orig": 0.05
+            "bigrams_cosine_similarity_with_orig": 0.05,
+            "td_uw_expression_norm_count": 0.05,
+            "td_uw_expression_norm_document_count": 0.05
         },
         "OrderedBigramWeights": {
             "od_expression_norm_count": 0,
             "od_expression_norm_document_count": 0.75,
-            "bigrams_cosine_similarity_with_orig": 0.49900000000000144
+            "bigrams_cosine_similarity_with_orig": 0.49900000000000144,
+            "td_od_expression_norm_count": 0.05,
+            "td_od_expression_norm_document_count": 0.05
         }
     }
 }
