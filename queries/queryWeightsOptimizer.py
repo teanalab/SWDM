@@ -1,5 +1,6 @@
 import copy
 import os
+import random
 import sys
 
 import numpy as np
@@ -86,7 +87,9 @@ class QueryWeightsOptimizer(object):
         best_eval_res = self.evaluate_queries()
         print("initial best_eval_res:", best_eval_res)
         self.run_cv_tests()
-        for shared_param_items in self.parameters.params["shared_params_optimization"]:
+        shared_params_optimization = self.parameters.params["shared_params_optimization"]
+        random.shuffle(shared_params_optimization)
+        for shared_param_items in shared_params_optimization:
             shared_param_names_first = shared_param_items[0]
             shared_param_items_first = self.find_param_optimization_item(shared_param_names_first)
             eval_res_history = []
@@ -94,6 +97,7 @@ class QueryWeightsOptimizer(object):
                 print("shared_param_items_first, test_value:", shared_param_names_first, test_value)
                 best_eval_res, eval_res = self.examine_a_test_value(test_value, best_eval_res, shared_param_names_first,
                                                                     shared_param_items)
+                eval_res_history += [eval_res]
                 if not self.check_the_progress(eval_res_history):
                     break
 

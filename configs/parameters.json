@@ -10,7 +10,7 @@
     "fb_terms": 0
   },
   "cross_validation": {
-    "number_of_folds": 10,
+    "number_of_folds": 3,
     "testing_fold": 0
   },
   "indrirunquery_bin": "/home/fj9124/thirdPartyProgs/indri-5.11/build/bin/IndriRunQuery",
@@ -160,10 +160,10 @@
             "norm_document_count": {},
             "unigrams_cosine_similarity_with_orig": {},
             "td_norm_unigram_count": {
-              "n_top_docs": 2
+                "n_top_docs": 2
             },
             "td_norm_unigram_document_count": {
-              "n_top_docs": 2
+                "n_top_docs": 2
             }
         },
         "UnorderedBigramWeights": {
@@ -201,23 +201,23 @@
     },
     "features_weights": {
         "UnigramWeights": {
-            "norm_term_count": 0.0,
-            "norm_document_count": 0.34,
-            "unigrams_cosine_similarity_with_orig": 0.0,
+            "norm_term_count": 0.9500000000000001,
+            "norm_document_count": 0.0,
+            "unigrams_cosine_similarity_with_orig": 0.1,
             "td_norm_unigram_count": 0.05,
             "td_norm_unigram_document_count": 0.05
         },
         "UnorderedBigramWeights": {
-            "uw_expression_norm_count": 0,
-            "uw_expression_norm_document_count": 0.45,
-            "bigrams_cosine_similarity_with_orig": 0.05,
+            "uw_expression_norm_count": 0.9500000000000001,
+            "uw_expression_norm_document_count": 0.0,
+            "bigrams_cosine_similarity_with_orig": 0.1,
             "td_uw_expression_norm_count": 0.05,
             "td_uw_expression_norm_document_count": 0.05
         },
         "OrderedBigramWeights": {
-            "od_expression_norm_count": 0,
-            "od_expression_norm_document_count": 0.75,
-            "bigrams_cosine_similarity_with_orig": 0.49900000000000144,
+            "od_expression_norm_count": 0.9500000000000001,
+            "od_expression_norm_document_count": 0.0,
+            "bigrams_cosine_similarity_with_orig": 0.1,
             "td_od_expression_norm_count": 0.05,
             "td_od_expression_norm_document_count": 0.05
         }
