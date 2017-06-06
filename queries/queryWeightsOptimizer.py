@@ -74,7 +74,8 @@ class QueryWeightsOptimizer(object):
         return next((item for item in self.parameters.params["optimization"] if item["param_name"] ==
                      shared_param_names_first))
 
-    def check_the_progress(self, eval_res_history):
+    @staticmethod
+    def check_the_progress(eval_res_history):
         if len(eval_res_history) > 2:
             if eval_res_history[-1] < eval_res_history[-2] < eval_res_history[-3]:
                 return False
@@ -93,6 +94,8 @@ class QueryWeightsOptimizer(object):
                 print("shared_param_items_first, test_value:", shared_param_names_first, test_value)
                 best_eval_res, eval_res = self.examine_a_test_value(test_value, best_eval_res, shared_param_names_first,
                                                                     shared_param_items)
+                if not self.check_the_progress(eval_res_history):
+                    break
 
             self.run_cv_tests()
         return best_eval_res
