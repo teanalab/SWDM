@@ -1,8 +1,8 @@
 import sys
 from unittest import TestCase
 
-import index.index
 from collection.simple_document import SimpleDocument
+from index.index import Index
 from parameters.parameters import Parameters
 
 
@@ -11,7 +11,7 @@ class TestIndex(TestCase):
         self.parameters = Parameters()
         self.parameters.params["repo_dir"] = '../index/test_files/index'
 
-        self.index_ = index.index.Index(self.parameters)
+        self.index_ = Index(self.parameters)
 
     def test_uw_expression_count(self):
         self.assertEqual(self.index_.uw_expression_count("SAMPSON Dog", 12), 2)
@@ -29,7 +29,7 @@ class TestIndex(TestCase):
         self.assertEqual(self.index_.term_count("dog"), 2)
 
         self.parameters.params["repo_dir"] = '/scratch/index/indri_5_7/ap8889'
-        self.index_ = index.index.Index(self.parameters)
+        self.index_ = Index(self.parameters)
 
         self.assertEqual(self.index_.term_count("emotional"), 3515)
 
@@ -37,7 +37,7 @@ class TestIndex(TestCase):
         self.assertEqual(self.index_.document_count("dog"), 1)
 
         self.parameters.params["repo_dir"] = '/scratch/index/indri_5_7/ap8889'
-        self.index_ = index.index.Index(self.parameters)
+        self.index_ = Index(self.parameters)
 
         self.assertEqual(self.index_.document_count("emotional"), 2973)
 
@@ -47,25 +47,25 @@ class TestIndex(TestCase):
         self.assertEqual(self.index_.check_if_have_same_stem("first", "mr"), False)
 
     def test_idf(self):
-        self.assertEqual(self.index_.idf("dog"), 0.4054651081081644)
+        self.assertEqual(self.index_.idf("dog"), 1.0986122886681098)
 
         self.parameters.params["repo_dir"] = '/scratch/index/indri_5_7/ap8889'
-        self.index_ = index.index.Index(self.parameters)
+        self.index_ = Index(self.parameters)
 
         self.assertEqual(self.index_.document_count("first"), 0)
 
     def test_tfidf(self):
         self.parameters.params["repo_dir"] = '/scratch/index/indri_5_7/ap8889'
+        self.index_ = Index(self.parameters)
 
-        self.index_ = index.index.Index(self.parameters)
         doc_words = SimpleDocument(self.parameters).get_words("../configs/others/pride_and_prejudice_wiki.txt")
         tfidf_1 = self.index_.tfidf('emotional', doc_words)
         print(tfidf_1, file=sys.stderr)
-        tfidf_2 = self.index_.tfidf('is', doc_words)
-        print(tfidf_2, file=sys.stderr)
+        self.assertEqual(tfidf_1, 2.0455597255490345)
 
-        self.assertEqual(tfidf_1, 0)
-        self.assertEqual(tfidf_2, 0)
+        with self.assertRaises(Exception) as context:
+            self.index_.tfidf('is', doc_words)
+        self.assertTrue('unigram "is" not exist. Probably was a stopword in indexing.' in str(context.exception))
 
     def test_tf(self):
         doc_words = SimpleDocument(self.parameters).get_words("../configs/others/pride_and_prejudice_wiki.txt")
@@ -73,13 +73,13 @@ class TestIndex(TestCase):
         self.assertEqual(self.index_.tf("dog", doc_words), 0.5)
 
         self.parameters.params["repo_dir"] = '/scratch/index/indri_5_7/ap8889'
-        self.index_ = index.index.Index(self.parameters)
+        self.index_ = Index(self.parameters)
 
-        self.assertEqual(self.index_.tf("emotional", doc_words), 0.5096153846153846)
+        self.assertEqual(self.index_.tf("emotional", doc_words), 0.5)
 
     def test_check_if_exists_in_index(self):
         self.parameters.params["repo_dir"] = '/scratch/index/indri_5_7/ap8889'
-        self.index_ = index.index.Index(self.parameters)
+        self.index_ = Index(self.parameters)
 
         self.assertTrue(self.index_.check_if_exists_in_index("emotional"))
         self.assertFalse(self.index_.check_if_exists_in_index("first"))
@@ -88,7 +88,7 @@ class TestIndex(TestCase):
 
     def test_obtain_text_of_a_document(self):
         self.parameters.params["repo_dir"] = '/scratch/index/indri_5_7/ap8889'
-        self.index_ = index.index.Index(self.parameters)
+        self.index_ = Index(self.parameters)
         res = self.index_.obtain_text_of_a_document(1)
         self.assertEqual(res, """
    Public Order Minister Tassos Sehiotis
@@ -157,7 +157,7 @@ Greece during the past week.
 
     def test_obtain_term_ids_of_a_document(self):
         self.parameters.params["repo_dir"] = '/scratch/index/indri_5_7/ap8889'
-        self.index_ = index.index.Index(self.parameters)
+        self.index_ = Index(self.parameters)
         res = self.index_.obtain_term_ids_of_a_document(1)
         self.assertEqual(res, ('AP881107-0001', (
             147, 771, 0, 78064, 26, 2828, 1283, 92, 126, 147, 175009, 159395, 771, 55, 0, 0, 2362, 26, 2828, 919, 0, 0,
@@ -204,7 +204,7 @@ Greece during the past week.
 
     def test_obtain_terms_of_a_document(self):
         self.parameters.params["repo_dir"] = '/scratch/index/indri_5_7/ap8889'
-        self.index_ = index.index.Index(self.parameters)
+        self.index_ = Index(self.parameters)
         res = self.index_.obtain_terms_of_a_document(1)
         print(res, file=sys.stderr)
         self.assertEqual(res, ('AP881107-0001', (
@@ -265,7 +265,7 @@ Greece during the past week.
 
     def test_term(self):
         self.parameters.params["repo_dir"] = '/scratch/index/indri_5_7/ap8889'
-        self.index_ = index.index.Index(self.parameters)
+        self.index_ = Index(self.parameters)
         res = self.index_.term(147)
         print(res, file=sys.stderr)
         self.assertEqual(res, 'minist')
@@ -297,3 +297,7 @@ Greece during the past week.
 
     def test_document_length_docs_names(self):
         self.assertEqual(self.index_.document_length_docs_names(['lorem', 'hamlet']), 159)
+
+    def test_expand_query(self):
+        self.assertEqual(self.index_.expand_query('consectetur adipiscing', 10, 10, ['lorem', 'hamlet']),
+                         ['francisco', 'bernardo', 'i', 'at', 'nulla', 'consectetur', 'in', 'eget', 'and', 'the'])

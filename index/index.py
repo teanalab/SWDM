@@ -1,6 +1,7 @@
 import math
 
 import pyndri
+import re
 from bs4 import BeautifulSoup
 
 
@@ -121,6 +122,12 @@ class Index:
         expression_list = self.index.expression_list(expression)
         return {k: v for k, v in expression_list.items() if k in runs}
 
+    @staticmethod
+    def _parse_expanded_query(expanded_query):
+        return re.findall(r'"(.*?)"', expanded_query)
+
+    def expand_query(self, original_query, fb_docs, fb_terms, top_docs):
+        return self._parse_expanded_query(self.index.expand_query(original_query, fb_docs, fb_terms, top_docs))
 
 if __name__ == '__main__':
     pass

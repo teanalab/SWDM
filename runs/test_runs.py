@@ -1,8 +1,6 @@
-from __future__ import print_function
-
 from unittest import TestCase
 
-from runs import Runs
+from runs.runs import Runs
 
 __author__ = 'Saeid Balaneshin-kordan'
 __email__ = "saeid@wayne.edu"
