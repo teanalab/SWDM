@@ -89,3 +89,38 @@ class TestTopdocs(TestCase):
                                                                        "UnorderedBigramWeights"][
                                                                        "td_uw_expression_norm_count"]),
                          4.516338972281476)
+
+    def test_td_od_expression_norm_count(self):
+        self.assertEqual(self.topdocs_.td_uw_expression_norm_count("I will",
+                                                                   self.feature_parameters[
+                                                                       "UnorderedBigramWeights"][
+                                                                       "td_uw_expression_norm_count"]),
+                         4.516338972281476)
+
+    def test_td_uw_expression_norm_document_count(self):
+        self.assertEqual(self.topdocs_.td_uw_expression_norm_document_count("I will",
+                                                                            self.feature_parameters[
+                                                                                "UnorderedBigramWeights"][
+                                                                                "td_uw_expression_norm_count"]),
+                         2.0149030205422647)
+
+    def test_td_od_expression_norm_document_count(self):
+        self.assertEqual(self.topdocs_.td_od_expression_norm_document_count("I will",
+                                                                            self.feature_parameters[
+                                                                                "UnorderedBigramWeights"][
+                                                                                "td_uw_expression_norm_count"]),
+                         2.0149030205422647)
+
+    def test_td_unigram_norm_term_count(self):
+        self.assertEqual(self.topdocs_.td_unigram_norm_term_count("you",
+                                                                  self.feature_parameters[
+                                                                      "UnorderedBigramWeights"][
+                                                                      "td_uw_expression_norm_count"]),
+                         5.497168225293202)
+
+    def test_td_unigram_norm_document_count(self):
+        self.assertEqual(self.topdocs_.td_unigram_norm_document_count("you",
+                                                                      self.feature_parameters[
+                                                                          "UnorderedBigramWeights"][
+                                                                          "td_uw_expression_norm_count"]),
+                         0.3101549283038396)
