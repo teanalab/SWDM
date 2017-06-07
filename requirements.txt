@@ -4,6 +4,7 @@ gensim
 matplotlib
 mock
 numpy
-sklearn
-bs4
+scikit-learn
+beautifulsoup4
 pyndri
+pyenchant

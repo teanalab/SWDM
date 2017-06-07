@@ -1,9 +1,9 @@
 {
   "optimized_parameters_file_name": "../configs/optimized_parameters.json",
-  "repo_dir": "/scratch/index/indri_5_7/robust",
+  "repo_dir": "/scratch/index/indri_5_7/ap8889",
   "query_files": {
-    "old_indri_query_file": "../configs/queries/robust04.cfg",
-    "new_indri_query_file": "../configs/queries/robust04_expanded.cfg"
+    "old_indri_query_file": "../configs/queries/ap8889.cfg",
+    "new_indri_query_file": "../configs/queries/ap8889_expanded.cfg"
   },
   "prf": {
     "fb_docs": 1,
@@ -16,7 +16,7 @@
   "indrirunquery_bin": "/home/fj9124/thirdPartyProgs/indri-5.11/build/bin/IndriRunQuery",
   "evaluation": {
     "measure": "map",
-    "qrels_file_name": "../configs/qrels/robust04.txt",
+    "qrels_file_name": "../configs/qrels/ap8889.txt",
     "trec_eval_bin": "/home/fj9124/projects/ir/evaluators/trec_eval/trec_eval.9.0/trec_eval"
   },
   "shared_params_optimization":[
@@ -160,10 +160,10 @@
             "norm_document_count": {},
             "unigrams_cosine_similarity_with_orig": {},
             "td_norm_unigram_count": {
-                "n_top_docs": 2
+                "n_top_docs": 15
             },
             "td_norm_unigram_document_count": {
-                "n_top_docs": 2
+                "n_top_docs": 15
             }
         },
         "UnorderedBigramWeights": {
@@ -175,51 +175,51 @@
             },
             "td_uw_expression_norm_count": {
                 "window_size": 2,
-                "n_top_docs": 1
+                "n_top_docs": 15
             },
             "td_uw_expression_norm_document_count": {
                 "window_size": 2,
-                "n_top_docs": 1
+                "n_top_docs": 15
             }
         },
         "OrderedBigramWeights": {
             "od_expression_norm_count": {
-                "window_size": 9
+                "window_size": 1
             },
             "od_expression_norm_document_count": {
                 "window_size": 1
             },
             "td_od_expression_norm_count": {
                 "window_size": 1,
-                "n_top_docs": 1
+                "n_top_docs": 15
             },
             "td_od_expression_norm_document_count": {
                 "window_size": 1,
-                "n_top_docs": 1
+                "n_top_docs": 15
             }
         }
     },
     "features_weights": {
         "UnigramWeights": {
             "norm_term_count": 0.9500000000000001,
-            "norm_document_count": 0.0,
-            "unigrams_cosine_similarity_with_orig": 0.1,
-            "td_norm_unigram_count": 0.05,
-            "td_norm_unigram_document_count": 0.05
+            "norm_document_count": 2.0,
+            "unigrams_cosine_similarity_with_orig": 0.6000000000000001,
+            "td_norm_unigram_count": 2.0,
+            "td_norm_unigram_document_count": 2.0
         },
         "UnorderedBigramWeights": {
             "uw_expression_norm_count": 0.9500000000000001,
-            "uw_expression_norm_document_count": 0.0,
-            "bigrams_cosine_similarity_with_orig": 0.1,
-            "td_uw_expression_norm_count": 0.05,
-            "td_uw_expression_norm_document_count": 0.05
+            "uw_expression_norm_document_count": 2.0,
+            "bigrams_cosine_similarity_with_orig": 0.6000000000000001,
+            "td_uw_expression_norm_count": 2.0,
+            "td_uw_expression_norm_document_count": 2.0
         },
         "OrderedBigramWeights": {
             "od_expression_norm_count": 0.9500000000000001,
-            "od_expression_norm_document_count": 0.0,
-            "bigrams_cosine_similarity_with_orig": 0.1,
-            "td_od_expression_norm_count": 0.05,
-            "td_od_expression_norm_document_count": 0.05
+            "od_expression_norm_document_count": 2.0,
+            "bigrams_cosine_similarity_with_orig": 0.6000000000000001,
+            "td_od_expression_norm_count": 2.0,
+            "td_od_expression_norm_document_count": 2.0
         }
     }
 }

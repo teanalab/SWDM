@@ -77,8 +77,8 @@ class QueryWeightsOptimizer(object):
 
     @staticmethod
     def check_the_progress(eval_res_history):
-        if len(eval_res_history) > 2:
-            if eval_res_history[-1] < eval_res_history[-2] < eval_res_history[-3]:
+        if len(eval_res_history) > 3:
+            if eval_res_history[-1] < eval_res_history[-2] < eval_res_history[-3] < eval_res_history[-4]:
                 return False
         return True
 

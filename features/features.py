@@ -36,12 +36,12 @@ class Features(Embeddings, Collection, Topdocs):
             "unigrams_cosine_similarity_with_orig": Embeddings.unigrams_cosine_similarity_with_orig,
             "bigrams_cosine_similarity_with_orig": Embeddings.bigrams_cosine_similarity_with_orig,
 
-            "td_uw_expression_norm_count": Topdocs.uw_expression_norm_count,
-            "td_od_expression_norm_count": Topdocs.od_expression_norm_count,
-            "td_uw_expression_norm_document_count": Topdocs.uw_expression_norm_document_count,
-            "td_od_expression_norm_document_count": Topdocs.od_expression_norm_document_count,
-            "td_norm_unigram_count": Topdocs.norm_term_count,
-            "td_norm_unigram_document_count": Topdocs.norm_document_count,
+            "td_uw_expression_norm_count": Topdocs.td_uw_expression_norm_count,
+            "td_od_expression_norm_count": Topdocs.td_od_expression_norm_count,
+            "td_uw_expression_norm_document_count": Topdocs.td_uw_expression_norm_document_count,
+            "td_od_expression_norm_document_count": Topdocs.td_od_expression_norm_document_count,
+            "td_norm_unigram_count": Topdocs.td_unigram_norm_term_count,
+            "td_norm_unigram_document_count": Topdocs.td_unigram_norm_document_count,
         })
 
         score = 0
