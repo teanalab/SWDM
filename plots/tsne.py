@@ -3,7 +3,7 @@ import sys
 
 import matplotlib
 import matplotlib.pyplot as plt
-
+import seaborn as sns
 from gensim.models import Word2Vec
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.decomposition import PCA
@@ -11,7 +11,6 @@ from sklearn.manifold import TSNE
 
 from embeddings.similarity.neighborhood import Neighborhood
 from embeddings.word2vec import Word2vec
-import seaborn as sns
 
 matplotlib.rcParams['backend'] = "Qt4Agg"
 

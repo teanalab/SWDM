@@ -1,0 +1,9 @@
+nltk
+seaborn
+gensim
+matplotlib
+mock
+numpy
+sklearn
+bs4
+pyndri

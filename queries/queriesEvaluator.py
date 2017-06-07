@@ -1,12 +1,9 @@
-from __future__ import print_function
-
 import csv
 import os
 import re
 import subprocess
-from collections import defaultdict
-
 import sys
+from collections import defaultdict
 
 from parameters.parameters import Parameters
 from runs.runs import Runs

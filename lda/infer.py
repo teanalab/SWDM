@@ -1,6 +1,3 @@
-import os
-import sys
-
 import nltk
 
 from collection.gensim_corpus import GensimCorpus

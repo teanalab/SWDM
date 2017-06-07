@@ -1,6 +1,5 @@
 from unittest import TestCase
 
-import sys
 from mock import MagicMock
 
 from parameters.parameters import Parameters
@@ -199,4 +198,3 @@ class TestQueryLanguageModifier(TestCase):
 
         res = query_language_modifier.get_query_numbers_to_keep(queries, is_test=False)
         self.assertEqual(res, ['INEX_LD-20120111', 'INEX_LD-20120121', 'QALD2_te-82', 'TREC_Entity-20'])
-

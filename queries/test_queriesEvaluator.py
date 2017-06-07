@@ -1,7 +1,5 @@
 from unittest import TestCase
 
-import sys
-
 from parameters.parameters import Parameters
 from queries.queriesEvaluator import QueriesEvaluator
 

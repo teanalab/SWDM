@@ -2,7 +2,7 @@ from __future__ import print_function
 
 from unittest import TestCase
 
-from queries import Queries
+from queries.queries import Queries
 
 
 class TestQueries(TestCase):
