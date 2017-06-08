@@ -94,7 +94,8 @@ class TestExpandedSdm(TestCase):
         self.parameters.params["window_size"] = {}
         self.parameters.params["window_size"]["#od"] = 4
         self.parameters.params["window_size"]["#uw"] = 17
-        self.parameters.params["expansion_coefficient"] = 0.2
+        self.parameters.params["type_weights"]["exp_embed"] = 0.05
+        self.parameters.params["type_weights"]["exp_top_docs"] = 0.05
 
     def test_gen_sdm_bigrams_field_1_text(self):
         unigrams_in_embedding_space = [[('hello', 1), ('world', 0.65)],

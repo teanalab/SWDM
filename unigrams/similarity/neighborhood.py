@@ -13,7 +13,7 @@ __date__ = 11 / 21 / 16
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), '../..'))
 try:
-    from embeddings.word2vec import Word2vec
+    from unigrams.word2vec import Word2vec
     from index.index import Index
     from parameters.parameters import Parameters
     from collection.simple_document import SimpleDocument

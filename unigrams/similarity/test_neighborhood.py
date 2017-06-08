@@ -2,9 +2,9 @@ import sys
 from unittest import TestCase
 from unittest.mock import MagicMock
 
-from embeddings.similarity.neighborhood import Neighborhood
-from embeddings.word2vec import Word2vec
 from parameters.parameters import Parameters
+from unigrams.similarity.neighborhood import Neighborhood
+from unigrams.word2vec import Word2vec
 
 __author__ = 'Saeid Balaneshin-kordan'
 __email__ = "saeid@wayne.edu"

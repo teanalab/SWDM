@@ -3,12 +3,12 @@ import re
 import sys
 
 from bs4 import BeautifulSoup
-from nltk.tokenize import TweetTokenizer
 from sklearn.model_selection import KFold
 
-from embeddings.embedding_space import EmbeddingSpace
 from parameters.parameters import Parameters
 from sdm.expanded_sdm import ExpandedSdm
+from unigrams.embedding_space import EmbeddingSpace
+from unigrams.original import Original
 
 sys.path.insert(0, os.path.abspath('..'))
 try:
@@ -26,6 +26,7 @@ class QueryLanguageModifier(object):
     def __init__(self, parameters):
         self.parameters = parameters
         self.embedding_space = EmbeddingSpace(self.parameters)
+        self.original_unigrams = Original(self.parameters)
         self.expanded_sdm = ExpandedSdm(self.parameters)
 
     @staticmethod
@@ -55,19 +56,19 @@ class QueryLanguageModifier(object):
             if q.find("number").string not in query_numbers_to_keep:
                 q.decompose()
 
-    @staticmethod
-    def _find_unigrams_original(text):
-        tknzr = TweetTokenizer()
-        return tknzr.tokenize(text)
+    def _find_all_unigrams(self, text):
+        unigrams_original = self.original_unigrams.find_unigrams(text)
+        unigrams_in_embedding_space = list(self.embedding_space.find_unigrams(unigrams_original))
+
+        return {"orig": unigrams_original, "exp_embed": unigrams_in_embedding_space}
 
     def _gen_sdm_fields_texts(self, text):
         sdm_fields_texts = dict()
         self.expanded_sdm.init_top_docs_run_query(text)
-        unigrams_original = self._find_unigrams_original(text)
-        unigrams_in_embedding_space = self.embedding_space.find_unigrams_in_embedding_space(unigrams_original)
-        sdm_fields_texts['u'] = self.expanded_sdm.gen_sdm_field_1_text(unigrams_in_embedding_space, "#combine")
-        sdm_fields_texts['o'] = self.expanded_sdm.gen_sdm_field_1_text(unigrams_in_embedding_space, "#od")
-        sdm_fields_texts['w'] = self.expanded_sdm.gen_sdm_field_1_text(unigrams_in_embedding_space, "#uw")
+        all_unigrams = self._find_all_unigrams(text)
+        sdm_fields_texts['u'] = self.expanded_sdm.gen_sdm_field_1_text(all_unigrams, "#combine")
+        sdm_fields_texts['o'] = self.expanded_sdm.gen_sdm_field_1_text(all_unigrams, "#od")
+        sdm_fields_texts['w'] = self.expanded_sdm.gen_sdm_field_1_text(all_unigrams, "#uw")
         return sdm_fields_texts
 
     @staticmethod
@@ -104,7 +105,7 @@ class QueryLanguageModifier(object):
         with open(new_indri_query_file, 'w') as f:
             soup_str = str(soup.body.parameters)
             soup_str = self._post_process_indri_run_query_cfg(soup_str)
-            print(soup_str, file=f)
+            f.write(soup_str)
 
     @staticmethod
     def _update_index_dir(soup, index_dir):

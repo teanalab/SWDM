@@ -2,8 +2,8 @@ import sys
 import time
 import unittest
 
-from embeddings.embedding_space import EmbeddingSpace
 from parameters.parameters import Parameters
+from unigrams.embedding_space import EmbeddingSpace
 
 __author__ = 'Saeid Balaneshin-kordan'
 __email__ = "saeid@wayne.edu"
@@ -20,7 +20,7 @@ class TestEmbeddingSpace(unittest.TestCase):
         self.parameters.params["word2vec"] = {"upper_threshold": 1, "lower_threshold": 0, "n_max": 5}
         embedding_space = EmbeddingSpace(self.parameters)
         embedding_space.initialize()
-        unigrams = list(embedding_space.find_unigrams_in_embedding_space("hello world how are you".split(' ')))
+        unigrams = list(embedding_space.find_unigrams("hello world how are you".split(' ')))
         print(unigrams, file=sys.stderr)
         unigrams_expected = [[], [], [('much', 0.438563734292984), ('pretty', 0.4094923734664917)],
                              [('ones', 0.4666799008846283), ('must', 0.3789885640144348)],
@@ -31,7 +31,7 @@ class TestEmbeddingSpace(unittest.TestCase):
         self.parameters.params["word2vec"] = {"upper_threshold": 0.5, "lower_threshold": 0.4, "n_max": 5}
         embedding_space = EmbeddingSpace(self.parameters)
         embedding_space.initialize()
-        unigrams = list(embedding_space.find_unigrams_in_embedding_space("hello world how are you".split(' ')))
+        unigrams = list(embedding_space.find_unigrams("hello world how are you".split(' ')))
         print(unigrams, file=sys.stderr)
         unigrams_expected = [[], [], [('much', 0.438563734292984), ('pretty', 0.4094923734664917)],
                              [('ones', 0.4666799008846283)], []]
@@ -58,7 +58,7 @@ class TestEmbeddingSpace(unittest.TestCase):
         embedding_space.initialize()
 
         t = time.process_time()
-        res = embedding_space.gen_similar_words('hello', embedding_space.word2vec)
+        res = embedding_space._gen_similar_words('hello', embedding_space.word2vec)
         print(res, file=sys.stderr)
         elapsed_time_1 = time.process_time() - t
 
@@ -75,7 +75,7 @@ class TestEmbeddingSpace(unittest.TestCase):
         self.assertEqual(res[:20], expected_res_trunc)
 
         t = time.process_time()
-        res = embedding_space.gen_similar_words('hello', embedding_space.word2vec)
+        res = embedding_space._gen_similar_words('hello', embedding_space.word2vec)
         print(res, file=sys.stderr)
         elapsed_time_2 = time.process_time() - t
 

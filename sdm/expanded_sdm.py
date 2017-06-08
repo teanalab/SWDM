@@ -35,11 +35,16 @@ class ExpandedSdm:
         elif operator == "#od":
             return self.ordered_bigram_weights.compute_weight(term, term_dependent_feature_parameters)
 
-    def gen_sdm_field_1_text(self, unigrams_in_embedding_space, operator):
-        if operator == "#combine":
-            return self.gen_sdm_unigrams_field_1_text(unigrams_in_embedding_space)
-        elif operator in {"#uw", "#od"}:
-            return self.gen_sdm_bigrams_field_1_text(unigrams_in_embedding_space, operator)
+    def gen_sdm_field_1_text(self, all_unigrams, operator):
+        sdm_a_field_text = "#weight(\n"
+        for concept_type, unigrams in all_unigrams.items():
+            type_weight = self.parameters.params["type_weights"][concept_type]
+            if operator == "#combine":
+                sdm_a_field_text += str(type_weight) + self.gen_sdm_unigrams_field_1_text(unigrams)
+            elif operator in {"#uw", "#od"}:
+                sdm_a_field_text += str(type_weight) + self.gen_sdm_bigrams_field_1_text(unigrams, operator)
+            sdm_a_field_text += ")\n"
+        return sdm_a_field_text
 
     def gen_sdm_bigrams_field_1_text(self, unigrams_in_embedding_space, operator):
         sdm_bigrams_field_text = "#weight(\n"

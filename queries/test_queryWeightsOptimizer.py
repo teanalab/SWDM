@@ -89,19 +89,24 @@ class TestQueryWeightsOptimizer(TestCase):
     def test_obtain_best_parameter_set(self):
         self.parameters.params["shared_params_optimization"] = [
             [
-                ["expansion_coefficient"]
+                ["type_weights", "exp_embed"]
+            ],
+            [
+                ["type_weights", "exp_top_docs"]
             ],
             [
                 ["word2vec", "threshold"]
             ]
         ]
         self.parameters.params["optimization"] = [
-            {"param_name": ["expansion_coefficient"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
+            {"param_name": ["type_weights", "exp_embed"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
+            {"param_name": ["type_weights", "exp_top_docs"], "initial_point": 0, "final_point": 1, "step_size": 0.1},
             {"param_name": ["word2vec", "threshold"], "initial_point": 0, "final_point": 1, "step_size": 0.1}
         ]
         self.parameters.params["optimized_parameters_file_name"] = "test_files/optimized_parameters.json"
 
-        self.parameters.params["expansion_coefficient"] = 0.05
+        self.parameters.params["type_weights"]["exp_embed"] = 0.05
+        self.parameters.params["type_weights"]["exp_top_docs"] = 0
         query_weights_optimizer = QueryWeightsOptimizer(self.parameters)
 
         query_weights_optimizer.gen_queries = MagicMock(return_value=None)

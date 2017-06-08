@@ -30,9 +30,5 @@ class UnigramWeights(Weights):
                 'unigram_nearest_neighbor': unigram_nearest_neighbor
             }
         })
-        cosine_similarity = [item for item in unigram_nearest_neighbor if item[0] == term][0][1]
-        weight = Weights.compute_weight(self, term, term_dependent_feature_parameters)
-        if cosine_similarity == 1:
-            return weight * (1 - self.parameters.params["expansion_coefficient"])
-        else:
-            return weight * self.parameters.params["expansion_coefficient"]
+
+        return Weights.compute_weight(self, term, term_dependent_feature_parameters)

@@ -126,7 +126,10 @@ class QueryWeightsOptimizer(object):
         print("test_eval_res:", test_eval_res)
 
         params_previous_best_tmp = copy.deepcopy(self.parameters.params)
-        self.parameters.params = self.update_params_nested_dict(self.parameters.params, 0, ["expansion_coefficient"])
+        self.parameters.params = self.update_params_nested_dict(self.parameters.params, 0,
+                                                                ["type_weights", "exp_embed"])
+        self.parameters.params = self.update_params_nested_dict(self.parameters.params, 0,
+                                                                ["type_weights", "exp_top_docs"])
         self.gen_queries(is_test=True)
         sdm_eval_res = self.evaluate_queries()
         self.reset_params_to_previous_best(params_previous_best_tmp)

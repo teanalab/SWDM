@@ -9,8 +9,8 @@ from sklearn.datasets import fetch_20newsgroups
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 
-from embeddings.similarity.neighborhood import Neighborhood
-from embeddings.word2vec import Word2vec
+from unigrams.similarity.neighborhood import Neighborhood
+from unigrams.word2vec import Word2vec
 
 matplotlib.rcParams['backend'] = "Qt4Agg"
 

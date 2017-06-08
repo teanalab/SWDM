@@ -1,4 +1,3 @@
-import sys
 from unittest import TestCase
 
 from mock import MagicMock
@@ -158,7 +157,7 @@ class TestQueryLanguageModifier(TestCase):
             side_effect=mock_compute_weight_sdm_unigrams)
         query_language_modifier.expanded_sdm.compute_weight_sdm_bigrams = MagicMock(
             side_effect=mock_compute_weight_sdm_bigrams)
-        query_language_modifier.embedding_space.find_unigrams_in_embedding_space = \
+        query_language_modifier.embedding_space.find_unigrams = \
             MagicMock(return_value=[[('hello', 1),
                                      ('world', 0.65)],
                                     [('how', 1), ('are', 0.8),
@@ -204,8 +203,3 @@ class TestQueryLanguageModifier(TestCase):
         res = query_language_modifier._get_query_numbers_to_keep(queries, is_test=False)
         self.assertEqual(res, ['INEX_LD-20120111', 'INEX_LD-20120121', 'QALD2_te-82', 'TREC_Entity-20'])
 
-    def test__find_unigrams_original(self):
-        query_language_modifier = QueryLanguageModifier(self.parameters)
-        res = query_language_modifier._find_unigrams_original("hello world! How are you good-looking?")
-        print(res, file=sys.stderr)
-        self.assertEquals(res, ['hello', 'world', '!', 'How', 'are', 'you', 'good-looking', '?'])

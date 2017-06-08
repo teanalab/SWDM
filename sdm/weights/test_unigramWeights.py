@@ -12,7 +12,8 @@ class TestUnigramWeights(TestCase):
     def setUp(self):
         self.parameters = Parameters()
         self.parameters.params["repo_dir"] = '../../index/test_files/index'
-        self.parameters.params['expansion_coefficient'] = 0.1
+        self.parameters.params["type_weights"]["exp_embed"] = 0.05
+        self.parameters.params["type_weights"]["exp_top_docs"] = 0
         self.parameters.params['feature_parameters'] = {}
         self.parameters.params['feature_parameters']['UnigramWeights'] = {
             "norm_term_count": {

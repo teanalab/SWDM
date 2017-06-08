@@ -1,7 +1,7 @@
 import sys
 from unittest import TestCase
 
-from embeddings.word2vec import Word2vec
+from unigrams.word2vec import Word2vec
 
 __author__ = 'Saeid Balaneshin-kordan'
 __email__ = "saeid@wayne.edu"
