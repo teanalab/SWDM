@@ -112,3 +112,25 @@ class TestQueryWeightsOptimizer(TestCase):
         eval_res_dict = query_weights_optimizer.obtain_best_parameter_set()
 
         self.assertEqual(eval_res_dict, 0.25)
+
+    def test_check_the_progress(self):
+        query_weights_optimizer = QueryWeightsOptimizer(Parameters())
+
+        res = query_weights_optimizer.check_the_progress([0.7, 0.6, 0.5, 0.4], 4)
+        self.assertFalse(res)
+
+        res = query_weights_optimizer.check_the_progress([0.2, 0.6, 0.5, 0.4], 4)
+        self.assertTrue(res)
+
+        res = query_weights_optimizer.check_the_progress([0.2, 0.6, 0.5, 0.4], 3)
+        self.assertFalse(res)
+
+        res = query_weights_optimizer.check_the_progress([0.7, 0.6, 0.5, 0.4], 5)
+        self.assertTrue(res)
+
+        res = query_weights_optimizer.check_the_progress([0.7, 0.6, 0.5, 0.5], 2)
+        self.assertTrue(res)
+
+        self.assertRaises(ValueError, query_weights_optimizer.check_the_progress, [0.7, 0.6, 0.5, 0.4], 1)
+
+        self.assertRaises(ValueError, query_weights_optimizer.check_the_progress, [0.7, 0.6, 0.5, 0.4], 2.5)

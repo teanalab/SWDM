@@ -76,11 +76,15 @@ class QueryWeightsOptimizer(object):
                      shared_param_names_first))
 
     @staticmethod
-    def check_the_progress(eval_res_history):
-        if len(eval_res_history) > 3:
-            if eval_res_history[-1] < eval_res_history[-2] < eval_res_history[-3] < eval_res_history[-4]:
-                return False
-        return True
+    def check_the_progress(eval_res_history, track_range):
+        if track_range < 2 or not isinstance(track_range, int):
+            raise ValueError("Track range should be an integer greater than or equal to 2.")
+        if len(eval_res_history) < track_range:
+            return True
+        for i in range(1, track_range):
+            if eval_res_history[-i] >= eval_res_history[-(i + 1)]:
+                return True
+        return False
 
     def obtain_best_parameter_set(self):
         self.query_language_modifier.run(is_test=False)
@@ -103,13 +107,13 @@ class QueryWeightsOptimizer(object):
                     best_eval_res, eval_res = self.examine_a_test_value(test_value, best_eval_res,
                                                                         shared_param_names_first, shared_param_items)
                     eval_res_history += [eval_res]
-                    if not self.check_the_progress(eval_res_history):
+                    if not self.check_the_progress(eval_res_history, 4):
                         break
 
                 test_eval_res = self.run_cv_tests()
                 best_training_eval_res_history += [best_eval_res]
                 test_eval_res_history += [test_eval_res]
-            if not self.check_the_progress(test_eval_res_history):
+            if not self.check_the_progress(test_eval_res_history, 4):
                 print("early stopping...")
                 print("best_training_eval_res_history:", ' '.join(best_training_eval_res_history))
                 print("test_eval_res_history:", ' '.join(test_eval_res_history))
