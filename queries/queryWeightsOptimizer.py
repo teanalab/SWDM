@@ -86,10 +86,10 @@ class QueryWeightsOptimizer(object):
         self.query_language_modifier.run(is_test=False)
         best_eval_res = self.evaluate_queries()
         print("initial best_eval_res:", best_eval_res)
-        self.run_cv_tests()
+        test_eval_res = self.run_cv_tests()
         shared_params_optimization = self.parameters.params["shared_params_optimization"]
         while True:
-            best_training_eval_res_history = [best_eval_res]
+            best_training_eval_res_history = [test_eval_res]
             test_eval_res_history = [best_eval_res]
             random.shuffle(shared_params_optimization)
             for shared_param_items in shared_params_optimization:
