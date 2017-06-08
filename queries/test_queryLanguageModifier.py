@@ -104,7 +104,7 @@ class TestQueryLanguageModifier(TestCase):
 
         query_language_modifier = QueryLanguageModifier(self.parameters)
         query_language_modifier.embedding_space.initialize = MagicMock(return_value=None)
-        res = query_language_modifier.gen_weighted_fields_text(field_weights, field_texts)
+        res = query_language_modifier._gen_weighted_fields_text(field_weights, field_texts)
         expected_res = "#weight(\n" \
                        "0.8#weight(\n" \
                        "0.1#combine(hello)\n" \
@@ -134,7 +134,7 @@ class TestQueryLanguageModifier(TestCase):
             "w": 0.0
         }
 
-        res = query_language_modifier.gen_weighted_fields_text(field_weights, field_texts)
+        res = query_language_modifier._gen_weighted_fields_text(field_weights, field_texts)
         expected_res = "#weight(\n" \
                        "0.8#weight(\n" \
                        "0.1#combine(hello)\n" \
@@ -164,7 +164,7 @@ class TestQueryLanguageModifier(TestCase):
                                     [('how', 1), ('are', 0.8),
                                      ('you', 0.74)]])
         query_language_modifier.embedding_space.initialize = MagicMock(return_value=None)
-        res = query_language_modifier.gen_sdm_fields_texts("hello world how are you")
+        res = query_language_modifier._gen_sdm_fields_texts("hello world how are you")
         expected_res = {'u': '#weight(\n0.9#combine(hello)\n0.1#combine(world)\n0.6#combine(how)\n0.3#combine(are)\n'
                              '0.1#combine(you)\n)\n',
                         'o': '#weight(\n0.6#od4(hello how)\n0.3#od4(hello are)\n0.1#od4(hello you)\n'
@@ -176,7 +176,7 @@ class TestQueryLanguageModifier(TestCase):
     def test_keep_cv_queries(self):
         query_language_modifier = QueryLanguageModifier(self.parameters)
         soup = Queries().indri_query_file_2_soup("test_files/indri_query.cfg")
-        queries = query_language_modifier.find_all_queries(soup)
+        queries = query_language_modifier._find_all_queries(soup)
 
         query_numbers = ["INEX_LD-20120121", "QALD2_te-81"]
 
@@ -195,13 +195,13 @@ class TestQueryLanguageModifier(TestCase):
 
         query_language_modifier = QueryLanguageModifier(self.parameters)
         soup = Queries().indri_query_file_2_soup("test_files/indri_query.cfg")
-        queries = query_language_modifier.find_all_queries(soup)
+        queries = query_language_modifier._find_all_queries(soup)
 
-        res = query_language_modifier.get_query_numbers_to_keep(queries, is_test=True)
+        res = query_language_modifier._get_query_numbers_to_keep(queries, is_test=True)
 
         self.assertEqual(res, ['INEX_LD-20120112', 'QALD2_te-81'])
 
-        res = query_language_modifier.get_query_numbers_to_keep(queries, is_test=False)
+        res = query_language_modifier._get_query_numbers_to_keep(queries, is_test=False)
         self.assertEqual(res, ['INEX_LD-20120111', 'INEX_LD-20120121', 'QALD2_te-82', 'TREC_Entity-20'])
 
     def test__find_unigrams_original(self):

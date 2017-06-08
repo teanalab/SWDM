@@ -29,11 +29,11 @@ class QueryLanguageModifier(object):
         self.expanded_sdm = ExpandedSdm(self.parameters)
 
     @staticmethod
-    def find_all_queries(soup):
+    def _find_all_queries(soup):
         queries = soup.findAll("query")
         return queries
 
-    def get_query_numbers_to_keep(self, queries, is_test):
+    def _get_query_numbers_to_keep(self, queries, is_test):
 
         query_numbers = [q.find("number").string for q in queries]
 
@@ -60,7 +60,7 @@ class QueryLanguageModifier(object):
         tknzr = TweetTokenizer()
         return tknzr.tokenize(text)
 
-    def gen_sdm_fields_texts(self, text):
+    def _gen_sdm_fields_texts(self, text):
         sdm_fields_texts = dict()
         self.expanded_sdm.init_top_docs_run_query(text)
         unigrams_original = self._find_unigrams_original(text)
@@ -71,7 +71,7 @@ class QueryLanguageModifier(object):
         return sdm_fields_texts
 
     @staticmethod
-    def gen_weighted_fields_text(field_weights, field_texts):
+    def _gen_weighted_fields_text(field_weights, field_texts):
         new_q_text = "\n#weight(\n"
         for field_name, field_weight in field_weights.items():
             field_weight = '{0:.5f}'.format(field_weight)
@@ -82,17 +82,17 @@ class QueryLanguageModifier(object):
         new_q_text += ")\n"
         return new_q_text
 
-    def update_queries(self, queries, field_weights):
+    def _update_queries(self, queries, field_weights):
         for q in queries:
             if str(q) != "<None></None>":
                 q_text = q.find("text")
                 q_text_ = q_text.text.strip()
                 q_text_ = re.sub('[^0-9a-zA-Z]+', ' ', q_text_)
-                field_texts = self.gen_sdm_fields_texts(q_text_)
-                q_text.string = self.gen_weighted_fields_text(field_weights, field_texts)
+                field_texts = self._gen_sdm_fields_texts(q_text_)
+                q_text.string = self._gen_weighted_fields_text(field_weights, field_texts)
 
     @staticmethod
-    def post_process_indri_run_query_cfg(soup_str):
+    def _post_process_indri_run_query_cfg(soup_str):
         soup_str = soup_str.replace("<trecformat>", "<trecFormat>").replace("</trecformat>", "</trecFormat>")
         soup_str = soup_str.replace("<printquery>", "<printQuery>").replace("</printquery>", "</printQuery>")
         soup_str = soup_str.replace("<fbdocs>", "<fbDocs>").replace("</fbdocs>", "</fbDocs>")
@@ -100,26 +100,26 @@ class QueryLanguageModifier(object):
         soup_str = soup_str.replace("</workingSetDocno>", "</workingSetDocno>\n")
         return soup_str
 
-    def update_indri_query_file(self, soup, new_indri_query_file):
+    def _update_indri_query_file(self, soup, new_indri_query_file):
         with open(new_indri_query_file, 'w') as f:
             soup_str = str(soup.body.parameters)
-            soup_str = self.post_process_indri_run_query_cfg(soup_str)
+            soup_str = self._post_process_indri_run_query_cfg(soup_str)
             print(soup_str, file=f)
 
     @staticmethod
-    def update_index_dir(soup, index_dir):
+    def _update_index_dir(soup, index_dir):
         index = soup.find('index')
         index.string = index_dir
 
     @staticmethod
-    def get_runs_for_re_rank(previous_runs_file):
+    def _get_runs_for_re_rank(previous_runs_file):
         if previous_runs_file is None:
             return None
         else:
             return Runs().runs_file_to_documents_dict(previous_runs_file)
 
     @staticmethod
-    def update_relevance_feedback(soup, fb_terms, fb_docs):
+    def _update_relevance_feedback(soup, fb_terms, fb_docs):
         if fb_terms > 0 and fb_docs > 0:
             soup_parameters = soup.find("parameters")
             soup_tmp = BeautifulSoup("", "lxml")
@@ -131,7 +131,7 @@ class QueryLanguageModifier(object):
             soup_parameters.append(fb_docs_tag)
 
     @staticmethod
-    def remove_empty_queries(queries):
+    def _remove_empty_queries(queries):
         for q in queries:
             if q.find("text") is not None and q.find("text").text.strip() == "#weight(\n)":
                 q.decompose()
@@ -143,22 +143,22 @@ class QueryLanguageModifier(object):
     def run_no_word2vec_initialization(self, is_test):
         soup = Queries().indri_query_file_2_soup(self.parameters.params["query_files"]["old_indri_query_file"])
 
-        self.update_index_dir(soup, self.parameters.params["repo_dir"])
+        self._update_index_dir(soup, self.parameters.params["repo_dir"])
 
-        queries = self.find_all_queries(soup)
+        queries = self._find_all_queries(soup)
 
-        query_numbers_to_keep = self.get_query_numbers_to_keep(queries, is_test)
+        query_numbers_to_keep = self._get_query_numbers_to_keep(queries, is_test)
 
         self._keep_cv_queries(queries, query_numbers_to_keep)
 
-        self.update_queries(queries, self.parameters.params["sdm_field_weights"])
+        self._update_queries(queries, self.parameters.params["sdm_field_weights"])
 
-        self.remove_empty_queries(queries)
+        self._remove_empty_queries(queries)
 
-        self.update_relevance_feedback(soup, self.parameters.params["prf"]["fb_terms"],
-                                       self.parameters.params["prf"]["fb_docs"])
+        self._update_relevance_feedback(soup, self.parameters.params["prf"]["fb_terms"],
+                                        self.parameters.params["prf"]["fb_docs"])
 
-        self.update_indri_query_file(soup, self.parameters.params["query_files"]["new_indri_query_file"])
+        self._update_indri_query_file(soup, self.parameters.params["query_files"]["new_indri_query_file"])
 
 
 if __name__ == "__main__":
