@@ -111,8 +111,8 @@ class QueryWeightsOptimizer(object):
                         break
 
                 test_eval_res = self.run_cv_tests()
-                best_training_eval_res_history += [best_eval_res]
-                test_eval_res_history += [test_eval_res]
+            best_training_eval_res_history += [best_eval_res]
+            test_eval_res_history += [test_eval_res]
             if not self.check_the_progress(test_eval_res_history, 4):
                 print("early stopping...")
                 print("best_training_eval_res_history:", ' '.join(best_training_eval_res_history))
