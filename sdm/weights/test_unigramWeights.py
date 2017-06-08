@@ -3,6 +3,10 @@ from unittest import TestCase
 import sdm.weights.unigram_weights
 from parameters.parameters import Parameters
 
+__author__ = 'Saeid Balaneshin-kordan'
+__email__ = "saeid@wayne.edu"
+__date__ = 11 / 21 / 16
+
 
 class TestUnigramWeights(TestCase):
     def setUp(self):

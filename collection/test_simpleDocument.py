@@ -4,6 +4,10 @@ from unittest import TestCase
 from collection.simple_document import SimpleDocument
 from parameters.parameters import Parameters
 
+__author__ = 'Saeid Balaneshin-kordan'
+__email__ = "saeid@wayne.edu"
+__date__ = 11 / 21 / 16
+
 
 class TestSimpleDocument(TestCase):
     def setUp(self):

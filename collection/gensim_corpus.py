@@ -1,5 +1,4 @@
 import os
-
 import sys
 
 import nltk
@@ -11,6 +10,10 @@ try:
     from StringIO import StringIO
 except ImportError:
     from io import StringIO
+
+__author__ = 'Saeid Balaneshin-kordan'
+__email__ = "saeid@wayne.edu"
+__date__ = 11 / 21 / 16
 
 
 class GensimCorpus(TextCorpus):

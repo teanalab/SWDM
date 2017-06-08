@@ -1,8 +1,10 @@
-from __future__ import print_function
-
 from unittest import TestCase
 
 from queries.queries import Queries
+
+__author__ = 'Saeid Balaneshin-kordan'
+__email__ = "saeid@wayne.edu"
+__date__ = 11 / 21 / 16
 
 
 class TestQueries(TestCase):

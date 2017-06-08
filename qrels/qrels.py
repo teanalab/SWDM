@@ -1,6 +1,10 @@
 import csv
 from collections import defaultdict
 
+__author__ = 'Saeid Balaneshin-kordan'
+__email__ = "saeid@wayne.edu"
+__date__ = 11 / 21 / 16
+
 
 class Qrels(object):
     def __int__(self):

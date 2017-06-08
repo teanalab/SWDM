@@ -6,6 +6,10 @@ from embeddings.similarity.neighborhood import Neighborhood
 from embeddings.word2vec import Word2vec
 from parameters.parameters import Parameters
 
+__author__ = 'Saeid Balaneshin-kordan'
+__email__ = "saeid@wayne.edu"
+__date__ = 11 / 21 / 16
+
 
 class TestNeighborhood(TestCase):
     def setUp(self):
@@ -1186,8 +1190,8 @@ class TestNeighborhood(TestCase):
                           ({'condescending', 'childish', 'silly', 'merely', 'cynical'}, 3.4963245488185875),
                           ({'amorous', 'affair', 'flirting', 'romances', 'elope'}, 3.2539707321095603),
                           ({'mingling', 'jealous', 'flirting', 'laughing', 'seducing'}, 3.240065973553957), (
-                          {'interactions', 'interrelationships', 'friendship', 'romances', 'connections'},
-                          3.1094407136221571),
+                              {'interactions', 'interrelationships', 'friendship', 'romances', 'connections'},
+                              3.1094407136221571),
                           ({'gossiping', 'cried', 'silly', 'sarcastic', 'jokes'}, 3.0362586822053346),
                           ({'illogical', 'unnecessary', 'cynical', 'haste', 'quick'}, 3.0216055784211249),
                           ({'abilities', 'humility', 'accomplishments', 'characteristic', 'trait'}, 2.8617000432392219),
@@ -1197,17 +1201,17 @@ class TestNeighborhood(TestCase):
                           ({'prejudice', 'confusion', 'distrust', 'wrongs', 'perception'}, 2.7599022062838698),
                           ({'beautifully', 'closely', 'heavily', 'scrupulously', 'thoroughly'}, 2.6351931762898131),
                           ({'literature', 'adaptations', 'languages', 'text', 'manuscript'}, 2.5928407199326484), (
-                          {'portrait', 'graphic', 'depiction', 'illustration', 'artwork', 'example', 'picture',
-                           'gallery'}, 2.4720345846503866),
+                              {'portrait', 'graphic', 'depiction', 'illustration', 'artwork', 'example', 'picture',
+                               'gallery'}, 2.4720345846503866),
                           ({'biology', 'empirical', 'scholarly', 'scientists', 'research'}, 2.4653947041548014),
                           ({'duly', 'strongly', 'equally', 'merely', 'sufficiently'}, 2.4293581888756894),
                           ({'notable', 'beautiful', 'amusing', 'dramatic', 'classic'}, 2.3649336986732057), (
-                          {'manuscript', 'article', 'writing', 'memoir', 'written', 'released', 'essay', 'literary',
-                           'wrote', 'sketching', 'journal'}, 2.31049575129073),
+                              {'manuscript', 'article', 'writing', 'memoir', 'written', 'released', 'essay', 'literary',
+                               'wrote', 'sketching', 'journal'}, 2.31049575129073),
                           ({'surprised', 'embarrassment', 'horrified', 'disappointment', 'upset'}, 2.3063650673313472),
                           ({'contemporary', 'literature', 'society', 'environment', 'perception'}, 2.296558838422059), (
-                          {'vocabulary', 'qualities', 'experience', 'accomplishments', 'knowledge'},
-                          2.2898643675576382),
+                              {'vocabulary', 'qualities', 'experience', 'accomplishments', 'knowledge'},
+                              2.2898643675576382),
                           ({'stresses', 'necessity', 'role', 'advantages', 'imperative'}, 2.2731905311238894),
                           ({'contemporary', 'shades', 'themes', 'fashion', 'designs'}, 2.2467488119126657),
                           ({'rich', 'income', 'wealthy', 'prosperous', 'wealth'}, 2.2417154928276881),
@@ -1221,25 +1225,27 @@ class TestNeighborhood(TestCase):
                           ({'transpires', 'going', 'unfolding', 'done', 'know'}, 2.0561466435366644),
                           ({'adult', 'upbringing', 'child', 'social', 'children'}, 2.0512004884423103),
                           ({'relevant', 'particular', 'specify', 'detailed', 'type'}, 2.0455266120322362), (
-                          {'counteracted', 'dictated', 'inspired', 'influenced', 'aided', 'led', 'driven'},
-                          2.035443654356595), ({'low', 'hurting', 'poor', 'sickly', 'bad'}, 2.0314520776586873),
+                              {'counteracted', 'dictated', 'inspired', 'influenced', 'aided', 'led', 'driven'},
+                              2.035443654356595), ({'low', 'hurting', 'poor', 'sickly', 'bad'}, 2.0314520776586873),
                           ({'process', 'technique', 'approach', 'tool', 'formula'}, 2.0037044910742781),
                           ({'respect', 'veneration', 'regard', 'affection', 'confidence'}, 1.9906622850601341), (
-                          {'significant', 'actually', 'significantly', 'rapidly', 'bit', 'greatly', 'slightly',
-                           'considerably'}, 1.9805479525988616),
+                              {'significant', 'actually', 'significantly', 'rapidly', 'bit', 'greatly', 'slightly',
+                               'considerably'}, 1.9805479525988616),
                           ({'abilities', 'seasoned', 'experienced', 'background', 'knowledge'}, 1.9790139732795489), (
-                          {'proof', 'case', 'empirical', 'evidence', 'reasons', 'motive', 'argument', 'justification'},
-                          1.915553739980808),
+                              {'proof', 'case', 'empirical', 'evidence', 'reasons', 'motive', 'argument',
+                               'justification'},
+                              1.915553739980808),
                           ({'determined', 'regardless', 'influenced', 'depending', 'driven'}, 1.8698891087002258),
                           ({'described', 'identified', 'renowned', 'reputed', 'considered'}, 1.8164544531085611), (
-                          {'reality', 'great', 'genuine', 'serious', 'actually', 'good', 'merely', 'truth', 'real',
-                           'true'}, 1.8031163674969846),
+                              {'reality', 'great', 'genuine', 'serious', 'actually', 'good', 'merely', 'truth', 'real',
+                               'true'}, 1.8031163674969846),
                           ({'proof', 'believe', 'say', 'admit', 'attest'}, 1.8014052841487562), (
-                          {'significant', 'memorable', 'major', 'dramatic', 'key', 'renowned', 'led', 'top'},
-                          1.7888148097526089),
+                              {'significant', 'memorable', 'major', 'dramatic', 'key', 'renowned', 'led', 'top'},
+                              1.7888148097526089),
                           ({'speculated', 'revealed', 'claimed', 'acknowledged', 'hints'}, 1.7619726464697281), (
-                          {'travels', 'creates', 'exposes', 'responds', 'learns', 'confronts', 'hears', 'sees'},
-                          1.6708843270368847), ({'blames', 'rejects', 'insists', 'cites', 'sees'}, 1.6677047704790986),
+                              {'travels', 'creates', 'exposes', 'responds', 'learns', 'confronts', 'hears', 'sees'},
+                              1.6708843270368847),
+                          ({'blames', 'rejects', 'insists', 'cites', 'sees'}, 1.6677047704790986),
                           ({'initially', 'previously', 'recently', 'specify', 'eventually', 'subsequently', 'later',
                             'originally', 'repeatedly'}, 1.6443367086934779),
                           ({'done', 'conducted', 'taken', 'undergone', 'carried'}, 1.5850098105670667),
@@ -1250,8 +1256,8 @@ class TestNeighborhood(TestCase):
                           ({'undertaken', 'given', 'takes', 'carried', 'brought'}, 1.4433022589411331),
                           ({'despite', 'caused', 'resulted', 'forced', 'spite'}, 1.4186742764217244),
                           ({'ask', 'enact', 'seek', 'approve', 'adopts'}, 1.4025449212792176), (
-                          {'century', 'past', 'days', 'months', 'chance', 'moment', 'twenty', 'period'},
-                          1.4011903526778635),
+                              {'century', 'past', 'days', 'months', 'chance', 'moment', 'twenty', 'period'},
+                              1.4011903526778635),
                           ({'position', 'involvement', 'importance', 'part', 'instrumental'}, 1.2843403474118493),
                           ({'commercial', 'company', 'market', 'economy', 'financial'}, 1.2035480639555975),
                           ({'moved', 'came', 'set', 'began', 'caught'}, 1.1388445656941451),

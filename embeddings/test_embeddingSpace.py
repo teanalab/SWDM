@@ -4,6 +4,10 @@ from unittest import TestCase
 from embeddings.embedding_space import EmbeddingSpace
 from parameters.parameters import Parameters
 
+__author__ = 'Saeid Balaneshin-kordan'
+__email__ = "saeid@wayne.edu"
+__date__ = 11 / 21 / 16
+
 
 class TestEmbeddingSpace(TestCase):
     def setUp(self):

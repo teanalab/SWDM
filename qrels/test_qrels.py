@@ -2,6 +2,10 @@ from unittest import TestCase
 
 from qrels.qrels import Qrels
 
+__author__ = 'Saeid Balaneshin-kordan'
+__email__ = "saeid@wayne.edu"
+__date__ = 11 / 21 / 16
+
 
 class TestQrels(TestCase):
     def test_file_2_dict(self):

@@ -1,5 +1,9 @@
-class Embeddings:
+__author__ = 'Saeid Balaneshin-kordan'
+__email__ = "saeid@wayne.edu"
+__date__ = 11 / 21 / 16
 
+
+class Embeddings:
     def __init__(self):
         pass
 
@@ -19,4 +23,4 @@ class Embeddings:
         unigram_nearest_neighbor_2 = feature_parameters['unigram_nearest_neighbor_2']
         cosine_similarity_1 = [item for item in unigram_nearest_neighbor_1 if item[0] == terms[0]][0][1]
         cosine_similarity_2 = [item for item in unigram_nearest_neighbor_2 if item[0] == terms[1]][0][1]
-        return (cosine_similarity_1 + cosine_similarity_2)/2
+        return (cosine_similarity_1 + cosine_similarity_2) / 2

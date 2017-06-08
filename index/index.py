@@ -1,8 +1,12 @@
 import math
+import re
 
 import pyndri
-import re
 from bs4 import BeautifulSoup
+
+__author__ = 'Saeid Balaneshin-kordan'
+__email__ = "saeid@wayne.edu"
+__date__ = 11 / 21 / 16
 
 
 class Index:
@@ -128,6 +132,7 @@ class Index:
 
     def expand_query(self, original_query, fb_docs, fb_terms, top_docs):
         return self._parse_expanded_query(self.index.expand_query(original_query, fb_docs, fb_terms, top_docs))
+
 
 if __name__ == '__main__':
     pass

@@ -3,6 +3,10 @@ from unittest import TestCase
 
 from embeddings.word2vec import Word2vec
 
+__author__ = 'Saeid Balaneshin-kordan'
+__email__ = "saeid@wayne.edu"
+__date__ = 11 / 21 / 16
+
 
 class TestWord2vec(TestCase):
     def setUp(self):

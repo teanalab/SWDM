@@ -2,6 +2,10 @@ from sdm.weights.ordered_bigram_weights import OrderedBigramWeights
 from sdm.weights.unigram_weights import UnigramWeights
 from sdm.weights.unordered_bigram_weights import UnorderedBigramWeights
 
+__author__ = 'Saeid Balaneshin-kordan'
+__email__ = "saeid@wayne.edu"
+__date__ = 11 / 21 / 16
+
 
 class ExpandedSdm:
     def __init__(self, parameters):

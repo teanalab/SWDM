@@ -1,9 +1,13 @@
+import sys
 from unittest import TestCase
 
-import sys
+import numpy as np
 
 from parameters.parameters import Parameters
-import numpy as np
+
+__author__ = 'Saeid Balaneshin-kordan'
+__email__ = "saeid@wayne.edu"
+__date__ = 11 / 21 / 16
 
 
 class TestParameters(TestCase):

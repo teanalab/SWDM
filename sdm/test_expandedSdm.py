@@ -5,6 +5,10 @@ from mock import MagicMock
 from parameters.parameters import Parameters
 from sdm.expanded_sdm import ExpandedSdm
 
+__author__ = 'Saeid Balaneshin-kordan'
+__email__ = "saeid@wayne.edu"
+__date__ = 11 / 21 / 16
+
 
 def mock_compute_weight_sdm_unigrams(similar_unigram, unigram):
     weight_gram = {

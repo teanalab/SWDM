@@ -2,6 +2,10 @@ from unittest import TestCase
 
 import features.embeddings
 
+__author__ = 'Saeid Balaneshin-kordan'
+__email__ = "saeid@wayne.edu"
+__date__ = 11 / 21 / 16
+
 
 class TestEmbeddings(TestCase):
     def test_cosine_similarity_with_orig(self):

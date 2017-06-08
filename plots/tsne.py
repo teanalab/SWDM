@@ -14,6 +14,10 @@ from embeddings.word2vec import Word2vec
 
 matplotlib.rcParams['backend'] = "Qt4Agg"
 
+__author__ = 'Saeid Balaneshin-kordan'
+__email__ = "saeid@wayne.edu"
+__date__ = 11 / 21 / 16
+
 
 class Tsne():
     def __init__(self):
@@ -110,10 +114,6 @@ class Tsne():
 
 if __name__ == '__main__':
     tsne_ = Tsne()
-
-
-
-
 
     # tsne_.initialize()
     # tsne_.run()

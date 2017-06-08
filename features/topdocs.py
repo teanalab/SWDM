@@ -2,6 +2,10 @@ from math import log
 
 import index.index
 
+__author__ = 'Saeid Balaneshin-kordan'
+__email__ = "saeid@wayne.edu"
+__date__ = 11 / 21 / 16
+
 
 class Topdocs:
     def __init__(self, parameters):

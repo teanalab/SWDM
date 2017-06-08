@@ -5,6 +5,10 @@ from unittest.mock import MagicMock
 from collection.gensim_corpus import GensimCorpus
 from parameters.parameters import Parameters
 
+__author__ = 'Saeid Balaneshin-kordan'
+__email__ = "saeid@wayne.edu"
+__date__ = 11 / 21 / 16
+
 
 class TestGensimCorpus(TestCase):
     def setUp(self):

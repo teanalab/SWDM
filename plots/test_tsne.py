@@ -1,15 +1,17 @@
 import json
 import os
 import re
-from unittest import TestCase
-
 import sys
+from unittest import TestCase
 
 from plots.tsne import Tsne
 
+__author__ = 'Saeid Balaneshin-kordan'
+__email__ = "saeid@wayne.edu"
+__date__ = 11 / 21 / 16
+
 
 class TestTsne(TestCase):
-
     def setUp(self):
         self.tsne = Tsne()
         sample_json = json.load(open("test_files/wikipedia_page.json"))
