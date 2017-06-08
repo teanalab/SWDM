@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 import enchant
+from nltk.corpus import stopwords
 
 from embeddings.word2vec import Word2vec
 from index.index import Index
@@ -17,6 +18,7 @@ class EmbeddingSpace:
         self.index_ = Index(self.parameters)
         self.unigrams_in_embedding_space_history = defaultdict()
         self.enchant_dict = enchant.Dict("en_US")
+        self.stopwords = stopwords.words('english')
 
     def initialize(self):
         self.word2vec.pre_trained_google_news_300_model()
@@ -43,6 +45,8 @@ class EmbeddingSpace:
         word2vec_lower_threshold = self.parameters.params["word2vec"]["lower_threshold"]
         word2vec_n_max = self.parameters.params["word2vec"]["n_max"]
 
+        unigram = unigram.lower()
+
         if not self.index_.check_if_exists_in_index(orig_unigram):
             return False
         if len(unigrams_in_embedding_space_pruned) > word2vec_n_max:
@@ -52,6 +56,8 @@ class EmbeddingSpace:
         if distance < word2vec_lower_threshold:
             return False
         if not unigram.isalpha():
+            return False
+        if unigram in self.stopwords:
             return False
         if not self.index_.check_if_exists_in_index(unigram):
             return False
@@ -69,7 +75,7 @@ class EmbeddingSpace:
 
         unigrams_in_embedding_space_pruned = []
         for (unigram, distance) in unigrams_in_embedding_space:
-            unigram = str(unigram)
+            unigram = str(unigram).lower()
             if self.check_if_unigram_should_be_added(unigram, distance, unigrams_in_embedding_space_pruned,
                                                      orig_unigram):
                 unigrams_in_embedding_space_pruned += [(unigram, distance)]
@@ -77,7 +83,5 @@ class EmbeddingSpace:
         return unigrams_in_embedding_space_pruned
 
     def find_unigrams_in_embedding_space(self, unigrams_original):
-        unigrams_in_embedding_space = []
         for unigram in unigrams_original:
-            unigrams_in_embedding_space += [self.find_unigrams_in_embedding_space_1(self.word2vec, unigram)]
-        return unigrams_in_embedding_space
+            yield self.find_unigrams_in_embedding_space_1(self.word2vec, unigram)
