@@ -105,6 +105,7 @@ class QueryWeightsOptimizer(object):
                         break
 
                 self.run_cv_tests()
+                eval_res_all_params_history += [best_eval_res]
             if not self.check_the_progress(eval_res_all_params_history):
                 break
         return best_eval_res
