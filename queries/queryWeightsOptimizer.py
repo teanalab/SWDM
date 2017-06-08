@@ -88,20 +88,25 @@ class QueryWeightsOptimizer(object):
         print("initial best_eval_res:", best_eval_res)
         self.run_cv_tests()
         shared_params_optimization = self.parameters.params["shared_params_optimization"]
-        random.shuffle(shared_params_optimization)
-        for shared_param_items in shared_params_optimization:
-            shared_param_names_first = shared_param_items[0]
-            shared_param_items_first = self.find_param_optimization_item(shared_param_names_first)
-            eval_res_history = []
-            for test_value in self.gen_test_values_offline_list(shared_param_items_first):
-                print("shared_param_items_first, test_value:", shared_param_names_first, test_value)
-                best_eval_res, eval_res = self.examine_a_test_value(test_value, best_eval_res, shared_param_names_first,
-                                                                    shared_param_items)
-                eval_res_history += [eval_res]
-                if not self.check_the_progress(eval_res_history):
-                    break
+        while True:
+            eval_res_all_params_history = []
+            random.shuffle(shared_params_optimization)
+            for shared_param_items in shared_params_optimization:
+                print("eval_res_all_params_history:", ' '.join(eval_res_all_params_history))
+                shared_param_names_first = shared_param_items[0]
+                shared_param_items_first = self.find_param_optimization_item(shared_param_names_first)
+                eval_res_history = []
+                for test_value in self.gen_test_values_offline_list(shared_param_items_first):
+                    print("shared_param_items_first, test_value:", shared_param_names_first, test_value)
+                    best_eval_res, eval_res = self.examine_a_test_value(test_value, best_eval_res,
+                                                                        shared_param_names_first, shared_param_items)
+                    eval_res_history += [eval_res]
+                    if not self.check_the_progress(eval_res_history):
+                        break
 
-            self.run_cv_tests()
+                self.run_cv_tests()
+            if not self.check_the_progress(eval_res_all_params_history):
+                break
         return best_eval_res
 
     def run_cv_tests(self):
