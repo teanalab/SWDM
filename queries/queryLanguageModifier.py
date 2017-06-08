@@ -64,7 +64,7 @@ class QueryLanguageModifier(object):
         return sdm_fields_texts
 
     @staticmethod
-    def gen_combine_fields_text(field_weights, field_texts):
+    def gen_weighted_fields_text(field_weights, field_texts):
         new_q_text = "\n#weight(\n"
         for field_name, field_weight in field_weights.items():
             field_weight = '{0:.5f}'.format(field_weight)
@@ -82,7 +82,7 @@ class QueryLanguageModifier(object):
                 q_text_ = q_text.text.strip()
                 q_text_ = re.sub('[^0-9a-zA-Z]+', ' ', q_text_)
                 field_texts = self.gen_sdm_fields_texts(q_text_)
-                q_text.string = self.gen_combine_fields_text(field_weights, field_texts)
+                q_text.string = self.gen_weighted_fields_text(field_weights, field_texts)
 
     @staticmethod
     def post_process_indri_run_query_cfg(soup_str):

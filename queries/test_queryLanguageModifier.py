@@ -103,7 +103,7 @@ class TestQueryLanguageModifier(TestCase):
 
         query_language_modifier = QueryLanguageModifier(self.parameters)
         query_language_modifier.embedding_space.initialize = MagicMock(return_value=None)
-        res = query_language_modifier.gen_combine_fields_text(field_weights, field_texts)
+        res = query_language_modifier.gen_weighted_fields_text(field_weights, field_texts)
         expected_res = "#weight(\n" \
                        "0.8#weight(\n" \
                        "0.1#combine(hello)\n" \
@@ -133,7 +133,7 @@ class TestQueryLanguageModifier(TestCase):
             "w": 0.0
         }
 
-        res = query_language_modifier.gen_combine_fields_text(field_weights, field_texts)
+        res = query_language_modifier.gen_weighted_fields_text(field_weights, field_texts)
         expected_res = "#weight(\n" \
                        "0.8#weight(\n" \
                        "0.1#combine(hello)\n" \

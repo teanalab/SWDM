@@ -89,10 +89,12 @@ class QueryWeightsOptimizer(object):
         self.run_cv_tests()
         shared_params_optimization = self.parameters.params["shared_params_optimization"]
         while True:
-            eval_res_all_params_history = []
+            best_training_eval_res_history = [best_eval_res]
+            test_eval_res_history = [best_eval_res]
             random.shuffle(shared_params_optimization)
             for shared_param_items in shared_params_optimization:
-                print("eval_res_all_params_history:", ' '.join(eval_res_all_params_history))
+                print("test_eval_res_history:", ' '.join(test_eval_res_history))
+                print("best_training_eval_res_history:", ' '.join(best_training_eval_res_history))
                 shared_param_names_first = shared_param_items[0]
                 shared_param_items_first = self.find_param_optimization_item(shared_param_names_first)
                 eval_res_history = []
@@ -104,9 +106,13 @@ class QueryWeightsOptimizer(object):
                     if not self.check_the_progress(eval_res_history):
                         break
 
-                self.run_cv_tests()
-                eval_res_all_params_history += [best_eval_res]
-            if not self.check_the_progress(eval_res_all_params_history):
+                test_eval_res = self.run_cv_tests()
+                best_training_eval_res_history += [best_eval_res]
+                test_eval_res_history += [test_eval_res]
+            if not self.check_the_progress(test_eval_res_history):
+                print("early stopping...")
+                print("best_training_eval_res_history:", ' '.join(best_training_eval_res_history))
+                print("test_eval_res_history:", ' '.join(test_eval_res_history))
                 break
         return best_eval_res
 
@@ -118,9 +124,11 @@ class QueryWeightsOptimizer(object):
         params_previous_best_tmp = copy.deepcopy(self.parameters.params)
         self.parameters.params = self.update_params_nested_dict(self.parameters.params, 0, ["expansion_coefficient"])
         self.gen_queries(is_test=True)
-        test_eval_res = self.evaluate_queries()
+        sdm_eval_res = self.evaluate_queries()
         self.reset_params_to_previous_best(params_previous_best_tmp)
-        print("sdm_eval_res:", test_eval_res)
+        print("sdm_eval_res:", sdm_eval_res)
+
+        return test_eval_res
 
     def run(self):
         best_eval_res = self.obtain_best_parameter_set()
