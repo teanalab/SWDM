@@ -76,10 +76,8 @@ class EmbeddingSpace:
 
         return unigrams_in_embedding_space_pruned
 
-    def find_unigrams_in_embedding_space(self, text):
-        unigrams_l = text.split(' ')
+    def find_unigrams_in_embedding_space(self, unigrams_original):
         unigrams_in_embedding_space = []
-        for unigram in unigrams_l:
-            new_unigrams = self.find_unigrams_in_embedding_space_1(self.word2vec, unigram)
-            unigrams_in_embedding_space += [[(unigram, 1)] + new_unigrams]
+        for unigram in unigrams_original:
+            unigrams_in_embedding_space += [self.find_unigrams_in_embedding_space_1(self.word2vec, unigram)]
         return unigrams_in_embedding_space

@@ -3,6 +3,7 @@ import re
 import sys
 
 from bs4 import BeautifulSoup
+from nltk.tokenize import TweetTokenizer
 from sklearn.model_selection import KFold
 
 from embeddings.embedding_space import EmbeddingSpace
@@ -49,15 +50,21 @@ class QueryLanguageModifier(object):
             return [query_numbers[i] for i in all_kf_indices[testing_fold][0]]
 
     @staticmethod
-    def keep_cv_queries(queries, query_numbers_to_keep):
+    def _keep_cv_queries(queries, query_numbers_to_keep):
         for q in queries:
             if q.find("number").string not in query_numbers_to_keep:
                 q.decompose()
 
+    @staticmethod
+    def _find_unigrams_original(text):
+        tknzr = TweetTokenizer()
+        return tknzr.tokenize(text)
+
     def gen_sdm_fields_texts(self, text):
         sdm_fields_texts = dict()
         self.expanded_sdm.init_top_docs_run_query(text)
-        unigrams_in_embedding_space = self.embedding_space.find_unigrams_in_embedding_space(text)
+        unigrams_original = self._find_unigrams_original(text)
+        unigrams_in_embedding_space = self.embedding_space.find_unigrams_in_embedding_space(unigrams_original)
         sdm_fields_texts['u'] = self.expanded_sdm.gen_sdm_field_1_text(unigrams_in_embedding_space, "#combine")
         sdm_fields_texts['o'] = self.expanded_sdm.gen_sdm_field_1_text(unigrams_in_embedding_space, "#od")
         sdm_fields_texts['w'] = self.expanded_sdm.gen_sdm_field_1_text(unigrams_in_embedding_space, "#uw")
@@ -142,7 +149,7 @@ class QueryLanguageModifier(object):
 
         query_numbers_to_keep = self.get_query_numbers_to_keep(queries, is_test)
 
-        self.keep_cv_queries(queries, query_numbers_to_keep)
+        self._keep_cv_queries(queries, query_numbers_to_keep)
 
         self.update_queries(queries, self.parameters.params["sdm_field_weights"])
 

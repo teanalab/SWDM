@@ -1,3 +1,4 @@
+import sys
 import time
 from unittest import TestCase
 
@@ -16,9 +17,11 @@ class TestEmbeddingSpace(TestCase):
         self.parameters.params["repo_dir"] = '../index/test_files/index'
 
     def test_find_unigrams_in_embedding_space(self):
+        self.parameters.params["word2vec"] = {"upper_threshold": 0.8, "lower_threshold": 0.4, "n_max": 5}
         embedding_space = EmbeddingSpace(self.parameters)
         embedding_space.initialize()
-        unigrams = embedding_space.find_unigrams_in_embedding_space("hello world how are you")
+        unigrams = embedding_space.find_unigrams_in_embedding_space("hello world how are you".split(' '))
+        print(unigrams, file=sys.stderr)
         unigrams_expected = [[('hello', 1), ('hi', 0.6548984050750732), ('goodbye', 0.639905571937561),
                               ('howdy', 0.6310956478118896)],
                              [('world', 1), ('globe', 0.6945997476577759), ('theworld', 0.6902236938476562)],
@@ -28,6 +31,7 @@ class TestEmbeddingSpace(TestCase):
         self.assertEqual(unigrams, unigrams_expected)
 
         unigrams = embedding_space.find_unigrams_in_embedding_space("Airbus")
+        print(unigrams, file=sys.stderr)
         unigrams_expected = [[('hello', 1), ('hi', 0.6548984050750732), ('goodbye', 0.639905571937561),
                               ('howdy', 0.6310956478118896)],
                              [('world', 1), ('globe', 0.6945997476577759), ('theworld', 0.6902236938476562)],

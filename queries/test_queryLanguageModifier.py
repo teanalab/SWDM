@@ -1,3 +1,4 @@
+import sys
 from unittest import TestCase
 
 from mock import MagicMock
@@ -179,7 +180,7 @@ class TestQueryLanguageModifier(TestCase):
 
         query_numbers = ["INEX_LD-20120121", "QALD2_te-81"]
 
-        query_language_modifier.keep_cv_queries(queries, query_numbers)
+        query_language_modifier._keep_cv_queries(queries, query_numbers)
 
         self.assertEqual(str(soup.find_all("query")), """[<query>
 <number>INEX_LD-20120121</number>
@@ -202,3 +203,9 @@ class TestQueryLanguageModifier(TestCase):
 
         res = query_language_modifier.get_query_numbers_to_keep(queries, is_test=False)
         self.assertEqual(res, ['INEX_LD-20120111', 'INEX_LD-20120121', 'QALD2_te-82', 'TREC_Entity-20'])
+
+    def test__find_unigrams_original(self):
+        query_language_modifier = QueryLanguageModifier(self.parameters)
+        res = query_language_modifier._find_unigrams_original("hello world! How are you good-looking?")
+        print(res, file=sys.stderr)
+        self.assertEquals(res, ['hello', 'world', '!', 'How', 'are', 'you', 'good-looking', '?'])
