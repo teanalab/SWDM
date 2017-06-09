@@ -36,18 +36,24 @@ class ExpandedSdm:
             return self.ordered_bigram_weights.compute_weight(term, term_dependent_feature_parameters)
 
     def gen_sdm_field_1_text(self, all_unigrams, operator):
-        sdm_a_field_text = "#weight(\n"
+        sdm_a_field_text = ""
         for concept_type, unigrams in all_unigrams.items():
             type_weight = self.parameters.params["type_weights"][concept_type]
+            type_string = None
             if operator == "#combine":
-                sdm_a_field_text += str(type_weight) + self.gen_sdm_unigrams_field_1_text(unigrams)
+                type_string = self.gen_sdm_unigrams_field_1_text(unigrams)
             elif operator in {"#uw", "#od"}:
-                sdm_a_field_text += str(type_weight) + self.gen_sdm_bigrams_field_1_text(unigrams, operator)
-            sdm_a_field_text += ")\n"
-        return sdm_a_field_text
+                type_string = self.gen_sdm_bigrams_field_1_text(unigrams, operator)
+            if type_string is not None:
+                sdm_a_field_text = " " * 4 + str(type_weight) + type_string
+        if len(sdm_a_field_text.strip()) > 2:
+            sdm_a_field_text += "#weight(\n" + sdm_a_field_text + " " * 2 + ")\n"
+            return sdm_a_field_text
+        else:
+            return None
 
     def gen_sdm_bigrams_field_1_text(self, unigrams_in_embedding_space, operator):
-        sdm_bigrams_field_text = "#weight(\n"
+        sdm_bigrams_field_text = ""
         for i in range(0, len(unigrams_in_embedding_space) - 1):
             for similar_unigram_1 in unigrams_in_embedding_space[i]:
                 for similar_unigram_2 in unigrams_in_embedding_space[i + 1]:
@@ -61,14 +67,15 @@ class ExpandedSdm:
                     if float(weight) <= 0 or len(bigram) == 0:
                         continue
                     operator_s = operator + str(self.parameters.params["window_size"][operator])
-                    sdm_bigrams_field_text += weight + operator_s + "(" + bigram + ")\n"
-
-        sdm_bigrams_field_text += ")\n"
-        return sdm_bigrams_field_text
+                    sdm_bigrams_field_text += " " * 6 + weight + operator_s + "(" + bigram + ")\n"
+        if len(sdm_bigrams_field_text.strip()) > 2:
+            sdm_bigrams_field_text = "#weight(\n" + sdm_bigrams_field_text + " " * 4 + ")\n"
+            return sdm_bigrams_field_text
+        else:
+            return ""
 
     def gen_sdm_unigrams_field_1_text(self, unigrams_in_embedding_space):
-        sdm_unigrams_field_text = "#weight(\n"
-        operator = "#combine"
+        sdm_unigrams_field_text = ""
         for unigram_nearest_neighbor in unigrams_in_embedding_space:
             for similar_unigram in unigram_nearest_neighbor:
                 if similar_unigram[0].strip() == "":
@@ -77,6 +84,9 @@ class ExpandedSdm:
                 weight = '{0:.20f}'.format(weight)
                 if float(weight) <= 0 or len(similar_unigram[0]) == 0:
                     continue
-                sdm_unigrams_field_text += weight + operator + "(" + similar_unigram[0] + ")\n"
-        sdm_unigrams_field_text += ")\n"
-        return sdm_unigrams_field_text
+                sdm_unigrams_field_text += " " * 6 + weight + "#combine(" + similar_unigram[0] + ")\n"
+        if len(sdm_unigrams_field_text.strip()) > 2:
+            sdm_unigrams_field_text = "#weight(\n" + sdm_unigrams_field_text + " " * 4 + ")\n"
+            return sdm_unigrams_field_text
+        else:
+            return ""

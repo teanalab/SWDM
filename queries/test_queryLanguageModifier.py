@@ -1,3 +1,4 @@
+import sys
 from unittest import TestCase
 
 from mock import MagicMock
@@ -203,3 +204,22 @@ class TestQueryLanguageModifier(TestCase):
         res = query_language_modifier._get_query_numbers_to_keep(queries, is_test=False)
         self.assertEqual(res, ['INEX_LD-20120111', 'INEX_LD-20120121', 'QALD2_te-82', 'TREC_Entity-20'])
 
+    def test__find_all_bigrams_(self):
+        all_unigrams = {"orig": [[('hello', 1)], [("what", 1)], [("human", 1)]],
+                        "exp_embed": [[('hi', 0.65)], [('how', 1), ('are', 0.8)], [("brain", 0.3), ("think", 0.2)]]}
+        query_language_modifier = QueryLanguageModifier(self.parameters)
+        res = query_language_modifier._find_all_bigrams_(all_unigrams["orig"], all_unigrams["orig"])
+        res = list(res)
+        print(res, file=sys.stderr)
+        self.assertEquals(res, ['hello what', 'what human'])
+
+    def test__find_all_bigrams(self):
+        all_unigrams = {"orig": [[('hello', 1)], [("what", 1)], [("human", 1)]],
+                        "exp_embed": [[('hi', 0.65)], [('how', 1), ('are', 0.8)], [("brain", 0.3), ("think", 0.2)]]}
+        query_language_modifier = QueryLanguageModifier(self.parameters)
+        res = query_language_modifier._find_all_bigrams(all_unigrams)
+        print(res, file=sys.stderr)
+        self.assertEquals(res, {'orig_orig': ['hello what', 'what human'],
+                                'orig_exp_embed': ['hello how', 'hello are', 'what brain', 'what think'],
+                                'exp_embed_exp_embed': ['hi how', 'hi are', 'how brain', 'how think', 'are brain',
+                                                        'are think']})

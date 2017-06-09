@@ -1,3 +1,4 @@
+import sys
 from unittest import TestCase
 
 from mock import MagicMock
@@ -36,7 +37,7 @@ def mock_compute_weight_sdm_bigrams(term, unigram_1, unigram_2, operator):
     del operator
     [similar_unigram_1, similar_unigram_2] = term.split(' ')
     weight_gram = {
-        ('hello', 'hello', 'how', 'how'): 0.6,
+        ('hello', 'hello', 'what', 'what'): 0.6,
         ('world', 'hello', 'how', 'how'): 0.2,
         ('hello', 'hello', 'are', 'how'): 0.3,
         ('world', 'hello', 'are', 'how'): 0.4,
@@ -94,42 +95,44 @@ class TestExpandedSdm(TestCase):
         self.parameters.params["window_size"] = {}
         self.parameters.params["window_size"]["#od"] = 4
         self.parameters.params["window_size"]["#uw"] = 17
-        self.parameters.params["type_weights"]["exp_embed"] = 0.05
-        self.parameters.params["type_weights"]["exp_top_docs"] = 0.05
+        self.parameters.params["type_weights"] = {"orig": 1,
+                                                  "exp_embed": 0.05,
+                                                  "exp_top_docs": 0.05}
 
     def test_gen_sdm_bigrams_field_1_text(self):
-        unigrams_in_embedding_space = [[('hello', 1), ('world', 0.65)],
-                                       [('how', 1), ('are', 0.8), ('you', 0.74)]]
+        unigrams_in_embedding_space = [[('hello', 0.9), ('world', 0.65)],
+                                       [('how', 0.85), ('are', 0.8), ('you', 0.74)]]
         expanded_sdm = ExpandedSdm(self.parameters)
         expanded_sdm.compute_weight_sdm_bigrams = MagicMock(
             side_effect=mock_compute_weight_sdm_bigrams)
         res = expanded_sdm.gen_sdm_bigrams_field_1_text(unigrams_in_embedding_space,
                                                         "#uw")
+        print(res, file=sys.stderr)
         expected_res = """#weight(
-0.6#uw17(hello how)
-0.3#uw17(hello are)
-0.1#uw17(hello you)
-0.2#uw17(world how)
-0.4#uw17(world are)
-0.5#uw17(world you)
-)
+      0.59999999999999997780#uw17(hello how)
+      0.29999999999999998890#uw17(hello are)
+      0.10000000000000000555#uw17(hello you)
+      0.20000000000000001110#uw17(world how)
+      0.40000000000000002220#uw17(world are)
+      0.50000000000000000000#uw17(world you)
+    )
 """
         self.assertEqual(res, expected_res)
 
     def test_gen_sdm_unigrams_field_1_text(self):
-        unigrams_in_embedding_space = [[('hello', 1), ('world', 0.65)],
-                                       [('how', 1), ('are', 0.8), ('you', 0.74)]]
+        unigrams_in_embedding_space = [[('hello', 0.8), ('world', 0.65)],
+                                       [('how', 0.9), ('are', 0.8), ('you', 0.74)]]
         expanded_sdm = ExpandedSdm(self.parameters)
         expanded_sdm.compute_weight_sdm_unigrams = MagicMock(
             side_effect=mock_compute_weight_sdm_unigrams)
         res = expanded_sdm.gen_sdm_unigrams_field_1_text(unigrams_in_embedding_space)
         expected_res = """#weight(
-0.9#combine(hello)
-0.1#combine(world)
-0.6#combine(how)
-0.3#combine(are)
-0.1#combine(you)
-)
+      0.90000000000000002220#combine(hello)
+      0.10000000000000000555#combine(world)
+      0.59999999999999997780#combine(how)
+      0.29999999999999998890#combine(are)
+      0.10000000000000000555#combine(you)
+    )
 """
         self.assertEqual(res, expected_res)
 
@@ -137,21 +140,22 @@ class TestExpandedSdm(TestCase):
             side_effect=mock_compute_weight_sdm_unigrams_1)
         res = expanded_sdm.gen_sdm_unigrams_field_1_text(unigrams_in_embedding_space)
         expected_res = """#weight(
-0.9#combine(hello)
-0.1#combine(world)
-0.6#combine(how)
-0.1#combine(you)
-)
+      0.90000000000000002220#combine(hello)
+      0.10000000000000000555#combine(world)
+      0.59999999999999997780#combine(how)
+      0.10000000000000000555#combine(you)
+    )
 """
+        print(res, file=sys.stderr)
         self.assertEqual(res, expected_res)
 
     def test_gen_sdm_field_1_text(self):
-        unigrams_in_embedding_space = [[('hello', 1), ('world', 0.65)],
-                                       [('how', 1), ('are', 0.8), ('you', 0.74)]]
+        all_unigrams = {"orig": [[('hello', 1)], [("what", 0.8)]],
+                        "exp_embed": [[('hi', 0.65)], [('how', 1), ('are', 0.8)]]}
         expanded_sdm = ExpandedSdm(self.parameters)
         expanded_sdm.compute_weight_sdm_bigrams = MagicMock(
             side_effect=mock_compute_weight_sdm_bigrams)
-        res = expanded_sdm.gen_sdm_field_1_text(unigrams_in_embedding_space,
+        res = expanded_sdm.gen_sdm_field_1_text(all_unigrams,
                                                 "#uw")
         expected_res = """#weight(
 0.6#uw17(hello how)
@@ -162,6 +166,7 @@ class TestExpandedSdm(TestCase):
 0.5#uw17(world you)
 )
 """
+        print(res, file=sys.stderr)
         self.assertEqual(res, expected_res)
 
     def test_compute_weight_sdm_unigrams(self):

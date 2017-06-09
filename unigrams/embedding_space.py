@@ -29,7 +29,7 @@ class EmbeddingSpace(Original):
 
     def _gen_similar_words(self, orig_unigram, word2vec):
         if orig_unigram not in self.unigrams_in_embedding_space_history:
-            unigrams_in_embedding_space = word2vec._gen_similar_words(unigram=orig_unigram, topn=100)
+            unigrams_in_embedding_space = word2vec.gen_similar_words(unigram=orig_unigram, topn=100)
             self.unigrams_in_embedding_space_history[orig_unigram] = unigrams_in_embedding_space
             return unigrams_in_embedding_space
         else:
@@ -72,4 +72,4 @@ class EmbeddingSpace(Original):
 
     def find_unigrams(self, unigrams_original):
         for unigram in unigrams_original:
-            yield self._find_unigrams_in_embedding_space_1(self.word2vec, unigram)
+            yield self._find_unigrams_in_embedding_space_1(self.word2vec, unigram[0][0])

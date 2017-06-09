@@ -57,18 +57,38 @@ class QueryLanguageModifier(object):
                 q.decompose()
 
     def _find_all_unigrams(self, text):
-        unigrams_original = self.original_unigrams.find_unigrams(text)
+        unigrams_original = list(self.original_unigrams.find_unigrams(text))
         unigrams_in_embedding_space = list(self.embedding_space.find_unigrams(unigrams_original))
 
         return {"orig": unigrams_original, "exp_embed": unigrams_in_embedding_space}
+
+    @staticmethod
+    def _find_all_bigrams_(unigrams_1, unigrams_2):
+        if len(unigrams_1) != len(unigrams_2):
+            raise ValueError("unigrams_1 and unigrams_2 must have the same size")
+        for i in range(len(unigrams_1) - 1):
+            for unigram_1 in unigrams_1[i]:
+                for unigram_2 in unigrams_2[i + 1]:
+                    yield ' '.join([unigram_1[0], unigram_2[0]])
+
+    def _find_all_bigrams(self, all_unigrams):
+        return {
+            "orig_orig":
+                list(self._find_all_bigrams_(all_unigrams["orig"], all_unigrams["orig"])),
+            "orig_exp_embed":
+                list(self._find_all_bigrams_(all_unigrams["orig"], all_unigrams["exp_embed"])),
+            "exp_embed_exp_embed":
+                list(self._find_all_bigrams_(all_unigrams["exp_embed"], all_unigrams["exp_embed"]))
+        }
 
     def _gen_sdm_fields_texts(self, text):
         sdm_fields_texts = dict()
         self.expanded_sdm.init_top_docs_run_query(text)
         all_unigrams = self._find_all_unigrams(text)
+        all_bigrams = self._find_all_bigrams(text)
         sdm_fields_texts['u'] = self.expanded_sdm.gen_sdm_field_1_text(all_unigrams, "#combine")
-        sdm_fields_texts['o'] = self.expanded_sdm.gen_sdm_field_1_text(all_unigrams, "#od")
-        sdm_fields_texts['w'] = self.expanded_sdm.gen_sdm_field_1_text(all_unigrams, "#uw")
+        sdm_fields_texts['o'] = self.expanded_sdm.gen_sdm_field_1_text(all_bigrams, "#od")
+        sdm_fields_texts['w'] = self.expanded_sdm.gen_sdm_field_1_text(all_bigrams, "#uw")
         return sdm_fields_texts
 
     @staticmethod
@@ -77,8 +97,9 @@ class QueryLanguageModifier(object):
         for field_name, field_weight in field_weights.items():
             field_weight = '{0:.5f}'.format(field_weight)
             q_text = field_texts.get(field_name)
+            print(q_text)
             if float(field_weight) > 0 and len(q_text) > 14:
-                combine_text = field_weight + q_text
+                combine_text = " " * 2 + field_weight + q_text
                 new_q_text += combine_text
         new_q_text += ")\n"
         return new_q_text
