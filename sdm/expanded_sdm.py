@@ -32,13 +32,13 @@ class ExpandedSdm:
         for concept_type, grams_1_type in all_grams.items():
             type_weight = self.parameters.params["type_weights"][concept_type]
             type_string = self.gen_sdm_grams_field_1_text(grams_1_type, operator)
-            if type_string is not None:
+            if type_string is not None and type_string.strip() is not "":
                 sdm_a_field_text += " " * 4 + str(type_weight) + type_string
         if len(sdm_a_field_text.strip()) > 2:
             sdm_a_field_text = "#weight(\n" + sdm_a_field_text + " " * 2 + ")\n"
             return sdm_a_field_text
         else:
-            return None
+            return ""
 
     def gen_sdm_grams_field_1_text(self, grams, operator):
         sdm_grams_field_text = ""
