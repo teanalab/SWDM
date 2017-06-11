@@ -71,12 +71,32 @@
       [
         "type_weights",
         "exp_embed"
+      ],
+      [
+        "type_weights",
+        "orig_exp_embed"
       ]
     ],
     [
       [
         "type_weights",
         "exp_top_docs"
+      ],
+      [
+        "type_weights",
+        "orig_exp_top_docs"
+      ]
+    ],
+    [
+      [
+        "type_weights",
+        "exp_embed_exp_embed"
+      ]
+    ],
+    [
+      [
+        "type_weights",
+        "exp_top_docs_exp_top_docs"
       ]
     ],
     [
@@ -181,7 +201,12 @@
   "type_weights": {
     "orig": 1,
     "exp_embed": 0.065,
-    "exp_top_docs": 0
+    "exp_top_docs": 0,
+    "orig_orig": 1,
+    "orig_exp_embed": 0.065,
+    "exp_embed_exp_embed": 0.010,
+    "orig_exp_top_docs": 0,
+    "exp_top_docs_exp_top_docs": 0
   },
     "window_size": {
         "#uw": 25,
@@ -218,7 +243,8 @@
             "td_uw_expression_norm_document_count": {
                 "window_size": 2,
                 "n_top_docs": 15
-            }
+            },
+          "bigrams_cosine_similarity_with_orig": {}
         },
         "OrderedBigramWeights": {
             "od_expression_norm_count": {
@@ -234,7 +260,8 @@
             "td_od_expression_norm_document_count": {
                 "window_size": 1,
                 "n_top_docs": 15
-            }
+            },
+          "bigrams_cosine_similarity_with_orig": {}
         }
     },
     "features_weights": {

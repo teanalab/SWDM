@@ -20,5 +20,6 @@ class TestOriginal(TestCase):
             "Lorem ipsum dolor sit amet, consectetur adipiscing1 elit you i."))
         print(res, file=sys.stderr)
         self.assertEquals(res,
-                          [[('Lorem', 1)], [('ipsum', 1)], [('dolor', 1)], [('sit', 1)], [('amet', 1)],
-                           [('consectetur', 1)], [('elit', 1)]])
+                          [('Lorem', [('Lorem', 1)]), ('ipsum', [('ipsum', 1)]), ('dolor', [('dolor', 1)]),
+                           ('sit', [('sit', 1)]), ('amet', [('amet', 1)]), ('consectetur', [('consectetur', 1)]),
+                           ('elit', [('elit', 1)])])

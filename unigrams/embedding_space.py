@@ -22,8 +22,8 @@ class EmbeddingSpace(Original):
     def check_if_already_stem_exists(self, unigrams_in_embedding_space_pruned, unigram, orig_unigram):
         if self.index_.check_if_have_same_stem(unigram, orig_unigram):
             return True
-        for (other_unigram, distance) in unigrams_in_embedding_space_pruned:
-            if self.index_.check_if_have_same_stem(unigram, other_unigram):
+        for other_unigram in unigrams_in_embedding_space_pruned:
+            if self.index_.check_if_have_same_stem(unigram, other_unigram[0]):
                 return True
         return False
 
@@ -72,4 +72,4 @@ class EmbeddingSpace(Original):
 
     def find_unigrams(self, unigrams_original):
         for unigram in unigrams_original:
-            yield self._find_unigrams_in_embedding_space_1(self.word2vec, unigram[0][0])
+            yield unigram[1][0][0], self._find_unigrams_in_embedding_space_1(self.word2vec, unigram[1][0][0])

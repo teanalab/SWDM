@@ -10,14 +10,14 @@ except:
     raise
 
 
-class Features(Embeddings, Collection, Topdocs):
+class Features(Embeddings, Topdocs):
     def __init__(self, parameters):
         Collection.__init__(self, parameters)
         Embeddings.__init__(self)
         Topdocs.__init__(self, parameters)
         self.feature_functions = {}
 
-    def linear_combination(self, term, feature_names, features_weights, feature_parameters):
+    def linear_combination(self, gram_pair, feature_names, features_weights, feature_parameters):
 
         self.feature_functions.update({
             "uw_expression_count": Collection.uw_expression_count,
@@ -48,7 +48,7 @@ class Features(Embeddings, Collection, Topdocs):
         score = 0
         for feature_name in feature_names:
             feature_parameters_ = feature_parameters[feature_name]
-            score_ = self.feature_functions[feature_name](self, term, feature_parameters_)
+            score_ = self.feature_functions[feature_name](self, gram_pair, feature_parameters_)
             weight_ = features_weights[feature_name]
             score += weight_ * score_
         return score

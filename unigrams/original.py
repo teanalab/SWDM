@@ -35,4 +35,4 @@ class Original:
     def find_unigrams(self, text):
         for unigram in word_tokenize(text):
             if self.check_if_unigram_should_be_added(unigram):
-                yield [(unigram, 1)]
+                yield unigram, [(unigram, 1)]

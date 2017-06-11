@@ -67,9 +67,11 @@ class QueryLanguageModifier(object):
         if len(unigrams_1) != len(unigrams_2):
             raise ValueError("unigrams_1 and unigrams_2 must have the same size")
         for i in range(len(unigrams_1) - 1):
-            for unigram_1 in unigrams_1[i]:
-                for unigram_2 in unigrams_2[i + 1]:
-                    yield ' '.join([unigram_1[0], unigram_2[0]])
+            bigrams_ = []
+            for unigram_1 in unigrams_1[i][1]:
+                for unigram_2 in unigrams_2[i + 1][1]:
+                    bigrams_ += [(unigram_1, unigram_2)]
+            yield (unigrams_1[i][0], unigrams_1[i + 1][0]), bigrams_
 
     def _find_all_bigrams(self, all_unigrams):
         return {
@@ -85,7 +87,7 @@ class QueryLanguageModifier(object):
         sdm_fields_texts = dict()
         self.expanded_sdm.init_top_docs_run_query(text)
         all_unigrams = self._find_all_unigrams(text)
-        all_bigrams = self._find_all_bigrams(text)
+        all_bigrams = self._find_all_bigrams(all_unigrams)
         sdm_fields_texts['u'] = self.expanded_sdm.gen_sdm_field_1_text(all_unigrams, "#combine")
         sdm_fields_texts['o'] = self.expanded_sdm.gen_sdm_field_1_text(all_bigrams, "#od")
         sdm_fields_texts['w'] = self.expanded_sdm.gen_sdm_field_1_text(all_bigrams, "#uw")
@@ -97,7 +99,6 @@ class QueryLanguageModifier(object):
         for field_name, field_weight in field_weights.items():
             field_weight = '{0:.5f}'.format(field_weight)
             q_text = field_texts.get(field_name)
-            print(q_text)
             if float(field_weight) > 0 and len(q_text) > 14:
                 combine_text = " " * 2 + field_weight + q_text
                 new_q_text += combine_text

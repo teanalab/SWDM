@@ -1,43 +1,24 @@
+import os
 import sys
-from unittest import TestCase
+import unittest
 
 from mock import MagicMock
 
-from parameters.parameters import Parameters
-from queries.queries import Queries
-from queries.queryLanguageModifier import QueryLanguageModifier
+sys.path.insert(0, os.path.abspath('..'))
+try:
+    from parameters.parameters import Parameters
+    from queries.queries import Queries
+    from queries.queryLanguageModifier import QueryLanguageModifier
+    from sdm.test_expandedSdm import mock_compute_weight_sdm_grams
+except:
+    raise
 
 __author__ = 'Saeid Balaneshin-kordan'
 __email__ = "saeid@wayne.edu"
 __date__ = 11 / 21 / 16
 
 
-def mock_compute_weight_sdm_unigrams(similar_unigram, unigram):
-    weight_gram = {
-        ('hello', 'hello'): 0.9,
-        ('world', 'hello'): 0.1,
-        ('how', 'how'): 0.6,
-        ('are', 'how'): 0.3,
-        ('you', 'how'): 0.1,
-    }
-    return weight_gram[(similar_unigram, unigram[0][0])]
-
-
-def mock_compute_weight_sdm_bigrams(term, unigram_1, unigram_2, operator):
-    del operator
-    [similar_unigram_1, similar_unigram_2] = term.split(' ')
-    weight_gram = {
-        ('hello', 'hello', 'how', 'how'): 0.6,
-        ('world', 'hello', 'how', 'how'): 0.2,
-        ('hello', 'hello', 'are', 'how'): 0.3,
-        ('world', 'hello', 'are', 'how'): 0.4,
-        ('hello', 'hello', 'you', 'how'): 0.1,
-        ('world', 'hello', 'you', 'how'): 0.5,
-    }
-    return weight_gram[(similar_unigram_1, unigram_1[0][0], similar_unigram_2, unigram_2[0][0])]
-
-
-class TestQueryLanguageModifier(TestCase):
+class TestQueryLanguageModifier(unittest.TestCase):
     def setUp(self):
         self.parameters = Parameters()
         self.parameters.params["repo_dir"] = '../index/test_files/index'
@@ -88,6 +69,44 @@ class TestQueryLanguageModifier(TestCase):
             "bigrams_cosine_similarity_with_orig": 0.33
         }
         self.parameters.params["word2vec"] = {"threshold": 0.6, "n_max": 5}
+        self.parameters.params["type_weights"] = {
+            "orig": 1,
+            "exp_embed": 0.065,
+            "exp_top_docs": 0,
+            "orig_orig": 1,
+            "orig_exp_embed": 0.065,
+            "exp_embed_exp_embed": 0.010,
+            "orig_exp_top_docs": 0,
+            "exp_top_docs_exp_top_docs": 0
+        }
+
+        self.all_unigrams = {'orig': [('two', [('two', 1)]), ('stand', [('stand', 1)]), ('hands', [('hands', 1)])],
+                             'exp_embed': [('two', [('pair', 0.5850129127502441), ('one', 0.576961874961853)]),
+                                           ('stand', [('sit', 0.5178298950195312), ('come', 0.3913347125053406)]),
+                                           ('hands', [('arm', 0.446733295917511), ('ears', 0.410521537065506)])]}
+        self.all_bigrams = {'orig_orig': [(('two', 'stand'), [(('two', 1), ('stand', 1))]),
+                                          (('stand', 'hands'), [(('stand', 1), ('hands', 1))])],
+                            'orig_exp_embed': [(('two', 'stand'), [(('two', 1), ('sit', 0.5178298950195312)),
+                                                                   (('two', 1), ('come', 0.3913347125053406))]), (
+                                                   ('stand', 'hands'), [(('stand', 1), ('arm', 0.446733295917511)),
+                                                                        (('stand', 1),
+                                                                         ('ears', 0.410521537065506))])],
+                            'exp_embed_exp_embed': [(('two', 'stand'),
+                                                     [(('pair', 0.5850129127502441), ('sit', 0.5178298950195312)),
+                                                      (('pair', 0.5850129127502441), ('come', 0.3913347125053406)),
+                                                      (('one', 0.576961874961853), ('sit', 0.5178298950195312)),
+                                                      (('one', 0.576961874961853), ('come', 0.3913347125053406))]), (
+                                                        ('stand', 'hands'),
+                                                        [(('sit', 0.5178298950195312), ('arm', 0.446733295917511)),
+                                                         (('sit', 0.5178298950195312), ('ears', 0.410521537065506)),
+                                                         (('come', 0.3913347125053406), ('arm', 0.446733295917511)),
+                                                         (('come', 0.3913347125053406),
+                                                          ('ears', 0.410521537065506))])]}
+
+        self.all_fields = {
+            'u': '#weight(\n    1#weight(\n      0.90000000000000002220#combine(two)\n      0.59999999999999997780#combine(stand)\n      0.10000000000000000555#combine(hands)\n    )\n    0.065#weight(\n      0.90000000000000002220#combine(pair)\n      0.10000000000000000555#combine(one)\n      0.59999999999999997780#combine(sit)\n      0.29999999999999998890#combine(come)\n      0.10000000000000000555#combine(arm)\n      0.10000000000000000555#combine(ears)\n    )\n  )\n',
+            'o': '#weight(\n    1#weight(\n      0.59999999999999997780#od(two stand)\n      0.20000000000000001110#od(stand hands)\n    )\n    0.065#weight(\n      0.29999999999999998890#od(two sit)\n      0.40000000000000002220#od(two come)\n      0.10000000000000000555#od(stand arm)\n      0.10000000000000000555#od(stand ears)\n    )\n    0.01#weight(\n      0.50000000000000000000#od(pair sit)\n      0.50000000000000000000#od(pair come)\n      0.50000000000000000000#od(one sit)\n      0.50000000000000000000#od(one come)\n      0.50000000000000000000#od(sit arm)\n      0.50000000000000000000#od(sit ears)\n      0.50000000000000000000#od(come arm)\n      0.50000000000000000000#od(come ears)\n    )\n  )\n',
+            'w': '#weight(\n    1#weight(\n      0.59999999999999997780#uw(two stand)\n      0.20000000000000001110#uw(stand hands)\n    )\n    0.065#weight(\n      0.29999999999999998890#uw(two sit)\n      0.40000000000000002220#uw(two come)\n      0.10000000000000000555#uw(stand arm)\n      0.10000000000000000555#uw(stand ears)\n    )\n    0.01#weight(\n      0.50000000000000000000#uw(pair sit)\n      0.50000000000000000000#uw(pair come)\n      0.50000000000000000000#uw(one sit)\n      0.50000000000000000000#uw(one come)\n      0.50000000000000000000#uw(sit arm)\n      0.50000000000000000000#uw(sit ears)\n      0.50000000000000000000#uw(come arm)\n      0.50000000000000000000#uw(come ears)\n    )\n  )\n'}
 
     def test_gen_combine_fields_text(self):
         field_weights = {
@@ -95,82 +114,90 @@ class TestQueryLanguageModifier(TestCase):
             "o": 0.1,
             "w": 0.1
         }
-        field_texts = {'u': '#weight(\n0.1#combine(hello)\n0.2#combine(world)\n0.3#combine(how)\n'
-                            '0.4#combine(are)\n0.5#combine(you)\n)\n',
-                       'w': '#weight(\n0.1#uw17(hello world)\n0.2#uw17(world how)\n0.3#uw17(how are)\n'
-                            '0.4#uw17(are you)\n)\n',
-                       'o': '#weight(\n0.1#od4(hello world)\n0.2#od4(world how)\n0.3#od4(how are)\n'
-                            '0.4#od4(are you)\n)\n'}
 
         query_language_modifier = QueryLanguageModifier(self.parameters)
         query_language_modifier.embedding_space.initialize = MagicMock(return_value=None)
-        res = query_language_modifier._gen_weighted_fields_text(field_weights, field_texts)
-        expected_res = "#weight(\n" \
-                       "0.8#weight(\n" \
-                       "0.1#combine(hello)\n" \
-                       "0.2#combine(world)\n" \
-                       "0.3#combine(how)\n" \
-                       "0.4#combine(are)\n" \
-                       "0.5#combine(you)\n" \
-                       ")\n" \
-                       "0.1#weight(\n" \
-                       "0.1#od4(hello world)\n" \
-                       "0.2#od4(world how)\n" \
-                       "0.3#od4(how are)\n" \
-                       "0.4#od4(are you)\n" \
-                       ")\n" \
-                       "0.1#weight(\n" \
-                       "0.1#uw17(hello world)\n" \
-                       "0.2#uw17(world how)\n" \
-                       "0.3#uw17(how are)\n" \
-                       "0.4#uw17(are you)\n" \
-                       ")\n" \
-                       ")\n"
-        self.assertEqual(res, expected_res)
-
-        field_weights = {
-            "u": 0.8,
-            "o": 0.1,
-            "w": 0.0
-        }
-
-        res = query_language_modifier._gen_weighted_fields_text(field_weights, field_texts)
-        expected_res = "#weight(\n" \
-                       "0.8#weight(\n" \
-                       "0.1#combine(hello)\n" \
-                       "0.2#combine(world)\n" \
-                       "0.3#combine(how)\n" \
-                       "0.4#combine(are)\n" \
-                       "0.5#combine(you)\n" \
-                       ")\n" \
-                       "0.1#weight(\n" \
-                       "0.1#od4(hello world)\n" \
-                       "0.2#od4(world how)\n" \
-                       "0.3#od4(how are)\n" \
-                       "0.4#od4(are you)\n" \
-                       ")\n" \
-                       ")\n"
+        res = query_language_modifier._gen_weighted_fields_text(field_weights, self.all_fields)
+        print(res, file=sys.stderr)
+        expected_res = """
+#weight(
+  0.80000#weight(
+    1#weight(
+      0.90000000000000002220#combine(two)
+      0.59999999999999997780#combine(stand)
+      0.10000000000000000555#combine(hands)
+    )
+    0.065#weight(
+      0.90000000000000002220#combine(pair)
+      0.10000000000000000555#combine(one)
+      0.59999999999999997780#combine(sit)
+      0.29999999999999998890#combine(come)
+      0.10000000000000000555#combine(arm)
+      0.10000000000000000555#combine(ears)
+    )
+  )
+  0.10000#weight(
+    1#weight(
+      0.59999999999999997780#od(two stand)
+      0.20000000000000001110#od(stand hands)
+    )
+    0.065#weight(
+      0.29999999999999998890#od(two sit)
+      0.40000000000000002220#od(two come)
+      0.10000000000000000555#od(stand arm)
+      0.10000000000000000555#od(stand ears)
+    )
+    0.01#weight(
+      0.50000000000000000000#od(pair sit)
+      0.50000000000000000000#od(pair come)
+      0.50000000000000000000#od(one sit)
+      0.50000000000000000000#od(one come)
+      0.50000000000000000000#od(sit arm)
+      0.50000000000000000000#od(sit ears)
+      0.50000000000000000000#od(come arm)
+      0.50000000000000000000#od(come ears)
+    )
+  )
+  0.10000#weight(
+    1#weight(
+      0.59999999999999997780#uw(two stand)
+      0.20000000000000001110#uw(stand hands)
+    )
+    0.065#weight(
+      0.29999999999999998890#uw(two sit)
+      0.40000000000000002220#uw(two come)
+      0.10000000000000000555#uw(stand arm)
+      0.10000000000000000555#uw(stand ears)
+    )
+    0.01#weight(
+      0.50000000000000000000#uw(pair sit)
+      0.50000000000000000000#uw(pair come)
+      0.50000000000000000000#uw(one sit)
+      0.50000000000000000000#uw(one come)
+      0.50000000000000000000#uw(sit arm)
+      0.50000000000000000000#uw(sit ears)
+      0.50000000000000000000#uw(come arm)
+      0.50000000000000000000#uw(come ears)
+    )
+  )
+)
+"""
         self.assertEqual(res, expected_res)
 
     def test_gen_sdm_fields_texts(self):
         query_language_modifier = QueryLanguageModifier(self.parameters)
         query_language_modifier.expanded_sdm.compute_weight_sdm_unigrams = MagicMock(
-            side_effect=mock_compute_weight_sdm_unigrams)
-        query_language_modifier.expanded_sdm.compute_weight_sdm_bigrams = MagicMock(
-            side_effect=mock_compute_weight_sdm_bigrams)
-        query_language_modifier.embedding_space.find_unigrams = \
-            MagicMock(return_value=[[('hello', 1),
-                                     ('world', 0.65)],
-                                    [('how', 1), ('are', 0.8),
-                                     ('you', 0.74)]])
+            side_effect=mock_compute_weight_sdm_grams)
+        query_language_modifier.expanded_sdm.compute_weight_sdm_grams = MagicMock(
+            side_effect=mock_compute_weight_sdm_grams)
+        query_language_modifier._find_all_unigrams = \
+            MagicMock(return_value=self.all_unigrams)
+        query_language_modifier._find_all_bigrams = \
+            MagicMock(return_value=self.all_bigrams)
         query_language_modifier.embedding_space.initialize = MagicMock(return_value=None)
-        res = query_language_modifier._gen_sdm_fields_texts("hello world how are you")
-        expected_res = {'u': '#weight(\n0.9#combine(hello)\n0.1#combine(world)\n0.6#combine(how)\n0.3#combine(are)\n'
-                             '0.1#combine(you)\n)\n',
-                        'o': '#weight(\n0.6#od4(hello how)\n0.3#od4(hello are)\n0.1#od4(hello you)\n'
-                             '0.2#od4(world how)\n0.4#od4(world are)\n0.5#od4(world you)\n)\n',
-                        'w': '#weight(\n0.6#uw17(hello how)\n0.3#uw17(hello are)\n0.1#uw17(hello you)\n'
-                             '0.2#uw17(world how)\n0.4#uw17(world are)\n0.5#uw17(world you)\n)\n'}
+        res = query_language_modifier._gen_sdm_fields_texts("two stand hands")
+        expected_res = self.all_fields
+        print(res, file=sys.stderr)
         self.assertEqual(res, expected_res)
 
     def test_keep_cv_queries(self):
@@ -205,21 +232,57 @@ class TestQueryLanguageModifier(TestCase):
         self.assertEqual(res, ['INEX_LD-20120111', 'INEX_LD-20120121', 'QALD2_te-82', 'TREC_Entity-20'])
 
     def test__find_all_bigrams_(self):
-        all_unigrams = {"orig": [[('hello', 1)], [("what", 1)], [("human", 1)]],
-                        "exp_embed": [[('hi', 0.65)], [('how', 1), ('are', 0.8)], [("brain", 0.3), ("think", 0.2)]]}
         query_language_modifier = QueryLanguageModifier(self.parameters)
-        res = query_language_modifier._find_all_bigrams_(all_unigrams["orig"], all_unigrams["orig"])
+        res = query_language_modifier._find_all_bigrams_(self.all_unigrams["orig"], self.all_unigrams["orig"])
         res = list(res)
         print(res, file=sys.stderr)
-        self.assertEquals(res, ['hello what', 'what human'])
+        self.assertEqual(res, [(('two', 'stand'), [(('two', 1), ('stand', 1))]),
+                               (('stand', 'hands'), [(('stand', 1), ('hands', 1))])])
 
     def test__find_all_bigrams(self):
-        all_unigrams = {"orig": [[('hello', 1)], [("what", 1)], [("human", 1)]],
-                        "exp_embed": [[('hi', 0.65)], [('how', 1), ('are', 0.8)], [("brain", 0.3), ("think", 0.2)]]}
         query_language_modifier = QueryLanguageModifier(self.parameters)
-        res = query_language_modifier._find_all_bigrams(all_unigrams)
+        res = query_language_modifier._find_all_bigrams(self.all_unigrams)
         print(res, file=sys.stderr)
-        self.assertEquals(res, {'orig_orig': ['hello what', 'what human'],
-                                'orig_exp_embed': ['hello how', 'hello are', 'what brain', 'what think'],
-                                'exp_embed_exp_embed': ['hi how', 'hi are', 'how brain', 'how think', 'are brain',
-                                                        'are think']})
+        self.assertEqual(res, self.all_bigrams)
+
+    def test__find_all_unigrams(self):
+        self.parameters.params["word2vec"] = {"upper_threshold": 1, "lower_threshold": 0, "n_max": 2}
+        query_language_modifier = QueryLanguageModifier(self.parameters)
+        query_language_modifier.embedding_space.initialize()
+        res = query_language_modifier._find_all_unigrams("two stand hands")
+        print(res, file=sys.stderr)
+        self.assertEqual(res, {'orig': [('two', [('two', 1)]), ('stand', [('stand', 1)]), ('hands', [('hands', 1)])],
+                               'exp_embed': [('two', [('pair', 0.5850129127502441), ('one', 0.576961874961853),
+                                                      ('handful', 0.553887128829956)]), ('stand',
+                                                                                         [('sit', 0.5178298950195312),
+                                                                                          ('come', 0.3913347125053406),
+                                                                                          ('lay', 0.3732541799545288)]),
+                                             ('hands', [('arm', 0.446733295917511), ('ears', 0.410521537065506),
+                                                        ('hearts', 0.369223415851593)])]})
+
+    def test__gen_sdm_fields_texts(self):
+        query_language_modifier = QueryLanguageModifier(self.parameters)
+        res = query_language_modifier._find_all_bigrams(self.all_unigrams)
+        print(res, file=sys.stderr)
+        self.assertEqual(res, {'orig_orig': [(('two', 'stand'), [(('two', 1), ('stand', 1))]),
+                                             (('stand', 'hands'), [(('stand', 1), ('hands', 1))])],
+                               'orig_exp_embed': [(('two', 'stand'), [(('two', 1), ('sit', 0.5178298950195312)),
+                                                                      (('two', 1), ('come', 0.3913347125053406))]), (
+                                                      ('stand', 'hands'), [(('stand', 1), ('arm', 0.446733295917511)),
+                                                                           (('stand', 1),
+                                                                            ('ears', 0.410521537065506))])],
+                               'exp_embed_exp_embed': [(('two', 'stand'),
+                                                        [(('pair', 0.5850129127502441), ('sit', 0.5178298950195312)),
+                                                         (('pair', 0.5850129127502441), ('come', 0.3913347125053406)),
+                                                         (('one', 0.576961874961853), ('sit', 0.5178298950195312)),
+                                                         (('one', 0.576961874961853), ('come', 0.3913347125053406))]), (
+                                                           ('stand', 'hands'),
+                                                           [(('sit', 0.5178298950195312), ('arm', 0.446733295917511)),
+                                                            (('sit', 0.5178298950195312), ('ears', 0.410521537065506)),
+                                                            (('come', 0.3913347125053406), ('arm', 0.446733295917511)),
+                                                            (('come', 0.3913347125053406),
+                                                             ('ears', 0.410521537065506))])]})
+
+
+if __name__ == '__main__':
+    unittest.main()

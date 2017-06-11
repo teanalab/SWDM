@@ -19,15 +19,3 @@ class BigramWeights(Weights):
         self.features_weights.update({})
 
         self.feature_parameters.update({})
-
-    def compute_weight(self, term, term_dependent_feature_parameters):
-        unigram_nearest_neighbor_1 = term_dependent_feature_parameters["unigram_nearest_neighbor_1"]
-        unigram_nearest_neighbor_2 = term_dependent_feature_parameters["unigram_nearest_neighbor_2"]
-        self.feature_parameters.update({
-            "bigrams_cosine_similarity_with_orig": {
-                'unigram_nearest_neighbor_1': unigram_nearest_neighbor_1,
-                'unigram_nearest_neighbor_2': unigram_nearest_neighbor_2
-            }
-        })
-
-        return Weights.compute_weight(self, term, term_dependent_feature_parameters)

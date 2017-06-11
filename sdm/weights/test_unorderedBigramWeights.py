@@ -41,16 +41,9 @@ class TestUnorderedBigramWeights(TestCase):
         }
 
     def test_compute_weight(self):
-        unigram_nearest_neighbor_1 = [('hello', 1), ('world', 0.65)]
-        unigram_nearest_neighbor_2 = [('how', 1), ('are', 0.8), ('you', 0.74)]
-
         unordered_bigram_weights = sdm.weights.unordered_bigram_weights.UnorderedBigramWeights(self.parameters)
         unordered_bigram_weights.init_top_docs_run_query("a")
 
-        term_dependent_feature_parameters = {
-            "unigram_nearest_neighbor_1": unigram_nearest_neighbor_1,
-            "unigram_nearest_neighbor_2": unigram_nearest_neighbor_2
-        }
-        res = unordered_bigram_weights.compute_weight("world are", term_dependent_feature_parameters)
+        res = unordered_bigram_weights.compute_weight("world are")
         expected_res = 0.5714860275162977
         self.assertEqual(res, expected_res)

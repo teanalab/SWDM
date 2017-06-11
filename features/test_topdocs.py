@@ -88,43 +88,49 @@ class TestTopdocs(TestCase):
                                                                      "td_uw_expression_norm_count"]), 10)
 
     def test_td_uw_expression_norm_count(self):
-        self.assertEqual(self.topdocs_.td_uw_expression_norm_count("I will",
+        gram_pair = (('two', 'stand'), (('pair', 0.5850129127502441), ('sit', 0.5178298950195312)))
+        self.assertEqual(self.topdocs_.td_uw_expression_norm_count(gram_pair,
                                                                    self.feature_parameters[
                                                                        "UnorderedBigramWeights"][
                                                                        "td_uw_expression_norm_count"]),
-                         4.516338972281476)
+                         6.595780513961311)
 
     def test_td_od_expression_norm_count(self):
-        self.assertEqual(self.topdocs_.td_uw_expression_norm_count("I will",
+        gram_pair = (('two', 'stand'), (('pair', 0.5850129127502441), ('sit', 0.5178298950195312)))
+        self.assertEqual(self.topdocs_.td_uw_expression_norm_count(gram_pair,
                                                                    self.feature_parameters[
                                                                        "UnorderedBigramWeights"][
                                                                        "td_uw_expression_norm_count"]),
-                         4.516338972281476)
+                         6.595780513961311)
 
     def test_td_uw_expression_norm_document_count(self):
-        self.assertEqual(self.topdocs_.td_uw_expression_norm_document_count("I will",
+        gram_pair = (('two', 'stand'), (('pair', 0.5850129127502441), ('sit', 0.5178298950195312)))
+        self.assertEqual(self.topdocs_.td_uw_expression_norm_document_count(gram_pair,
                                                                             self.feature_parameters[
                                                                                 "UnorderedBigramWeights"][
                                                                                 "td_uw_expression_norm_count"]),
-                         2.0149030205422647)
+                         2.70805020110221)
 
     def test_td_od_expression_norm_document_count(self):
-        self.assertEqual(self.topdocs_.td_od_expression_norm_document_count("I will",
+        gram_pair = (('two', 'stand'), (('pair', 0.5850129127502441), ('sit', 0.5178298950195312)))
+        self.assertEqual(self.topdocs_.td_od_expression_norm_document_count(gram_pair,
                                                                             self.feature_parameters[
                                                                                 "UnorderedBigramWeights"][
                                                                                 "td_uw_expression_norm_count"]),
-                         2.0149030205422647)
+                         2.70805020110221)
 
     def test_td_unigram_norm_term_count(self):
-        self.assertEqual(self.topdocs_.td_unigram_norm_term_count("you",
+        gram_pair = ('two', ('pair', 0.5850129127502441))
+        self.assertEqual(self.topdocs_.td_unigram_norm_term_count(gram_pair,
                                                                   self.feature_parameters[
                                                                       "UnorderedBigramWeights"][
                                                                       "td_uw_expression_norm_count"]),
-                         5.497168225293202)
+                         5.902633333401366)
 
     def test_td_unigram_norm_document_count(self):
-        self.assertEqual(self.topdocs_.td_unigram_norm_document_count("you",
+        gram_pair = ('two', ('pair', 0.5850129127502441))
+        self.assertEqual(self.topdocs_.td_unigram_norm_document_count(gram_pair,
                                                                       self.feature_parameters[
                                                                           "UnorderedBigramWeights"][
                                                                           "td_uw_expression_norm_count"]),
-                         0.3101549283038396)
+                         2.0149030205422647)

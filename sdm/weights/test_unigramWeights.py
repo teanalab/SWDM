@@ -12,8 +12,8 @@ class TestUnigramWeights(TestCase):
     def setUp(self):
         self.parameters = Parameters()
         self.parameters.params["repo_dir"] = '../../index/test_files/index'
-        self.parameters.params["type_weights"]["exp_embed"] = 0.05
-        self.parameters.params["type_weights"]["exp_top_docs"] = 0
+        self.parameters.params["type_weights"] = {"exp_embed": 0.05,
+                                                  "exp_top_docs": 0}
         self.parameters.params['feature_parameters'] = {}
         self.parameters.params['feature_parameters']['UnigramWeights'] = {
             "norm_term_count": {
@@ -39,14 +39,10 @@ class TestUnigramWeights(TestCase):
         }
 
     def test_compute_weight(self):
-        unigram_nearest_neighbor = [('hello', 1), ('world', 0.65)]
-
         unigram_weights = sdm.weights.unigram_weights.UnigramWeights(self.parameters)
         unigram_weights.init_top_docs_run_query("a")
 
-        term_dependent_feature_parameters = {
-            "unigram_nearest_neighbor": unigram_nearest_neighbor,
-        }
-        res = unigram_weights.compute_weight("world", term_dependent_feature_parameters)
-        expected_res = 0.5690110275162977
-        self.assertEqual(res, expected_res)
+        unigram_pair = ('two', ('pair', 0.5850129127502441))
+        res = unigram_weights.compute_weight(unigram_pair)
+        expected_res = 4.75371025803143
+        self.assertAlmostEquals(res, expected_res)
