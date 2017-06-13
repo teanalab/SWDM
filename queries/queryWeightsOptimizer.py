@@ -72,8 +72,14 @@ class QueryWeightsOptimizer(object):
         return best_eval_res, eval_res
 
     def find_param_optimization_item(self, shared_param_names_first):
-        return next((item for item in self.parameters.params["optimization"] if item["param_name"] ==
-                     shared_param_names_first))
+        print(shared_param_names_first)
+        try:
+            return next((item for item in self.parameters.params["optimization"] if item["param_name"] ==
+                         shared_param_names_first))
+        except StopIteration:
+            raise ValueError("The parameter name \"" + str(shared_param_names_first) + "\" probably doesn't exit in "
+                                                                                       "the field \"optimization\" in "
+                                                                                       "parameters.json.")
 
     @staticmethod
     def check_the_progress(eval_res_history, track_range):
@@ -92,9 +98,9 @@ class QueryWeightsOptimizer(object):
         print("initial best_eval_res:", best_eval_res)
         test_eval_res = self.run_cv_tests()
         shared_params_optimization = self.parameters.params["shared_params_optimization"]
+        best_training_eval_res_history = [best_eval_res]
+        test_eval_res_history = [test_eval_res]
         while True:
-            best_training_eval_res_history = [best_eval_res]
-            test_eval_res_history = [test_eval_res]
             random.shuffle(shared_params_optimization)
             for shared_param_items in shared_params_optimization:
                 print("test_eval_res_history:", ' '.join(test_eval_res_history))

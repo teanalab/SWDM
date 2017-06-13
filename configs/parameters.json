@@ -1,9 +1,9 @@
 {
-  "optimized_parameters_file_name": "../configs/optimized_parameters.json",
-  "repo_dir": "/scratch/index/indri_5_7/ap8889",
+  "optimized_parameters_file_name": "../configs/optimized_parameters_gov2.json",
+  "repo_dir": "/scratch/index/indri_5_7/gov2",
   "query_files": {
-    "old_indri_query_file": "../configs/queries/ap8889.cfg",
-    "new_indri_query_file": "../configs/queries/ap8889_expanded.cfg"
+    "old_indri_query_file": "../configs/queries/gov2.cfg",
+    "new_indri_query_file": "../configs/queries/gov2_expanded.cfg"
   },
   "prf": {
     "fb_docs": 1,
@@ -16,7 +16,7 @@
   "indrirunquery_bin": "/home/fj9124/thirdPartyProgs/indri-5.11/build/bin/IndriRunQuery",
   "evaluation": {
     "measure": "map",
-    "qrels_file_name": "../configs/qrels/ap8889.txt",
+    "qrels_file_name": "../configs/qrels/gov2.txt",
     "trec_eval_bin": "/home/fj9124/projects/ir/evaluators/trec_eval/trec_eval.9.0/trec_eval"
   },
   "shared_params_optimization":[
@@ -167,7 +167,7 @@
       ],
       "initial_point": 0,
       "final_point": 0.2,
-      "step_size": 0.005
+      "step_size": 0.05
     },
     {
       "param_name": [
@@ -176,7 +176,52 @@
       ],
       "initial_point": 0,
       "final_point": 0.2,
-      "step_size": 0.005
+      "step_size": 0.05
+    },
+    {
+      "param_name": [
+        "type_weights",
+        "orig_orig"
+      ],
+      "initial_point": 0,
+      "final_point": 0.2,
+      "step_size": 0.05
+    },
+    {
+      "param_name": [
+        "type_weights",
+        "orig_exp_embed"
+      ],
+      "initial_point": 0,
+      "final_point": 0.2,
+      "step_size": 0.05
+    },
+    {
+      "param_name": [
+        "type_weights",
+        "exp_embed_exp_embed"
+      ],
+      "initial_point": 0,
+      "final_point": 0.2,
+      "step_size": 0.05
+    },
+    {
+      "param_name": [
+        "type_weights",
+        "orig_exp_top_docs"
+      ],
+      "initial_point": 0,
+      "final_point": 0.2,
+      "step_size": 0.05
+    },
+    {
+      "param_name": [
+        "type_weights",
+        "exp_top_docs_exp_top_docs"
+      ],
+      "initial_point": 0,
+      "final_point": 0.2,
+      "step_size": 0.05
     },
       {"param_name": ["window_size", "#uw"], "initial_point": 1, "final_point": 30, "step_size": 1},
       {"param_name": ["window_size", "#od"], "initial_point": 1, "final_point": 30, "step_size": 1},
@@ -194,27 +239,27 @@
       "num_topics": 50
     },
     "word2vec": {
-        "upper_threshold": 1,
+      "upper_threshold": 0.8500000000000001,
         "lower_threshold": 0.5,
-        "n_max": 8
+      "n_max": 2
     },
   "type_weights": {
     "orig": 1,
-    "exp_embed": 0.065,
+    "exp_embed": 0.195,
     "exp_top_docs": 0,
     "orig_orig": 1,
-    "orig_exp_embed": 0.065,
-    "exp_embed_exp_embed": 0.010,
+    "orig_exp_embed": 0.195,
+    "exp_embed_exp_embed": 0.01,
     "orig_exp_top_docs": 0,
     "exp_top_docs_exp_top_docs": 0
   },
     "window_size": {
-        "#uw": 25,
-        "#od": 3
+      "#uw": 7,
+      "#od": 23
     },
     "sdm_field_weights": {
-        "u": 0.451,
-        "o": 0.15100000000000002,
+      "u": 0.051000000000000004,
+      "o": 0.001,
         "w": 0.001
     },
     "feature_parameters": {
@@ -223,68 +268,68 @@
             "norm_document_count": {},
             "unigrams_cosine_similarity_with_orig": {},
             "td_norm_unigram_count": {
-                "n_top_docs": 15
+              "n_top_docs": 1
             },
             "td_norm_unigram_document_count": {
-                "n_top_docs": 15
+              "n_top_docs": 1
             }
         },
         "UnorderedBigramWeights": {
             "uw_expression_norm_count": {
-                "window_size": 18
+              "window_size": 7
             },
             "uw_expression_norm_document_count": {
-                "window_size": 2
+              "window_size": 7
             },
             "td_uw_expression_norm_count": {
-                "window_size": 2,
-                "n_top_docs": 15
+              "window_size": 7,
+              "n_top_docs": 1
             },
             "td_uw_expression_norm_document_count": {
-                "window_size": 2,
-                "n_top_docs": 15
+              "window_size": 7,
+              "n_top_docs": 1
             },
           "bigrams_cosine_similarity_with_orig": {}
         },
         "OrderedBigramWeights": {
             "od_expression_norm_count": {
-                "window_size": 1
+              "window_size": 23
             },
             "od_expression_norm_document_count": {
-                "window_size": 1
+              "window_size": 23
             },
             "td_od_expression_norm_count": {
-                "window_size": 1,
-                "n_top_docs": 15
+              "window_size": 23,
+              "n_top_docs": 1
             },
             "td_od_expression_norm_document_count": {
-                "window_size": 1,
-                "n_top_docs": 15
+              "window_size": 23,
+              "n_top_docs": 1
             },
           "bigrams_cosine_similarity_with_orig": {}
         }
     },
     "features_weights": {
         "UnigramWeights": {
-            "norm_term_count": 0.9500000000000001,
-            "norm_document_count": 2.0,
-            "unigrams_cosine_similarity_with_orig": 0.6000000000000001,
+          "norm_term_count": 0.2,
+          "norm_document_count": 0.45,
+          "unigrams_cosine_similarity_with_orig": 0.9500000000000001,
             "td_norm_unigram_count": 2.0,
-            "td_norm_unigram_document_count": 2.0
+          "td_norm_unigram_document_count": 0.2
         },
         "UnorderedBigramWeights": {
-            "uw_expression_norm_count": 0.9500000000000001,
-            "uw_expression_norm_document_count": 2.0,
-            "bigrams_cosine_similarity_with_orig": 0.6000000000000001,
+          "uw_expression_norm_count": 0.2,
+          "uw_expression_norm_document_count": 0.45,
+          "bigrams_cosine_similarity_with_orig": 0.9500000000000001,
             "td_uw_expression_norm_count": 2.0,
-            "td_uw_expression_norm_document_count": 2.0
+          "td_uw_expression_norm_document_count": 0.2
         },
         "OrderedBigramWeights": {
-            "od_expression_norm_count": 0.9500000000000001,
-            "od_expression_norm_document_count": 2.0,
-            "bigrams_cosine_similarity_with_orig": 0.6000000000000001,
+          "od_expression_norm_count": 0.2,
+          "od_expression_norm_document_count": 0.45,
+          "bigrams_cosine_similarity_with_orig": 0.9500000000000001,
             "td_od_expression_norm_count": 2.0,
-            "td_od_expression_norm_document_count": 2.0
+          "td_od_expression_norm_document_count": 0.2
         }
     }
 }
