@@ -2,7 +2,7 @@
 
 PDF: [paper.pdf](https://github.com/teanalab/SWDM/blob/master/paper.pdf)
 
-## Main Dependencies:
+## Main Dependencies
 + Python 3.6
 + Indri 5.11
 + [pyndri](https://github.com/teanalab/pyndri)
