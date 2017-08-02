@@ -1,9 +1,9 @@
 {
-  "optimized_parameters_file_name": "../configs/optimized_parameters_gov2.json",
-  "repo_dir": "/scratch/index/indri_5_7/gov2",
+  "optimized_parameters_file_name": "../configs/optimized_parameters_clueweb09.json",
+  "repo_dir": "/scratch/index/indri_5_7/clueWeb09_English_1_filtered_70",
   "query_files": {
-    "old_indri_query_file": "../configs/queries/gov2.cfg",
-    "new_indri_query_file": "../configs/queries/gov2_expanded.cfg"
+    "old_indri_query_file": "../configs/queries/clueWeb09.cfg",
+    "new_indri_query_file": "../configs/queries/clueWeb09_expanded.cfg"
   },
   "prf": {
     "fb_docs": 1,
@@ -16,7 +16,7 @@
   "indrirunquery_bin": "/home/fj9124/thirdPartyProgs/indri-5.11/build/bin/IndriRunQuery",
   "evaluation": {
     "measure": "map",
-    "qrels_file_name": "../configs/qrels/gov2.txt",
+    "qrels_file_name": "../configs/qrels/clueWeb09.txt",
     "trec_eval_bin": "/home/fj9124/projects/ir/evaluators/trec_eval/trec_eval.9.0/trec_eval"
   },
   "shared_params_optimization":[
