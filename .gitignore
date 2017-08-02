@@ -98,3 +98,4 @@ configs/lda/
 configs/optimized_*
 configs/*_backup.json
 /configs/logs/
+/lda/
